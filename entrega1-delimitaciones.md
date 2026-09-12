@@ -13,3 +13,13 @@ desde las fases iniciales de diseño, prototipado y documentación hasta la impl
 y evaluación final. Durante este período se realizarán pruebas continuas en diferentes
 escenarios de carga, incluyendo etapas de ajuste intermedio y una evaluación integral
 antes de la entrega final del proyecto
+
+**Delimitación Espacial o de Contexto**
+El sistema objeto de estudio será un prototipado de aplicación móvil Android para la gestión
+y consulta de productos en una tienda en línea de artículos electrónicos. El código fuente
+se desarrollará y mantendrá en un repositorio público de GitHub, donde se registrarán los
+avances mediante commits distribuidos por cada integrante del equipo. El repositorio
+servirá como evidencia del proceso de investigación y contendrá tanto el código como la 
+documentación del proyecto. La población estudiada corresponde a un grupo de estudiantes
+universitarios de programación que implementarán y evaluarán el sistema en un entorno académico,
+utilizando datos ficticios pero representativos de un catálogo real de productos electrónicos.
