@@ -7,6 +7,7 @@ En este tipo de aplicaciones, el rendimiento de las consultas y de las operacion
 ## Problema técnico
 Actualmente, las operaciones de consulta y gestión de productos pueden presentar tiempos de respuesta variables, especialmente cuando aumenta la cantidad de información que debe procesar el sistema.
 Esto puede afectar el rendimiento de la aplicación y la eficiencia en la gestión de los productos.
+Las operaciones de consulta y gestión de productos pueden presentar tiempos de respuesta elevados cuando aumenta la cantidad de información que debe procesar el sistema. Esto puede afectar el rendimiento de la aplicación y la eficiencia en la gestión de los productos.
 
 ## Necesidad / vacío
 (pendiente)
