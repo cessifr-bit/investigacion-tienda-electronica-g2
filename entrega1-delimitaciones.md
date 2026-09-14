@@ -1,20 +1,20 @@
 **Delimitaciones**
 
-**Delimitación Teórica**
+**Delimitación Teórica:**
 El proyecto se enmarca en el área de ingeniería de software aplicada al desarrollo
 móvil, tomando como referencia el modelo de calidad **ISO/IEC 25010** en la 
 característica de eficiencia de desempeño. El enfoque se centra en medir tiempos de
 respuesta y consumo de recursos de aplicaciones Android, considerando prácticas
 comunes de optimización de bases de datos y programación en Java.
 
-**Delimitación Temporal**
+**Delimitación Temporal:**
 El proyecto se desarrollará a lo largo de todo el ciclo académico **02-2026**, abarcando
 desde las fases iniciales de diseño, prototipado y documentación hasta la implementación
 y evaluación final. Durante este período se realizarán pruebas continuas en diferentes
 escenarios de carga, incluyendo etapas de ajuste intermedio y una evaluación integral
-antes de la entrega final del proyecto
+antes de la entrega final del proyecto.
 
-**Delimitación Espacial o de Contexto**
+**Delimitación Espacial o de Contexto:**
 El sistema objeto de estudio será un prototipado de aplicación móvil Android para la gestión
 y consulta de productos en una tienda en línea de artículos electrónicos. El código fuente
 se desarrollará y mantendrá en un repositorio público de GitHub, donde se registrarán los
@@ -23,3 +23,13 @@ servirá como evidencia del proceso de investigación y contendrá tanto el cód
 documentación del proyecto. La población estudiada corresponde a un grupo de estudiantes
 universitarios de programación que implementarán y evaluarán el sistema en un entorno académico,
 utilizando datos ficticios pero representativos de un catálogo real de productos electrónicos.
+
+**Delimitación Tecnológica:**
+El desarrollo se realizará en Java 21 utilizando IntelliJ IDEA 2026.2.2 como entorno principal
+de programación. La aplicación estará orientada a dispositivos móviles con sistema operativo
+Android 13, y se conectará a un servidor de pruebas mediante Spring Boot 3.3 para la capa de
+servicios. La base de datos será gestionada inicialmente con MySQL 8.0, aunque se evaluará la 
+posibilidad de utilizar SQL Server 2022 en escenarios comparativos de rendimiento. El servidor
+de pruebas se plantea como posibilidad ejecutarlo sobre Apache Tomcat 10, y las pruebas se
+realizarán en laptops de gama media (Intel 5, 8 GB RAM, Windows 11) y en smartphones Android 
+de gama media (Snapdragon 600/700, 4-6 GB RAM).
