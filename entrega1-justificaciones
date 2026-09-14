@@ -1,7 +1,13 @@
 ## Justificación
  
-### Fuentes consultadas
-- Fuente técnica 1: (pendiente de revisar)
-- Fuente técnica 2: (pendiente de revisar)
-- Fuente técnica 3: (pendiente de revisar)
-prueba 1
+1. Justificación técnica
+
+El desarrollo de una aplicación para una tienda electrónica se justifica técnicamente porque permite implementar diferentes tecnologías 
+para facilitar la gestión de productos, compras ,stock y ventas.
+La aplicación cuenta con una base de datos para almacenar información de los productos, usuarios, pedidos y existencias, 
+permitiendo que la información se encuentre organizada y pueda ser consultada de manera rápida y sencilla.
+
+Además, el uso de una aplicación permite automatizar procesos que podrían realizarse manualmente, como la búsqueda de productos,
+ el registro de compras y el control de inventario. 
+Esto contribuye a mejorar la eficiencia y reducir posibles errores en el manejo de la información.
+
