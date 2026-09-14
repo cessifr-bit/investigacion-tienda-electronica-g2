@@ -3,6 +3,8 @@
 **Pregunta Principal**
 Propuesta: ¿Qué relación existe entre el tamaño del catálogo y la eficiencia de una aplicación móvil 
 de comercio electrónico?
+**Refinamiento de la Pregunta Principal**
+¿Cuál es el efecto del tamaño del catálogo de productos sobre el tiempo de respuesta y el consumo de memoria en una aplicación de tienda en línea para Androi desarrollada en Java con base de datos en MySQL?
 
 **Preguntas Secundarias**
     1. ¿Cómo influye la cantidad de usuarios concurrentes en el rendimiento de la aplicación
