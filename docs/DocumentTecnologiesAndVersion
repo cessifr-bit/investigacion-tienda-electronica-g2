@@ -1,0 +1,22 @@
+### Tecnologías y Versiones Seleccionadas
+
+Para garantizar la repetibilidad y estabilidad sobre todo la optimizacion se necesitaran de las mejores versiones:
+
++Microsoft SQL Server (Versión 2022 / Developer Edition)
+Constituye uno de los pilares del proyecto para la evaluación de motores de bases de datos y es perfecto para la tienda electronica ya que su 
+inclusión permite analizar a profundidad el comportamiento del optimizador de consultas basado en costos, la gestión y el rendimiento
+en la ejecución de posibles procedimientos almacenados.
+
++MySQL Community Server (Versión 8.0)
+Representa el estándar de código abierto más utilizado en entornos y aplicaciones web. Se integra principalmente para pruebas y evaluar
+el comportamiento del motor de almacenamiento por defecto, analizando el manejo de concurrencia mediante control de versiones sobre todo
+frente a peticiones simultáneas.
+
++SQL Server Management Studio (SSMS v19+)
+Funciona como la herramienta administrativa y de diagnóstico principal para la plataforma SQL Server. Ofrece un control exhaustivo e
+integrado que permite extraer y analizar planes de ejecución gráficos, inspeccionar, haciendo enfasis siempre en las consultas.
+
++IntelliJ IDEA (Ultimate / Community Edition v2023.3+)
+Es el entorno de desarrollo integrado para la construcción, integración y ejecución de proyectos basados en Java y la plataforma 
+JVM. Su rol en el banco de pruebas abarca los siguientes aspectos para permitir construir, depurar y evaluar la lógica de acceso a datos
+utilizando patrones como DAO para validar cómo la aplicación maneja el ciclo de vida de las conexiones antes del agotamiento de recursos.
