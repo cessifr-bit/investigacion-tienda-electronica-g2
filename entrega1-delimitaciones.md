@@ -1,5 +1,6 @@
 **Delimitaciones**
 
+
 **Delimitación Teórica:**
 
 El proyecto se enmarca en el área de ingeniería de software aplicada al desarrollo
