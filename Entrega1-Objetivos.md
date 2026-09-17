@@ -1,13 +1,14 @@
 # Objetivo general
 
-Determinar la relación entre el tamaño del catálogo y la eficiencia de una aplicación móvil de comercio electrónico, considerando el rendimiento de sus operaciones de consulta y gestión de productos.
+Determinar el efecto del tamaño del catálogo de productos sobre el tiempo de respuesta y el consumo de memoria de una aplicación de tienda en línea para Android, desarrollada en Java con una base de datos MySQL.
 
 # Objetivos específicos
 
-1. Analizar el rendimiento de las operaciones de consulta y gestión de productos al trabajar con diferentes tamaños de catálogo.
+1. **Medir** el tiempo de respuesta y el consumo de memoria de la aplicación Android al trabajar con diferentes tamaños de catálogo de productos.
 
-2. Identificar los factores relacionados con el tamaño del catálogo que pueden influir en la eficiencia de la aplicación móvil.
+2. **Analizar** la influencia de la cantidad de usuarios concurrentes en el rendimiento de la aplicación Android durante las búsquedas y consultas de productos.
 
-3. Evaluar los tiempos de respuesta de las operaciones de consulta y gestión de productos ante diferentes cantidades de productos.
+3. **Evaluar** el impacto de los filtros de búsqueda por categoría y precio sobre el tiempo de respuesta de las consultas dentro de la aplicación móvil.
 
-4. Comparar el comportamiento de la aplicación móvil al procesar catálogos de diferentes tamaños.
+4. **Determinar** en qué medida la implementación de índices en la base de datos mejora el tiempo de respuesta y la eficiencia de las consultas al trabajar con grandes volúmenes de datos.
+
