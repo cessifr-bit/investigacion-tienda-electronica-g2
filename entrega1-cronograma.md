@@ -21,17 +21,21 @@ gantt
 
     section Investigación
     Análisis del problema :2026-09-06, 9d
+    Entrega 1 :milestone, m1, 2026-09-18, 0d
 
     section Diseño
     Diseño de la base de datos :2026-09-20, 7d
     Diseño de operaciones CRUD :2026-09-27, 7d
     Diseño de pruebas experimentales :2026-10-04, 7d
+    Entrega 2 :milestone, m2, 2026-10-12, 0d
 
     section Desarrollo
     Implementación del sistema :2026-10-11, 14d
     Ejecución de experimentos :2026-10-25, 7d
+    Entrega 3 :milestone, m3, 2026-11-10, 0d
 
     section Análisis
     Análisis de resultados :2026-11-01, 7d
     Correcciones y mejoras finales :2026-11-08, 7d
     Redacción del informe final :2026-11-15, 21d
+    Entrega 4 :milestone, m4, 2026-12-06, 0d
