@@ -35,13 +35,9 @@ Tiempo de respuesta de la consulta.
 Eficiencia de la consulta.
 
 ## Preguntas Secundarias
-    1. ¿Cómo influye la cantidad de usuarios concurrentes en el rendimiento de la aplicación
-    Android al realizar búsquedas y consultas de productos?
-    2. ¿Qué impacto tienen los filtros de búsqueda (categoría y precio) en el tiempo de 
-    respuesta de las consultas dentro de la aplicación móvil?
-    3. ¿En qué medida la implementación de los índices en la base de datos mejora la 
-    eficiencia de las consultas en escenarios con grandes volúmenes de datos en un dispositivo
-    Android?
+1. ¿Cómo influye la cantidad de usuarios concurrentes en el rendimiento de la aplicación Android al realizar búsquedas y consultas de productos?
+2. ¿Qué impacto tienen los filtros de búsqueda (categoría y precio) en el tiempo de respuesta de las consultas dentro de la aplicación móvil?
+3. ¿En qué medida la implementación de los índices en la base de datos mejora la eficiencia de las consultas en escenarios con grandes volúmenes de datos en un dispositivo Android?
 
 ## Referencias
 
