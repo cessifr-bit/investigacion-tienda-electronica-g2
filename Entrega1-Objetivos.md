@@ -1,13 +1,13 @@
 # Objetivo general
 
-Analizar el rendimiento de las operaciones de consulta y gestión de productos en una aplicación móvil de comercio electrónico.
+Determinar la relación entre el tamaño del catálogo y la eficiencia de una aplicación móvil de comercio electrónico, considerando el rendimiento de sus operaciones de consulta y gestión de productos.
 
 # Objetivos específicos
 
-1. Analizar el rendimiento actual de las consultas y operaciones de gestión de productos para identificar los factores que generan tiempos de respuesta elevados.
+1. Analizar el rendimiento de las operaciones de consulta y gestión de productos al trabajar con diferentes tamaños de catálogo.
 
-2. Identificar técnicas de optimización aplicables a las consultas y al manejo de los datos de productos para mejorar el procesamiento de la información.
+2. Identificar los factores relacionados con el tamaño del catálogo que pueden influir en la eficiencia de la aplicación móvil.
 
-3. Evaluar los tiempos de respuesta de la aplicación ante diferentes cantidades de información.
+3. Evaluar los tiempos de respuesta de las operaciones de consulta y gestión de productos ante diferentes cantidades de productos.
 
-4. Determinar los factores que influyen en la eficiencia de las operaciones de consulta, registro, actualización y gestión de productos.
+4. Comparar el comportamiento de la aplicación móvil al procesar catálogos de diferentes tamaños.
