@@ -93,6 +93,35 @@ de pruebas se plantea como posibilidad ejecutarlo sobre Apache Tomcat 10, y las 
 realizarán en laptops de gama media (Intel 5, 8 GB RAM, Windows 11) y en smartphones Android 
 de gama media (Snapdragon 600/700, 4-6 GB RAM).
 
+# Justificación
+ 
+##1. Justificación técnica
+
+El desarrollo de una aplicación para una tienda electrónica se justifica técnicamente porque permite implementar diferentes tecnologías 
+para facilitar la gestión de productos, compras ,stock y ventas.
+La aplicación cuenta con una base de datos para almacenar información de los productos, usuarios, pedidos y existencias, 
+permitiendo que la información se encuentre organizada y pueda ser consultada de manera rápida y sencilla.
+
+Además, el uso de una aplicación permite automatizar procesos que podrían realizarse manualmente, como la búsqueda de productos,
+ el registro de compras y el control de inventario. 
+Esto contribuye a mejorar la eficiencia y reducir posibles errores en el manejo de la información.
+
+##2. Justificación académica
+
+Este proyecto permite aplicar los conocimientos adquiridos  en diferentes áreas de desarrollo de software. 
+Entre ellos se encuentran la programación, el diseño de bases de datos, la programación orientada a objetos, el manejo de información y 
+el desarrollo de interfaces.
+
+La creación de una aplicación para una tienda electrónica también permite poner en práctica el análisis de requisitos, el diseño de una 
+solución informática y la implementación de funcionalidades que respondan a las necesidades de los usuarios. 
+
+##3. Justificación social
+
+La aplicación de una tienda electrónica puede beneficiar tanto a los clientes como a los encargados del negocio. 
+Los clientes pueden consultar los productos disponibles de una manera más sencilla y realizar sus compras sin necesidad de desplazarse
+físicamente hasta el establecimiento.Por otra parte, los encargados de la tienda pueden tener un mejor control de los productos,
+las ventas y los pedidos. Esto puede contribuir a ofrecer un servicio más organizado y accesible para los usuarios.
+
 ## Referencias
 
 Durán-Cazar, J. W., Tandazo-Gaona, E. J., Morales-Morales, M. R., & Morales Cardoso, S. (2019). Rendimiento de bases de datos columnares. *Ingenius*, (22), 47–58. https://doi.org/10.17163/ings.n22.2019.05
@@ -100,4 +129,18 @@ Durán-Cazar, J. W., Tandazo-Gaona, E. J., Morales-Morales, M. R., & Morales Car
 Google Cloud. (s. f.). Cómo aprovechar al máximo el rendimiento de MySQL: ajuste de consultas. https://cloud.google.com/mysql/query-tuning?hl=es
 
 Microsoft. (s. f.). Solución de problemas de consultas de ejecución lenta - SQL Server. https://learn.microsoft.com/es-es/troubleshoot/sql/database-engine/performance/troubleshoot-slow-running-queries
+
+#Fuentes
+Durán-Cazar, J. W., Tandazo-Gaona, E. J., Morales-Morales, M. R., & Morales Cardoso, S. (2019). Rendimiento de bases de datos columnares. Ingenius, (22), 47–58.
+
+Google Cloud. (s. f.). Cómo aprovechar al máximo el rendimiento de MySQL: Ajuste de consultas.
+
+Microsoft. (s. f.). Solución de problemas de consultas de ejecución lenta - SQL Server.
+
+International Organization for Standardization. (2023). ISO/IEC 25010:2023: Systems and software engineering—Systems and software quality
+requirements and evaluation (SQuaRE)—Product quality model. International Organization for Standardization. ISO/IEC 25010:2023
+
+Oracle. (s. f.). MySQL 8.0 reference manual: Optimization and indexes. MySQL. MySQL 8.0 Reference Manual
+
+Oracle. (s. f.). MySQL 8.0 reference manual: Optimizing SELECT statements. MySQL. MySQL 8.0 Reference Manual – SELECT optimization
 
