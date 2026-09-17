@@ -1,4 +1,4 @@
-#Riesgos técnico e identificación de problemas
+# Riesgos técnico e identificación de problemas
 
 Degradación de Datos bajo Carga: 
 A medida que la tabla escala las consultas SELECT sin índices o filtro van a provocar un alto consumo de CPU, agotamiento de la memoria caché y problemas graves 
