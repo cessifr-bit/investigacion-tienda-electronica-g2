@@ -12,6 +12,15 @@
 - Correcciones y mejoras finales
 - Redacción del informe final
 
+## Registro de cambios
+
+| Fecha | Commit | Descripción |
+|---|---|---|
+| 13/09/2026 | docs(timeline): define project activities | Definición de actividades del proyecto |
+| 13/09/2026 | docs(timeline): establish project dates | Establecimiento de fechas |
+| 16/09/2026 | docs(timeline): add delivery milestones | Incorporación de cuatro hitos de entrega |
+| 16/09/2026 | docs(timeline): add schedule buffer | Inclusión de holgura para experimentos |
+| 17/09/2026 | docs(timeline): update timeline and log | Actualización final y registro de cambios |
 
 ```mermaid
 gantt
@@ -40,3 +49,4 @@ gantt
     Correcciones y mejoras finales :t9, after t8, 7d
     Redacción del informe final :t10, after t9, 7d
     Entrega 4 :milestone, m4, 2026-12-06, 0d
+
