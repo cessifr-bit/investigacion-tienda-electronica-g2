@@ -117,6 +117,22 @@ Los clientes pueden consultar los productos disponibles de una manera más senci
 físicamente hasta el establecimiento.Por otra parte, los encargados de la tienda pueden tener un mejor control de los productos,
 las ventas y los pedidos. Esto puede contribuir a ofrecer un servicio más organizado y accesible para los usuarios.
 
+
+# Viabilidad técnica
+
+Se destaca el procesamiento de la integridad y consistencia de las transacciones, por la posible implementación de SQL Server y la plataforma JVM que garantiza el soporte de consistencia necesario para procesar pagos, ordenes, ofrecer una mayor capacidad de escalabilidad y carga otorgando una flexibilidad en el almacenamiento para optimizar los tiempos de respuesta. Existen muchos puntos a favor para solventar problemáticas ofreciendo el construir una arquitectura robusta, rápida y capaz de gestionar la capa de persistencia y el procesamiento de los datos.
+
+## Viabilidad de las técnologias
+
+Para evaluar el rendimiento en la consulta y gestión de productos se evaluó la viabilidad técnica de la arquitectura e infraestructura propuesta:
+
+### Gestores de Bases de Datos
+* **MySQL Community Server:** Solución viable de código abierto, altamente optimizada para la capa de consulta de catálogos y lectura rápida en entornos web.
+
+###  Entorno de Desarrollo (IDE) y Backend
+* **IntelliJ IDEA (Java / JVM):** Entorno principal para la lógica del e-commerce y servicios backend.
+
+
 ## Referencias
 
 Durán-Cazar, J. W., Tandazo-Gaona, E. J., Morales-Morales, M. R., & Morales Cardoso, S. (2019). Rendimiento de bases de datos columnares. *Ingenius*, (22), 47–58. https://doi.org/10.17163/ings.n22.2019.05
