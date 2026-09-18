@@ -120,18 +120,14 @@ las ventas y los pedidos. Esto puede contribuir a ofrecer un servicio más organ
 
 # Viabilidad técnica
 
-Se destaca el procesamiento de transacciones a cero fallas por la posible implementación de SQL Server y la plataforma JVM garantiza el soporte de consistencia necesario para procesar pagos, ordenes, ofrecer una mayor capacidad de escalabilidad y carga otorgando una flexibilidad en el almacenamiento para optimizar los tiempos de respuesta existen muchos puntos a favor sobre todo como una solución para solventar problematicas.
+Se destaca el procesamiento de la integridad y consistencia de las transacciones, por la posible implementación de SQL Server y la plataforma JVM que garantiza el soporte de consistencia necesario para procesar pagos, ordenes, ofrecer una mayor capacidad de escalabilidad y carga otorgando una flexibilidad en el almacenamiento para optimizar los tiempos de respuesta. Existen muchos puntos a favor para solventar problemáticas ofreciendo el construir una arquitectura robusta, rápida y capaz de gestionar la capa de persistencia y el procesamiento de los datos.
 
-## Viabiludad de las técnologias
+## Viabilidad de las técnologias
 
-Para garantizar el máximo rendimiento en la consulta y gestión de productos se evaluó la viabilidad técnica de la arquitectura e infraestructura propuesta:
+Para evaluar el rendimiento en la consulta y gestión de productos se evaluó la viabilidad técnica de la arquitectura e infraestructura propuesta:
 
 ### Gestores de Bases de Datos
-* **Microsoft SQL Server:** Pilar principal. Garantiza un alto rendimiento en transacciones y permite analizar minuciosamente el comportamiento de las consultas complejas de inventario y pedidos.
 * **MySQL Community Server:** Solución viable de código abierto, altamente optimizada para la capa de consulta de catálogos y lectura rápida en entornos web.
-
-### Entornos de Administración
-* **SQL Server Management Studio:** Ofrece el control operativo de la base de datos. Permite analizar planes de ejecución gráficos y monitorear estadísticas de consultas en tiempo real para tuning de rendimiento.
 
 ###  Entorno de Desarrollo (IDE) y Backend
 * **IntelliJ IDEA (Java / JVM):** Entorno principal para la lógica del e-commerce y servicios backend.
