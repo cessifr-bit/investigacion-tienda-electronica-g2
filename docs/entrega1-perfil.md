@@ -149,5 +149,20 @@ https://www.iso.org/obp/ui/#iso:std:iso-iec:25010:en
 
 Oracle. (s. f.). MySQL 8.0 reference manual: Optimization and indexes. MySQL. MySQL 8.0 Reference Manual https://dev.mysql.com/doc/refman/8.0/en/
 
+# Cronograma
+
+## Actividades
+
+- Análisis del problema
 
 
+```mermaid
+gantt
+    title Cronograma del Proyecto
+    dateFormat YYYY-MM-DD
+    axisFormat %d/%m
+
+    section Investigación
+    Análisis del problema :t1, 2026-09-06, 9d
+    Entrega 1 :milestone, m1, 2026-09-18, 0d
+```
