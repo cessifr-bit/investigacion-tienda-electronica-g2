@@ -2,7 +2,7 @@
 # Proyecto de Investigación - Ciclo 02-2026
 **Asignatura: Progrmación III - Sección: 03**
 
-# "Análisis del rendimiento de consultas y operaciones de gestión de productos en una aplicación para una tienda de productos electrónicos"
+# “Análisis del rendimiento de consultas y operaciones de gestión de inventarios en una aplicación para una tienda de productos electrónicos”
 
 ---
 
