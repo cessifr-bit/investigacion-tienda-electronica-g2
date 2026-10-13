@@ -1,6 +1,6 @@
 # Título provisional
 
-_"Análisis del rendimiento de consultas y operaciones de gestión de productos en una aplicación para una tienda de productos electrónicos"_
+_“Análisis del rendimiento de consultas y operaciones de gestión de inventarios en una aplicación para una tienda de productos electrónicos”_
 
 # Planteamiento del problema
 
