@@ -152,5 +152,69 @@ Criterios de inclusión:
 
 Criterios de exclusión:
 *	Reportes técnicos o conferencias cortas sin artículo en extenso.
+
+## Fuentes
+
+
+*1)
+Uziel Trujillo Colón (2024). Análisis comparativo de rendimiento entre consultas SQL directas y procedimientos almacenados bajo diferentes volúmenes de datos. Ciencia Latina Revista Científica Multidisciplinar.
+Año: 2024
+Enlace real: https://ciencialatina.org/index.php/cienciala/article/download/13434/19351/
+Aporte al proyecto: Aporta métricas de tiempo de ejecución (segundos) en pruebas de estrés con variaciones volumétricas de datos.
+
+*2)
+Microsoft Learn. (2025). Ediciones y características admitidas de SQL Server 2025: Optimización de consultas, bloqueo optimizado y rendimiento por lotes. Microsoft Technical Documentation.
+Año: 2025 
+Enlace real:https://learn.microsoft.com/es-es/sql/sql-server/editions-and-components-of-sql-server-2025
+Aporte al proyecto: Documentación técnica oficial sobre los mecanismos internos de procesamiento de consultas y control de memoria caché en entornos de bases de datos empresariales.
+
+*3)
+Cancio, C. (2025). Comparativa de rendimiento entre Spring Boot (Java), .NET y arquitecturas de persistencia backend. Guías de Arquitectura de Software y Rendimiento.
+Año: 2025 
+Enlace real: https://www.cesarcancino.com/comparativa-de-rendimiento-entre-nestjs-net-spring-boot-laravel-y-django-cual-elegir-en-2025/
+Aporte al proyecto: Analiza el comportamiento en crudo de entornos Java y su interacción con frameworks de persistencia pesados frente a micro-servicios y consultas optimizadas.
+
+*4)
+Pérez Torres, Amaury; Soler Silva, José . Optimización de bases de datos relacionales y su impacto en la latencia de aplicaciones web transaccionales. Revista Tecnológica Universitaria.
+Año: 2023 
+Enlace real: https://www.redalyc.org/articulo.oa?id=589165883005
+Aporte al proyecto: Evalúa cómo la indexación de tablas y el diseño de consultas CRUD reducen drásticamente el tiempo de respuesta en milisegundos.
+
+*5)
+Oracle MySQL Documentation. MySQL 8.0 Reference Manual: Optimization, Execution Plans and EXPLAIN ANALYZE. Oracle Corporation.
+Año: 2023 
+Enlace real: https://dev.mysql.com/doc/refman/8.0/en/optimization.html
+Aporte al proyecto: Fuente oficial para el análisis de planes de ejecución (EXPLAIN) y su aplicación práctica en el diagnóstico de rendimiento de motores MySQL.
+
+*6)
+Alter Mateo. Análisis en trabajo de gestión de inventarios aplicando un crud específicamente para las labores requeridas, un prototipo de aplicación.
+Año: 2025 
+Enlace real: https://repositorio.puce.edu.ec/server/api/core/bitstreams/7f806b6c-dfb4-46fb-bc9b-1f606e8999d5/content
+Aporte al proyecto: Define la metodología estandarizada para evaluar indicadores clave de calidad de software: tiempo de respuesta, latencia, tiempo de espera y uso de recursos de hardware a su vez trabajando con una base y tomar ideas para el proyecto. 
+
+*7)
+Jaime Humberto Rodriguez. Análisis en trabajo de gestión de inventarios en la gran cantidad de datos aplicados principalmente en el desarrollo con la construcción del CRUD (Créate, Read, Update, Delete), aplicable a todos los gestores del sistema para punto de venta, gestor de inventarios, de usuarios, 
+Año: 2025 
+Enlace real: https://barnes.edu.pe/wp-content/uploads/2025/04/Diseno-e-Implementacion-de-un-Sistema-POS-con-Modulo-de-Gestion.pdf
+Aporte al proyecto: Define un modelo a seguir de manera en la cual se pueda adaptar, estudiar, manejar un posible escenario aplicado a nuestro proyecto.
+
+*8)
+German Jeres (2023) Diseño de una app móvil que utiliza sistemas de filtrado de información para identificar, recomendar y describir los datos de contacto de personas que laboran.
+Año: 2023
+Enlace real: https://repository.unab.edu.co/server/api/core/bitstreams/7d46ce55-0b99-44d1-831c-5b5c17ba75f7/content
+Aporte al proyecto: Se vio principalmente en el objetivo que se tomo de desarrollar un prototipo de aplicación móvil para generar recomendaciones de empleado a empresas del sector del calzado. Se propuso una metodología para el desarrollo del proyecto en la cual consistió en tres fases siendo la de análisis y diseño de requerimientos, desarrollo y análisis de pruebas por ello el aporte al proyecto es para fines de implementación y aprender de proyectos establecidos a buscar mejorar. 
+
+*9)
+Carvajal Sellan, Miguel Angel.  Inventario de aplicaciones móviles para la logística de desarrollo de software gestión de datos o una aplicación móvil.
+Año: 2025
+Enlace real: https://bibdigital.epn.edu.ec/handle/15000/27114
+Aporte al proyecto: Es un articulo que describe un poco del proyecto el como se enfrenta el control eficiente del inventario, ya que el registro, ingreso, salida y trazabilidad de stock por la realización de forma manual o con herramientas dispersas genera duplicaciones, errores y pérdida de información. De esta manera se busca implementar los mejores aportes para sustentar un excelente rendimiento del proyecto.  
+
+*10)
+Martin Kleppmann.  Diseño de aplicaciones mediante el uso intensivo de datos mediante un software libre y de código abierto.
+Año: 2022
+Enlace real: https://books.google.com.sv/books?hl=es&lr=&id=t3J6EAAAQBAJ&oi=fnd&pg=PT9&dq=tiempo+de+ejecucion+de+una+consulta+en+mayor+cantidad+de+datos&ots=SH0LjZl-H5&sig=F-fSFM5T3xEvazqfttE4H23YEJU&redir_esc=y#v=onepage&q=tiempo%20de%20ejecucion%20de%20una%20consulta%20en%20mayor%20cantidad%20de%20datos&f=false
+Aporte al proyecto: Abarca el como manejar el principal manejo de datos ya que se necesita ver el tiempo de respuesta en una cantidad de datos amplia, el aporte es ver la arquitectura en los sistemas de datos.
+
 *	Documentos que no toquen el tema de hardware, rendimiento y consultas.
 *	Sin ningún tipo de metodología.
