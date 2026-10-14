@@ -237,6 +237,41 @@ Aporte al proyecto: Abarca el como manejar el principal manejo de datos ya que s
 
 ## 3. Marco teórico y operacionalización (Gerardo — Integrante 4)
 
+El análisis del rendimiento en aplicaciones móviles requiere una base conceptual rigurosa que permita comprender la interacción técnica entre la gestión de recursos en el cliente y eficiencia de procesamiento del servidor. Para fundamentar metodológicamente esta investigación, el presente apartado desarrolla los cimientos teóricos necesarios para evaluar el sistema bajo escenarios de estrés concurrente. Inicialmente, se exploran las particularidades del entorno Android y su administración de memoria ante grandes volúmenes de información. A continuación, se examinan los mecanismos de optimización en bases de datos relacionales, destacando el impacto de la indexación y el filtrado sobre la latencia. Finalmente, el estudio se ancla conceptualmente en el estándar internacional ISO/IEC 25010, el cual proporciona el marco normativo y el vocabulario preciso para operacionalizar objetivamente las métricas de eficiencia de desempeño.
+
+### - Rendimiento y procesamiento de datos en aplicaciones móviles
+
+El rendimiento de las aplicaciones no es solo una preocupación para la mayoría de las organizaciones; es un factor crítico en el éxito de su negocio. Impulsar el rendimiento óptimo de las aplicaciones y minimizar los costos se ha vuelto primordial a medida que las organizaciones se esfuerzan por lograr las experiencias de usuario positivas. Estas experiencias pueden hacer o deshacer un negocio, por eso priorizar el alto rendimiento entre las aplicaciones no es negociable. Lo que se necesita es una solución que no solo proteja el rendimiento de sus aplicaciones de misión crítica sino que también vaya más allá mediante la reducción de costos, la eficiencia del tiempo y el ahorro monetario
+
+  **. Aporte a la investigación:** Esta categoría proporciona los conceptos fundamentales para comprender el efecto técnico que tienen las variables independientes (volumen   de catálogo y usuarios simultáneos) sobre las variables dependientes, justificando por qué es necesario medir el consumo de recursos en el entorno específico de Android.
+
+### - Optimización de bases de datos relacionales: Índices y filtros
+
+La optimización de bases de datos es la práctica sistemática de mejorar la forma en que una base de datos almacena, recupera y procesa los datos para que pueda ofrecer un rendimiento rápido y predecible.
+
+En esencia, la optimización reduce el trabajo innecesario dentro de la base de datos, mejorando la forma en que elige los planes de ejecución de consultas, estructura el esquema, organiza el almacenamiento y utiliza los índices. Estas mejoras reducen la sobrecarga al optimizar la localidad de los datos y evitar cálculos repetidos. Además, son una de las formas más efectivas de controlar el gasto en la nube.
+
+Pero la optimización de bases de datos no es una simple puesta a un punto puntual. Se trata, más bien, de un esfuerzo de mantenimiento continuo que mantiene el motor de la base de datos alineado con las cambiantes demandas de las aplicaciones, el creciente volumen de datos y las iniciativas de inteligencia artificial (IA). Es la base de prácticamente todos los sistemas de bases de datos importante, desde las bases de datos relacionales hasta los motores de código abierto.
+
+Las bases de datos relacionales como MySQL utilizan estructuras de datos especializadas, como los árboles B (B-trees), para implementar índices. un índice reduce significativamente el espacio de búsqueda al realizar consultas, evitando escaneos secuenciales completos de las tablas (full table scans). Asimismo, la aplicación de filtros (como categoría o precio) en las cláusulas SQL condiciona la cantidad de información que se transfiere por la red y se aloja en la memoria del cliente móvil, impactando directamente en la latencia.
+
+  **. Aporte a la investigación:** Esta sección teórica provee la base conceptual para justificar la evaluación de la "implementación de índices" y el "uso de filtros" como factores experimentales que modifican el tiempo de respuesta y la eficiencia de la consulta formulados en las preguntas secundarias.
+
+### - Modelo de calidad y eficiencia de desempeño (ISO/IEC 25010)
+
+La calidad del producto software se interpreta como el grado en que satisface los requisitos de los usuarios aportando un valor, por lo que el modelo de calidad representa la piedra angular para establecer su sistema de evaluación. Para evaluar el comportamiento del sistema bajo condiciones específicas de carga, es indispensable basarse en un modelo estandarizado que categorice estos requisitos (tales como funcionalidad, rendimiento o seguridad) en características y sub-características a tener en cuenta. En este contexto, el estándar de referencia ISO/IEC 25010 establece las características de calidad del software, entre las que destaca la <<eficiencia de desempeño>>. Al determinar de esta manera las propiedades del producto, esta característica evalúa dos aspectos críticos: el comportamiento temporal (tiempos de respuesta y procesamiento) y la utilización de recursos (cantidades y tipos de recursos utilizados, como la memoria, al realizar sus funciones).
+
+  **. Aporte a la investigación:** El estándar ISO/IEC 25010 proporciona el marco normativo y el vocabulario técnico preciso para sustentar y definir operacionalmente las variables dependientes principales de este estudio: el tiempo de respuesta y el consumo de memoria.
+
+### 3.1 Operacionalización de variables
+
+| **Variable**                                        | **Definición operacional**                                                                                                                                                  | **Unidad**                     | **Instrumento**                                               |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | ------------------------------------------------------------- |
+| **Tiempo de respuesta de la aplicación / consulta** | Milisegundos transcurridos entre el envío de la petición de búsqueda o filtrado desde el dispositivo Android hasta la recepción y renderizado del último registro de MySQL. | ms                             | Apache JMeter / Android Studio Profiler (Logcat)              |
+| **Consumo de memoria**                              | Memoria máxima retenida en el montículo (_heap_) de la JVM en el dispositivo Android durante la ejecución de las consultas y visualización de resultados.                   | MB                             | Android Memory Profiler / VisualVM                            |
+| **Tamaño del catálogo de productos**                | Número exacto de registros almacenados y disponibles en la tabla de productos de la base de datos MySQL utilizada para las pruebas.                                         | Entero (Cantidad de registros) | _Scripts_ SQL / Gestor de base de datos (Ej. MySQL Workbench) |
+| **Cantidad de usuarios simultáneos**                | Número de hilos de ejecución (_threads_) concurrentes simulados que realizan peticiones de búsqueda simultáneas al servidor.                                                | Entero (Número de hilos)       | Apache JMeter                                                 |
+
 
 ## 4. Diseño metodológico
 
