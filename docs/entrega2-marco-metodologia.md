@@ -332,11 +332,45 @@ Las pruebas se realizarán en un entorno de ejecución cuyas características se
 
 La población estará constituida por los productos que pueden formar parte del inventario de una tienda de productos electrónicos. Para el experimento se utilizará un conjunto de datos de prueba con tres volúmenes: 100, 500 y 1,000 registros. Cada registro contendrá un identificador, nombre, marca, categoría y cantidad disponible. Se mantendrá la misma estructura de datos en los tres escenarios y se modificará la cantidad de registros para comparar el rendimiento de la consulta. El origen de los datos y el procedimiento de generación se documentarán como parte del experimento.
 
-## 5. Análisis y resultados (Adner — Integrante 7)
+## 5. Análisis y resultados 
+
+## Organización y Resumen de Resultados (JMH Benchmark)
+
+Se ejecutó un benchmark comparativo mediante Java Microbenchmark Harness (JMH 1.37) sobre OpenJDK 21, comparando las implementaciones `jpaHibernate` frente a `sqlNativo` bajo tres niveles de volumen de registros (100, 500 y 1000).
+
+### Tabla Comparativa de Rendimiento
+
+| Implementación | Volumen (regs) | Tiempo Promedio (ms/op) | Margen de Error (99.9% CI) | Asignación Memoria (B/op) | Recolecciones GC (total) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **JPA / Hibernate** | 100 | **1.22 ms** | ± 0.05 ms | ~121,244 B/op | 1,301 |
+| **JPA / Hibernate** | 500 | **2.90 ms** | ± 0.05 ms | ~567,614 B/op | 1,606 |
+| **JPA / Hibernate** | 1000 | **4.66 ms** | ± 0.06 ms | ~1,123,107 B/op | 1,355 |
+| **SQL Nativo** | 100 | **14.07 ms** | ± 1.37 ms | ~461,073 B/op | 590 |
+| **SQL Nativo** | 500 | **19.24 ms** | ± 3.28 ms | ~787,946 B/op | 728 |
+| **SQL Nativo** | 1000 | **17.32 ms** | ± 1.26 ms | ~1,181,904 B/op | 910 |
 
 ### 5.1 Plan de análisis
+**Variables y métricas evaluadas:** 
+  - Tiempo medio de ejecución por operación (`ms/op`), percentiles de latencia (p50, p90, p99) para identificar variabilidad en colas de respuesta.
+  - Tasa normalizada de memoria asignada por operación (`B/op`) e impacto en las pausas del Garbage Collector.
+- **Tratamiento estadístico:** 
+  - Comparación de medias muestrales mediante cálculo de intervalos de confianza al 99.9%.
+  - Aplicación de pruebas de contraste de hipótesis (prueba t de Student para muestras independientes con nivel de significancia $\alpha = 0.05$) para validar si las diferencias observadas entre JPA y SQL Nativo son estadísticamente significativas.
+- **Interpretación preliminar:** 
+  - JPA/Hibernate evidencia una latencia promedio significativamente menor y más predecible en todos los escenarios evaluados.
+  ---
 ### 5.2 Amenazas a la validez
+**Validez interna:**
+  - *Efectos de calentamiento (warmup):* Mitigados mediante 5 iteraciones de 10 segundos para garantizar la compilación JIT antes de tomar métricas.
+  - *Sobrecarga de depuración:* Las pruebas registraron la presencia del agente `-javaagent` del entorno de desarrollo, lo cual puede introducir una leve carga fija en la máquina virtual.
+- **Validez externa:**
+  - *Entorno monohilo:* Las pruebas se ejecutaron con 1 hilo (`threads: 1`) y 1 bifurcación (`forks: 1`) sobre Windows con OpenJDK 21. Los tiempos y la contención de conexiones pueden variar en entornos multiproceso o contenedores de producción.
+- **Validez de construcción:**
+  - El experimento evalúa únicamente el tiempo de ejecución en capa de datos a nivel local, sin incorporar la latencia real de red ni la serialización hacia un cliente final.
+  ---
 ### 5.3 Consideraciones éticas
+- **Licenciamiento:** Las dependencias utilizadas (JMH, Hibernate, JDBC Driver) se rigen por licencias de código abierto compatibles (GPLv2 con Classpath Exception / LGPL). Los datos de prueba se basan en esquemas estándar de dominio público/educativo.
+- **Declaración de Uso de IA:** Se utilizaron modelos de lenguaje de inteligencia artificial como herramientas de apoyo para el análisis exploratorio de datos, redacción y estructuración estadística del informe, manteniendo la autoría y validación de los resultados por parte del equipo.
 
 
 ## Referencias
