@@ -11,10 +11,10 @@
 - **Lenguaje de programación:** Java.
 - **Versión de Java (JDK):** Eclipse Temurin OpenJDK 21.0.12.
 - **Entorno de desarrollo (IDE):** IntelliJ IDEA 2026.2.1.
-- **Sistema gestor de base de datos: MySQL Community Server.
+- **Sistema gestor de base de datos:** MySQL Community Server.
 - **Versión de MySQL:**  8.0.46.
 - **Herramienta de construcción y gestión de dependencias:**  Apache Maven 3.9.16, versión integrada (Bundled) en IntelliJ IDEA.
-- **Herramienta de medición de rendimiento:JMH 1.37.
+- **Herramienta de medición de rendimiento:**JMH 1.37.
 - **Bibliotecas utilizadas:** - Hibernate ORM: 6.6.4.Final.
 - MySQL Connector/J: 9.1.0.
 - Jakarta Persistence API: 3.1.0.
