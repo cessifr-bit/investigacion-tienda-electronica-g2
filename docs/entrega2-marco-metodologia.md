@@ -281,56 +281,60 @@ La calidad del producto software se interpreta como el grado en que satisface lo
 | **Tamaño del catálogo de productos**                | Número exacto de registros almacenados y disponibles en la tabla de productos de la base de datos MySQL utilizada para las pruebas.                                         | Entero (Cantidad de registros) | _Scripts_ SQL / Gestor de base de datos (Ej. MySQL Workbench) |
 | **Cantidad de usuarios simultáneos**                | Número de hilos de ejecución (_threads_) concurrentes simulados que realizan peticiones de búsqueda simultáneas al servidor.                                                | Entero (Número de hilos)       | Apache JMeter                                                 |
 
-
 ## 4. Diseño metodológico
 
-La investigación tendrá un enfoque cuantitativo y experimental, ya que se realizarán mediciones para analizar cómo influye el volumen de registros de inventario en el rendimiento de las consultas de una aplicación para una tienda de productos electrónicos.
+La investigación tiene un enfoque cuantitativo y un diseño experimental, ya que se realizaron mediciones para comparar el rendimiento de dos estrategias de acceso a datos en una aplicación para una tienda de productos electrónicos. Se evaluaron las implementaciones JPA/Hibernate y SQL nativo utilizando diferentes volúmenes de registros de inventario.
 
-Se utilizará MySQL como sistema de gestión de bases de datos y se trabajará con diferentes volúmenes de registros. Para cada volumen se ejecutará una consulta de inventario y se registrarán las mediciones correspondientes. Posteriormente, se compararán los resultados obtenidos para identificar las variaciones en el rendimiento asociadas con el aumento de registros.
+Las pruebas se ejecutaron con JMH como herramienta de medición y MySQL como sistema de gestión de bases de datos. Se analizaron los resultados correspondientes a tres volúmenes de datos: 100, 500 y 1,000 registros. Para cada volumen se evaluaron ambas estrategias de acceso a datos y se registraron las mediciones de rendimiento obtenidas.
 
-Para procurar que los resultados sean comparables, las pruebas se realizarán bajo condiciones controladas, manteniendo constantes el equipo, la consulta y la configuración del entorno experimental. Asimismo, se establecerá un procedimiento de ejecución y registro de las mediciones que permita documentar el experimento y facilitar su reproducción.
+Para facilitar la comparación, se utilizó el mismo entorno experimental durante las pruebas. Las características del equipo, las versiones de las herramientas y los parámetros de ejecución se documentaron en el archivo `docs/entorno.md`.
 
-### 4.1 Diseño experimental 
+### 4.1 Diseño experimental
 
-El experimento evaluará el rendimiento de las consultas de inventario en una aplicación para una tienda de productos electrónicos, utilizando MySQL como sistema de gestión de bases de datos. Se analizará la variación del rendimiento en función de la cantidad de registros almacenados, manteniendo constante la estrategia de acceso a los datos.
+El diseño experimental consideró dos factores: el volumen de registros del inventario y la estrategia de acceso a datos. La combinación de sus niveles permitió comparar el comportamiento de JPA/Hibernate y SQL nativo en distintos tamaños de inventario.
 
 ### 4.1.1 Factores y niveles
 
-El factor independiente será el volumen de registros del inventario, con tres niveles: 100, 500 y 1,000 registros. Estos niveles permitirán analizar cómo varía el rendimiento de las consultas a medida que aumenta la cantidad de información almacenada.
+Se evaluaron los siguientes factores:
+
+- **Volumen de registros:** 100, 500 y 1,000 registros.
+- **Estrategia de acceso a datos:** JPA/Hibernate y SQL nativo.
+
+La combinación de ambos factores generó seis configuraciones experimentales. En cada una se evaluó el rendimiento de la implementación correspondiente con el volumen de registros establecido.
 
 ### 4.1.2 Variables de respuesta
 
-Se medirán las siguientes variables de respuesta:
+Se consideraron las siguientes variables de respuesta:
 
-- **Tiempo de respuesta:** tiempo requerido para ejecutar la consulta de inventario y obtener los resultados, expresado en milisegundos (ms).
+- **Tiempo de ejecución:** tiempo promedio por operación registrado por JMH, expresado en milisegundos por operación (ms/op).
+- **Memoria asignada por operación:** cantidad de memoria asignada durante la ejecución de una operación, registrada por JMH y expresada en bytes por operación (B/op).
 
-- **Consumo de memoria:** cantidad máxima de memoria utilizada durante la ejecución, expresada en megabytes (MB).
+Estas variables permitieron comparar el tiempo requerido por cada estrategia y la cantidad de memoria asignada durante las operaciones evaluadas.
 
 ### 4.1.3 Número de repeticiones y calentamiento
 
-Se realizarán 30 repeticiones por cada nivel de volumen de registros, precedidas de 5 ejecuciones de calentamiento. Estas últimas permitirán preparar el entorno de ejecución y no se incluirán en el análisis de las mediciones finales.
+La configuración de JMH contempló cinco iteraciones de calentamiento y treinta iteraciones de medición por configuración experimental. Cada iteración tuvo una duración configurada de diez segundos. Las iteraciones de calentamiento permitieron preparar el entorno de ejecución y no se incluyeron en las iteraciones de medición reportadas por JMH.
 
 ### 4.1.4 Control de condiciones experimentales
 
-Las pruebas se realizarán en el mismo equipo, con la misma configuración del entorno y utilizando la misma consulta de inventario. Asimismo, se evitarán otras cargas de trabajo que puedan interferir con las mediciones. El procedimiento relacionado con la caché de la base de datos se establecerá y documentará antes de ejecutar los experimentos.
+Las pruebas se realizaron en el mismo equipo y bajo la configuración del entorno experimental utilizada durante las mediciones. Para interpretar los resultados, se consideraron las características del equipo, las herramientas empleadas y los parámetros de ejecución registrados. Las posibles variaciones ocasionadas por cargas externas del equipo o por el comportamiento de la caché se consideraron factores que pudieron influir en las mediciones, ya que no se contó con información suficiente para confirmar su control.
 
 ### 4.1.5 Orden de ejecución
 
-El orden de ejecución de las pruebas se determinará antes de iniciar las mediciones. Se utilizará un orden aleatorizado con una semilla fija (seed = 42), de acuerdo con la propuesta de la guía, para facilitar la reproducción del procedimiento.
+Las configuraciones experimentales se ejecutaron siguiendo el procedimiento utilizado durante las pruebas. El orden de ejecución se consideró de acuerdo con los registros disponibles, sin asumir que se aplicó una aleatorización.
 
 ### 4.1.6 Registro y comparación de resultados
 
-Las mediciones se almacenarán en un archivo estructurado que permita identificar el volumen de registros utilizado en cada prueba, el número de ejecución y los valores obtenidos para las variables de respuesta. Posteriormente, los resultados se organizarán en tablas y gráficos para comparar el tiempo de respuesta y el consumo de memoria entre los diferentes volúmenes de datos.
-
-Las herramientas de medición, la consulta utilizada y el procedimiento de ejecución se documentarán para facilitar la reproducción del experimento.
+Los resultados se almacenaron en archivos generados por JMH, que permitieron identificar las configuraciones evaluadas y las mediciones obtenidas. Los datos se organizaron para comparar el tiempo promedio de ejecución y la memoria asignada por operación entre las seis configuraciones experimentales.
 
 ### 4.2 Entorno experimental
 
-Las pruebas se realizarán en un entorno de ejecución cuyas características se documentarán en el archivo docs/entorno.md. Se registrarán las especificaciones del equipo, el sistema operativo, la versión de Java, la versión de MySQL, las bibliotecas utilizadas y las configuraciones relevantes para el experimento. También se describirán las herramientas empleadas para medir el tiempo de respuesta y el consumo de memoria.
+Las pruebas se realizaron en un entorno de ejecución con Java y MySQL, utilizando JMH para medir el rendimiento de las implementaciones evaluadas. Las características del equipo, el sistema operativo, las versiones de las herramientas y las bibliotecas utilizadas se documentaron en el archivo `docs/entorno.md`, junto con los parámetros relevantes para la ejecución del experimento.
 
 ### 4.3 Población, muestra o corpus
 
-La población estará constituida por los productos que pueden formar parte del inventario de una tienda de productos electrónicos. Para el experimento se utilizará un conjunto de datos de prueba con tres volúmenes: 100, 500 y 1,000 registros. Cada registro contendrá un identificador, nombre, marca, categoría y cantidad disponible. Se mantendrá la misma estructura de datos en los tres escenarios y se modificará la cantidad de registros para comparar el rendimiento de la consulta. El origen de los datos y el procedimiento de generación se documentarán como parte del experimento.
+La población de referencia estuvo constituida por los productos que pueden formar parte del inventario de una tienda de productos electrónicos. Para el experimento se utilizaron conjuntos de datos de prueba de 100, 500 y 1,000 registros. Se mantuvo la estructura de los datos en los tres escenarios y se modificó la cantidad de registros para comparar el rendimiento de las estrategias de acceso a datos JPA/Hibernate y SQL nativo. El conjunto de datos utilizado, los campos incluidos y el procedimiento de generación se consideraron parte de la descripción del corpus experimental.
+
 
 ## 5. Análisis y resultados 
 
