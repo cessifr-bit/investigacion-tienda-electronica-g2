@@ -2,20 +2,24 @@
 
 ## Equipo de pruebas
 
-- **Procesador (CPU):** pendiente de registrar.
-- **Memoria RAM:** pendiente de registrar.
-- **Sistema operativo:** pendiente de registrar.
+- **Procesador (CPU):** Intel(R) Celeron(R) N4120, frecuencia base de 1.10 GHz.
+- **Memoria RAM:** 4 GB instalados, de los cuales 3.83 GB son utilizables.
+- **Sistema operativo:** Microsoft Windows 10 Pro Education, versión 22H2, compilación 19045.6466.
 
 ## Software y herramientas
 
 - **Lenguaje de programación:** Java.
-- **Versión de Java (JDK):** OpenJDK 21.0.12.
-- **Entorno de desarrollo (IDE):** pendiente de confirmar.
-- **Sistema gestor de base de datos:** MySQL.
-- **Versión de MySQL:** pendiente de verificar.
-- **Herramienta de construcción y gestión de dependencias:** pendiente de verificar.
-- **Herramienta de medición de rendimiento:** JMH 1.37.
-- **Bibliotecas utilizadas:** pendientes de verificar, incluyendo las versiones correspondientes.
+- **Versión de Java (JDK):** Eclipse Temurin OpenJDK 21.0.12.
+- **Entorno de desarrollo (IDE):** IntelliJ IDEA 2026.2.1.
+- **Sistema gestor de base de datos: MySQL Community Server.
+- **Versión de MySQL:**  8.0.46.
+- **Herramienta de construcción y gestión de dependencias:**  Apache Maven 3.9.16, versión integrada (Bundled) en IntelliJ IDEA.
+- **Herramienta de medición de rendimiento:JMH 1.37.
+- **Bibliotecas utilizadas:** - Hibernate ORM: 6.6.4.Final.
+- MySQL Connector/J: 9.1.0.
+- Jakarta Persistence API: 3.1.0.
+- JMH Core: 1.37.
+- JMH Generator Annotation Processor: 1.37.
 
 ## Configuración experimental
 
