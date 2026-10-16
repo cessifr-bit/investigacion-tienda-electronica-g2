@@ -2,7 +2,7 @@
 
 **Título de la investigación:** “Análisis del rendimiento de consultas y operaciones de gestión de inventarios en una aplicación para una tienda de productos electrónicos”
 
-## Introducción (Cesia — Integrante 1)
+## Introducción 
 
 En una tienda de productos electrónicos es importante llevar un control de los productos disponibles, sus marcas, categorías y cantidades en inventario. Para realizar estas tareas de manera eficiente, es necesario contar con una aplicación que permita almacenar y consultar los datos de forma adecuada. Sin embargo, al aumentar la cantidad de productos almacenados, es importante comprobar si el tiempo necesario para obtener la información también cambia y si se producen variaciones en el consumo de memoria. 
 
@@ -10,10 +10,10 @@ En este trabajo se estudiará el rendimiento de una consulta de inventario utili
 
 El documento presenta el estado del arte, el marco teórico y los antecedentes relacionados con el tema de investigación, así como la definición de las variables que se evaluarán. También se describe el diseño metodológico que comprende los factores del experimento, las variables de respuesta, las condiciones de ejecución y el procedimiento previsto para registrar y analizar las mediciones. De esta manera se busca establecer un procedimiento claro y reproducible que permita comprender cómo varía el rendimiento de las consultas a medida que aumenta la cantidad de registros del inventario.
 
-## Estado del arte (Adrián — Integrante 2)
+## 1. Estado del arte
+Para identificar investigaciones y documentación técnica relacionadas con el rendimiento de consultas a bases de datos, el uso de SQL nativo y JPA/Hibernate, y la gestión de inventarios, se realizaron búsquedas en Google Académico y Redalyc. Se definieron cadenas de búsqueda relacionadas con las variables y tecnologías del proyecto, junto con criterios de inclusión y exclusión para seleccionar las fuentes pertinentes. A continuación, se presentan las cadenas utilizadas, las bases de datos consultadas, las fechas de búsqueda y los resultados obtenidos.
 
-## 1. Estado del arte (Adrián — Integrante 2)
-
+### 1.1	Cadenas de búsqueda 
 *1) Cadena: ("JPA" OR "Hibernate") AND ("SQL" OR "JDBC") AND ("rendimiento" OR "tiempo de respuesta")
 Base: Google Académico
 Fecha: 2026-10-12
@@ -169,7 +169,7 @@ Criterios de exclusión:
 *	Documentos que no toquen el tema de hardware, rendimiento y consultas.
 *	Sin ningún tipo de metodología.
 
-## Fuentes
+### 1.2	Fuentes
 
 
 *1)
@@ -232,7 +232,7 @@ Año: 2022
 Enlace real: https://books.google.com.sv/books?hl=es&lr=&id=t3J6EAAAQBAJ&oi=fnd&pg=PT9&dq=tiempo+de+ejecucion+de+una+consulta+en+mayor+cantidad+de+datos&ots=SH0LjZl-H5&sig=F-fSFM5T3xEvazqfttE4H23YEJU&redir_esc=y#v=onepage&q=tiempo%20de%20ejecucion%20de%20una%20consulta%20en%20mayor%20cantidad%20de%20datos&f=false
 Aporte al proyecto: Abarca el como manejar el principal manejo de datos ya que se necesita ver el tiempo de respuesta en una cantidad de datos amplia, el aporte es ver la arquitectura en los sistemas de datos.
 
-## 2. Matriz de antecedentes (Hazel — Integrante 3)
+## 2. Matriz de antecedentes 
 
 | Autor y Año                                  | Objetivo                                                                                                                                                                       | Método y entorno                                                                                                                                                                                       | Hallazgo principal                                                                                                                                                                                | Vacío detectado                                                                                                                                                                                                  |
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -244,7 +244,7 @@ Aporte al proyecto: Abarca el como manejar el principal manejo de datos ya que s
 | Carvajal Sellán, Miguel Ángel (2025)         | Desarrollar un sistema móvil enfocado en mitigar las ineficiencias de stock provocadas por el registro y trazabilidad manual de herramientas logísticas.                       | Estudio aplicado de desarrollo de software nativo/hibrido, maquetando interfaces lógicas de stock de almacén con sincronización directa hacia servidores de persistencia de datos.                     | La automatización del flujo de stock mediante herramientas móviles erradica las duplicaciones de registros de inventario y previene pérdidas criticas de información en la cadena de suministros  | Se enfoca de forma exclusivas en los flujos lógicos de la logística de almacén, avadiendo pruebas de estrés cuantitativas con consultas concurrentes masivas o indexación de tablas en el motor MySQL            |
 | Martín Kleppmann (2022)                      | Definir los principios y patrones arquitectónicos necesarios para garantizar la escalabilidad, consistencia y mantenibilidad de aplicaciones intensivas en datos.              | Análisis teórico-práctico exhaustivo de la arquitectura de sistemas distribuidos de datos, evaluando el comportamiento de motores de búsqueda, cachés y el costo algorítmico de consultas complejas.   | La latencia terminal y el rendimiento de un sistema intensivo en datos se encuentran condicionados por la correcta selección de estrategia de particionamiento del catálogo.                      | Al ser un compendio general de arquitectura de sistemas de datos, no realiza experimentación de laboratorio sobre el entorno Android Runtime (ART) ni mide consumos métricos específicos de memoria RAM en Java. |
 
-## 3. Marco teórico y operacionalización (Gerardo — Integrante 4)
+## 3. Marco teórico y operacionalización
 
 El análisis del rendimiento en aplicaciones móviles requiere una base conceptual rigurosa que permita comprender la interacción técnica entre la gestión de recursos en el cliente y eficiencia de procesamiento del servidor. Para fundamentar metodológicamente esta investigación, el presente apartado desarrolla los cimientos teóricos necesarios para evaluar el sistema bajo escenarios de estrés concurrente. Inicialmente, se exploran las particularidades del entorno Android y su administración de memoria ante grandes volúmenes de información. A continuación, se examinan los mecanismos de optimización en bases de datos relacionales, destacando el impacto de la indexación y el filtrado sobre la latencia. Finalmente, el estudio se ancla conceptualmente en el estándar internacional ISO/IEC 25010, el cual proporciona el marco normativo y el vocabulario preciso para operacionalizar objetivamente las métricas de eficiencia de desempeño.
 
