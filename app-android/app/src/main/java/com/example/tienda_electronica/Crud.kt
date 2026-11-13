@@ -1,3 +1,4 @@
+
 package com.example.tienda_electronica
 
 import androidx.compose.foundation.background
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
+// Modelo que representa los productos del inventario
 data class AdminProduct(
     val id: Int,
     val name: String,
@@ -29,6 +31,8 @@ data class AdminProduct(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CrudScreen() {
+
+    // Lista temporal de productos
     val productList = remember {
         mutableStateListOf(
             AdminProduct(1, "Asus ROG Laptop", "1499.99", "Laptops"),
@@ -36,8 +40,11 @@ fun CrudScreen() {
         )
     }
 
-    val categoriasOpciones = listOf("Laptops", "Celulares", "Gaming", "Audio", "Gadgets")
+    val categoriasOpciones = listOf(
+        "Laptops", "Celulares", "Gaming", "Audio", "Gadgets"
+    )
 
+    // Variables del formulario
     var prodName by remember { mutableStateOf("") }
     var prodPrice by remember { mutableStateOf("") }
     var prodCategory by remember { mutableStateOf(categoriasOpciones[0]) }
@@ -51,13 +58,20 @@ fun CrudScreen() {
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFF121E2B))
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
+            .padding(top = 24.dp)
     ) {
+
+        // Título del formulario
         Text(
-            text = if (editingProductId == null) "Registrar Nuevo Producto" else "Editar Producto Seleccionado",
+            text = if (editingProductId == null)
+                "Registrar Nuevo Producto"
+            else
+                "Editar Producto Seleccionado",
             style = MaterialTheme.typography.titleLarge,
             color = Color.White
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
@@ -68,8 +82,10 @@ fun CrudScreen() {
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
         )
+
         Spacer(modifier = Modifier.height(12.dp))
 
+        // Selector de categorías
         ExposedDropdownMenuBox(
             expanded = expandedDropdown,
             onExpandedChange = { expandedDropdown = !expandedDropdown },
@@ -82,7 +98,9 @@ fun CrudScreen() {
                 label = { Text("Categoría", color = Color.LightGray) },
                 textStyle = TextStyle(color = Color.White),
                 trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedDropdown)
+                    ExposedDropdownMenuDefaults.TrailingIcon(
+                        expanded = expandedDropdown
+                    )
                 },
                 modifier = Modifier
                     .menuAnchor()
@@ -106,6 +124,7 @@ fun CrudScreen() {
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(12.dp))
 
         OutlinedTextField(
@@ -113,12 +132,16 @@ fun CrudScreen() {
             onValueChange = { prodPrice = it },
             label = { Text("Precio de Venta ($)", color = Color.LightGray) },
             textStyle = TextStyle(color = Color.White),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ),
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
         )
+
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Botones para guardar o cancelar la edición
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -136,7 +159,10 @@ fun CrudScreen() {
                         )
                         nextId++
                     } else {
-                        val index = productList.indexOfFirst { it.id == editingProductId }
+                        val index = productList.indexOfFirst {
+                            it.id == editingProductId
+                        }
+
                         if (index != -1) {
                             productList[index] = AdminProduct(
                                 id = editingProductId!!,
@@ -145,21 +171,31 @@ fun CrudScreen() {
                                 category = prodCategory
                             )
                         }
+
                         editingProductId = null
                     }
+
                     prodName = ""
                     prodPrice = ""
                     prodCategory = categoriasOpciones[0]
                 },
                 enabled = isFormValid,
-                modifier = Modifier.weight(1f).height(48.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (editingProductId == null) Color(0xFF2563EB) else Color(0xFF10B981)
+                    containerColor = if (editingProductId == null)
+                        Color(0xFF2563EB)
+                    else
+                        Color(0xFF10B981)
                 ),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Text(
-                    text = if (editingProductId == null) "GUARDAR PRODUCTO" else "ACTUALIZAR",
+                    text = if (editingProductId == null)
+                        "GUARDAR PRODUCTO"
+                    else
+                        "ACTUALIZAR",
                     color = Color.White
                 )
             }
@@ -173,7 +209,9 @@ fun CrudScreen() {
                         prodCategory = categoriasOpciones[0]
                     },
                     modifier = Modifier.height(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Gray),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Gray
+                    ),
                     shape = RoundedCornerShape(10.dp)
                 ) {
                     Text("CANCELAR", color = Color.White)
@@ -182,7 +220,12 @@ fun CrudScreen() {
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-        HorizontalDivider(color = Color(0xFF1E293B), thickness = 2.dp)
+
+        HorizontalDivider(
+            color = Color(0xFF1E293B),
+            thickness = 2.dp
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
@@ -190,30 +233,45 @@ fun CrudScreen() {
             style = MaterialTheme.typography.titleMedium,
             color = Color.LightGray
         )
+
         Spacer(modifier = Modifier.height(12.dp))
 
+        // Inventario con desplazamiento
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
             items(productList, key = { it.id }) { product ->
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B))
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF1E293B)
+                    )
                 ) {
                     Row(
-                        modifier = Modifier.padding(14.dp).fillMaxWidth(),
+                        modifier = Modifier
+                            .padding(14.dp)
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
-                            Text(product.name, color = Color.White, style = MaterialTheme.typography.bodyLarge)
+                            Text(
+                                product.name,
+                                color = Color.White,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+
                             Text(
                                 text = "Categoría: ${product.category}",
                                 color = Color.LightGray,
                                 style = MaterialTheme.typography.bodySmall
                             )
+
                             Text(
                                 text = "$${product.price}",
                                 color = Color(0xFF10B981),
@@ -221,6 +279,7 @@ fun CrudScreen() {
                             )
                         }
 
+                        // Botón para editar
                         Icon(
                             Icons.Default.Edit,
                             contentDescription = "Editar",
@@ -235,12 +294,14 @@ fun CrudScreen() {
                                 }
                         )
 
+                        // Botón para eliminar
                         Icon(
                             Icons.Default.Delete,
                             contentDescription = "Eliminar",
                             tint = Color(0xFFEF4444),
                             modifier = Modifier.clickable {
                                 productList.remove(product)
+
                                 if (editingProductId == product.id) {
                                     editingProductId = null
                                     prodName = ""
@@ -255,4 +316,3 @@ fun CrudScreen() {
         }
     }
 }
-
