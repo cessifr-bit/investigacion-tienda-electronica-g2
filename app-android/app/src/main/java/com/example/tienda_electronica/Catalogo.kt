@@ -1,3 +1,4 @@
+
 package com.example.tienda_electronica
 
 import androidx.compose.foundation.background
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+// Modelo de los productos del catálogo
 data class TechProduct(
     val name: String,
     val category: String,
@@ -33,10 +35,15 @@ data class TechProduct(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Catalogo() {
+
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Todos") }
 
-    val categories = listOf("Todos", "Laptops", "Gaming", "Gadgets", "Audio")
+    val categories = listOf(
+        "Todos", "Laptops", "Gaming", "Gadgets", "Audio"
+    )
+
+    // Productos de ejemplo mientras se conecta la base de datos
     val allProducts = listOf(
         TechProduct("Asus ROG Laptop Pro", "Laptops", 1499.99, 4.9),
         TechProduct("Quantum Phone X1", "Gadgets", 899.99, 4.7),
@@ -46,19 +53,46 @@ fun Catalogo() {
         TechProduct("MacBook Pro M3", "Laptops", 1999.99, 5.0)
     )
 
+    // Filtrar los productos según la búsqueda y categoría
     val filteredProducts = allProducts.filter { product ->
-        val matchesSearch = product.name.contains(searchQuery, ignoreCase = true)
-        val matchesCategory = selectedCategory == "Todos" || product.category == selectedCategory
+        val matchesSearch = product.name.contains(
+            searchQuery,
+            ignoreCase = true
+        )
+
+        val matchesCategory =
+            selectedCategory == "Todos" ||
+                    product.category == selectedCategory
+
         matchesSearch && matchesCategory
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(Color(0xFF0F172A)).padding(16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF0F172A))
+            .padding(horizontal = 16.dp)
+            .padding(top = 24.dp)
+    ) {
+
+        // Campo de búsqueda
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Search hardware, components...", color = Color.Gray) },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Buscar", tint = Color(0xFF2563EB)) },
+            placeholder = {
+                Text(
+                    "Search hardware, components...",
+                    color = Color.Gray
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    Icons.Default.Search,
+                    contentDescription = "Buscar",
+                    tint = Color(0xFF2563EB)
+                )
+            },
             shape = RoundedCornerShape(14.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.White,
@@ -71,22 +105,34 @@ fun Catalogo() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Filtros por categoría
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             items(categories) { category ->
+
                 val isSelected = category == selectedCategory
+
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(20.dp))
-                        .background(if (isSelected) Color(0xFF2563EB) else Color(0xFF1E293B))
-                        .clickable { selectedCategory = category }
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .background(
+                            if (isSelected) Color(0xFF2563EB)
+                            else Color(0xFF1E293B)
+                        )
+                        .clickable {
+                            selectedCategory = category
+                        }
+                        .padding(
+                            horizontal = 16.dp,
+                            vertical = 8.dp
+                        )
                 ) {
                     Text(
                         text = category,
-                        color = if (isSelected) Color.White else Color.LightGray,
+                        color = if (isSelected) Color.White
+                        else Color.LightGray,
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -95,47 +141,92 @@ fun Catalogo() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Cuadrícula de productos
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.fillMaxSize()
+            contentPadding = PaddingValues(bottom = 20.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
             items(filteredProducts) { product ->
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFF1E293B))
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF1E293B)
+                    )
                 ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
+                    Column(
+                        modifier = Modifier.padding(12.dp)
+                    ) {
+
+                        // Espacio visual para la imagen del producto
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(110.dp)
                                 .background(
                                     Brush.verticalGradient(
-                                        colors = listOf(Color(0xFF0F172A), Color(0xFF1E293B))
+                                        colors = listOf(
+                                            Color(0xFF0F172A),
+                                            Color(0xFF1E293B)
+                                        )
                                     ),
                                     RoundedCornerShape(12.dp)
                                 )
                         ) {
+
+                            // Calificación del producto
                             Row(
                                 modifier = Modifier
                                     .align(Alignment.TopEnd)
                                     .padding(6.dp)
-                                    .background(Color(0xAA000000), RoundedCornerShape(8.dp))
-                                    .padding(horizontal = 6.dp, vertical = 2.dp),
+                                    .background(
+                                        Color(0xAA000000),
+                                        RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(
+                                        horizontal = 6.dp,
+                                        vertical = 2.dp
+                                    ),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFFFB703), modifier = Modifier.size(12.dp))
+                                Icon(
+                                    Icons.Default.Star,
+                                    contentDescription = null,
+                                    tint = Color(0xFFFFB703),
+                                    modifier = Modifier.size(12.dp)
+                                )
+
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Text(product.rating.toString(), color = Color.White, style = MaterialTheme.typography.labelSmall)
+
+                                Text(
+                                    product.rating.toString(),
+                                    color = Color.White,
+                                    style = MaterialTheme.typography.labelSmall
+                                )
                             }
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(product.name, color = Color.White, maxLines = 1, style = MaterialTheme.typography.titleSmall)
-                        Text(product.category, color = Color.Gray, style = MaterialTheme.typography.bodySmall)
+
+                        Text(
+                            product.name,
+                            color = Color.White,
+                            maxLines = 1,
+                            style = MaterialTheme.typography.titleSmall
+                        )
+
+                        Text(
+                            product.category,
+                            color = Color.Gray,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Row(
@@ -143,12 +234,27 @@ fun Catalogo() {
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text("$${product.price}", color = Color(0xFF10B981), style = MaterialTheme.typography.titleMedium)
+                            Text(
+                                "$${product.price}",
+                                color = Color(0xFF10B981),
+                                style = MaterialTheme.typography.titleMedium
+                            )
+
                             IconButton(
-                                onClick = { },
-                                modifier = Modifier.size(28.dp).background(Color(0xFF2563EB), CircleShape)
+                                onClick = {},
+                                modifier = Modifier
+                                    .size(28.dp)
+                                    .background(
+                                        Color(0xFF2563EB),
+                                        CircleShape
+                                    )
                             ) {
-                                Icon(Icons.Default.Add, contentDescription = "Add", tint = Color.White, modifier = Modifier.size(16.dp))
+                                Icon(
+                                    Icons.Default.Add,
+                                    contentDescription = "Add",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(16.dp)
+                                )
                             }
                         }
                     }
