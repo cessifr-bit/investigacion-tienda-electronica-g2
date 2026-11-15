@@ -1,0 +1,2 @@
+JMH S 27 benchmark.ConsultaBenchmark S 62 benchmark.jmh_generated.ConsultaBenchmark_jpaHibernate_jmhTest S 12 jpaHibernate S 11 AverageTime E A 1 1 1 E I 1 5 E E I 2 30 E E I 1 1 E E E E E M 1 7 volumen 3 8 xAAMAADA 8 1AAMAADA 16 xAAMAADAwAA===== U 12 MILLISECONDS E E 
+JMH S 27 benchmark.ConsultaBenchmark S 59 benchmark.jmh_generated.ConsultaBenchmark_sqlNativo_jmhTest S 9 sqlNativo S 11 AverageTime E A 1 1 1 E I 1 5 E E I 2 30 E E I 1 1 E E E E E M 1 7 volumen 3 8 xAAMAADA 8 1AAMAADA 16 xAAMAADAwAA===== U 12 MILLISECONDS E E 
