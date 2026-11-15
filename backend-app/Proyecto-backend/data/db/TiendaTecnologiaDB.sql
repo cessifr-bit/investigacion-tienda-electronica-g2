@@ -138,3 +138,68 @@ INSERT INTO productos (codigo_sku, nombre, descripcion, precio, stock, imagen_ur
 INSERT INTO usuarios (nombre_completo, email, password_hash, telefono, direccion, rol) VALUES
 ('Administrador Tienda', 'admin@tiendatecnologica.com', '$2a$10$EjemploHashSeguroAdmin123456789', '7000-0001', 'San Salvador, El Salvador', 'ADMIN'),
 ('Carlos Mendoza', 'carlos.mendoza@email.com', '$2a$10$EjemploHashSeguroCliente98765432', '7111-2233', 'Santa Tecla, La Libertad', 'CLIENTE');
+
+
+-- 1. LISTAR CATÁLOGO COMPLETO CON NOMBRE DE CATEGORÍA Y MARCA (JOIN)
+SELECT
+    p.id_producto,
+    p.codigo_sku,
+    p.nombre,
+    p.descripcion,
+    p.precio,
+    p.stock,
+    p.imagen_url,
+    c.nombre AS categoria,
+    m.nombre AS marca,
+    p.estado
+FROM productos p
+         LEFT JOIN categorias c ON p.id_categoria = c.id_categoria
+         LEFT JOIN marcas m ON p.id_marca = m.id_marca
+WHERE p.estado = 1
+ORDER BY p.id_producto ASC;
+
+-- 2. BUSCAR PRODUCTOS POR NOMBRE O SKU (Para barra de búsqueda)
+SELECT p.*, c.nombre AS categoria, m.nombre AS marca
+FROM productos p
+         LEFT JOIN categorias c ON p.id_categoria = c.id_categoria
+         LEFT JOIN marcas m ON p.id_marca = m.id_marca
+WHERE p.estado = 1
+  AND (p.nombre LIKE '%ASUS%' OR p.codigo_sku LIKE '%ASUS%');
+
+-- 3. FILTRAR POR CATEGORÍA Y RANGO DE PRECIOS
+SELECT p.id_producto, p.codigo_sku, p.nombre, p.precio, p.stock, m.nombre AS marca
+FROM productos p
+         INNER JOIN marcas m ON p.id_marca = m.id_marca
+WHERE p.id_categoria = 3
+  AND p.precio BETWEEN 100.00 AND 500.00
+  AND p.estado = 1
+ORDER BY p.precio ASC;
+
+-- 4. ALERTA DE BAJO INVENTARIO (Control de stock)
+SELECT id_producto, codigo_sku, nombre, stock
+FROM productos
+WHERE stock <= 20 AND estado = 1
+ORDER BY stock ASC;
+
+-- 5. INSERTAR NUEVO PRODUCTO (Create)
+INSERT INTO productos (codigo_sku, nombre, descripcion, precio, stock, imagen_url, id_categoria, id_marca)
+VALUES ('MON-ASU-009', 'Monitor ASUS TUF Gaming 27"', 'Monitor QHD 180Hz 1ms IPS', 299.99, 12, 'https://ejemplo.com/img/tuf-27.jpg', 4, 1);
+
+-- 6. ACTUALIZAR DATOS DE UN PRODUCTO (Update)
+UPDATE productos
+SET nombre = 'ASUS ROG Strix G16 (2025)',
+    precio = 1349.99,
+    stock = 10,
+    id_categoria = 1,
+    id_marca = 1
+WHERE id_producto = 1;
+
+-- 7. DESCONTAR STOCK TRAS UNA VENTA (Transacción segura)
+UPDATE productos
+SET stock = stock - 2
+WHERE id_producto = 1 AND stock >= 2;
+
+-- 8. ELIMINACIÓN LÓGICA / SOFT DELETE (Recomendado por integridad referencial con detalle_pedidos)
+UPDATE productos
+SET estado = 0
+WHERE id_producto = 8;
