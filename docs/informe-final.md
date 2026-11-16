@@ -51,7 +51,25 @@
 
 ---
 
-# Resumen y palabras clave
+# Resumen y palabras clave -- CESIA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Introducción
 
@@ -156,7 +174,17 @@ La aplicación de una tienda electrónica puede beneficiar tanto a los clientes 
 
 Los clientes pueden consultar los productos disponibles de una manera más sencilla y realizar sus compras sin necesidad de desplazarse físicamente hasta el establecimiento. Por otra parte, los encargados de la tienda pueden tener un mejor control de los productos, las ventas y los pedidos. Esto puede contribuir a ofrecer un servicio más organizado y accesible para los usuarios.
 
-# 1. Estado del arte
+
+
+
+
+
+
+
+
+
+
+# 1. Estado del arte --- HAZEL
 
 Para identificar investigaciones y documentación técnica relacionadas con el rendimiento de consultas a bases de datos, el uso de SQL nativo y JPA/Hibernate, y la gestión de inventarios, se realizaron búsquedas en Google Académico y Redalyc. Se definieron cadenas de búsqueda relacionadas con las variables y tecnologías del proyecto, junto con criterios de inclusión y exclusión para seleccionar las fuentes pertinentes. A continuación, se presentan las cadenas utilizadas, las bases de datos consultadas, las fechas de búsqueda y los resultados obtenidos.
 
@@ -460,7 +488,17 @@ La calidad del producto software se interpreta como el grado en que satisface lo
 | Consumo de memoria | Memoria máxima retenida en el montículo (heap) de la JVM en el dispositivo Android durante la ejecución de las consultas y visualización de resultados. | MB | JMH con el perfilador GC |
 | Tamaño del catálogo de productos | Número exacto de registros almacenados y disponibles en la tabla de productos de la base de datos MySQL utilizada para las pruebas. | Entero (Cantidad de registros) | MySQL Workbench y consultas SQL |
 
-# 4. Diseño metodológico
+
+
+
+
+
+
+
+
+
+
+# 4. Diseño metodológico --- ADRIÁN
 
 La investigación tiene un enfoque cuantitativo y un diseño experimental, ya que se realizaron mediciones para comparar el rendimiento de dos estrategias de acceso a datos en una aplicación para una tienda de productos electrónicos. Se evaluaron las implementaciones JPA/Hibernate y SQL nativo utilizando diferentes volúmenes de registros de inventario.
 
@@ -515,9 +553,44 @@ Las pruebas se realizaron en un entorno de ejecución con Java y MySQL, utilizan
 La población de referencia estuvo constituida por los productos que pueden formar parte del inventario de una tienda de productos electrónicos. Para el experimento se utilizaron conjuntos de datos de prueba de 100, 500 y 1,000 registros. Se mantuvo la estructura de los datos en los tres escenarios y se modificó la cantidad de registros para comparar el rendimiento de las estrategias de acceso a datos JPA/Hibernate y SQL nativo. El conjunto de datos utilizado, los campos incluidos y el procedimiento de generación se consideraron parte de la descripción del corpus experimental.
 
 
-# Implementación
 
-# 5. Análisis y resultados
+
+
+
+
+
+
+
+
+
+
+# Proceso de Integración y funcionalidades verificadas  --- DARLYN
+
+
+
+
+
+
+
+
+
+
+
+# Implementación --- GERARDO
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 5. Análisis y resultados --- DAVID
 
 # Organización y Resumen de Resultados (JMH Benchmark)
 
@@ -554,7 +627,16 @@ Al momento de ejecutar la aplicación,
 
 - JPA/Hibernate evidencia una latencia promedio significativamente menor y más predecible en todos los escenarios evaluados.
 
-# Discusión
+
+
+
+
+
+
+
+
+
+# Discusión --- ABNER
 
 # 5.2 Amenazas a la validez
 
