@@ -1,5 +1,5 @@
 
-![Logo de la Universidad Tecnológica de El Salvador](imagenes/logo_utec.png)
+![Logo de la Universidad Tecnológica de El Salvador](logo_utec.png)
 
 <div align="center">
 
