@@ -77,6 +77,9 @@ public class ProductoDao {
                         rs.getBoolean("estado"),
                         rs.getString("nombreCategoria"),
                         rs.getString("nombreMarca")
+
+
+
                 );
                 lista.add(p);
             }
