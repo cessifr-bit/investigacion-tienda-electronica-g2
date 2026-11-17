@@ -1,5 +1,5 @@
 -- =========================================================================
--- Base de Datos: TiendaTecnologicaDB2
+-- Base de Datos: TiendaTecnologicaDB
 -- Proyecto: investigacion-tienda-electronica-g2 (Android + Maven Benchmark)
 -- =========================================================================
 
