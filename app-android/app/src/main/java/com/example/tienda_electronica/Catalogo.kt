@@ -1,6 +1,6 @@
-
 package com.example.tienda_electronica
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,47 +22,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-
-// Modelo de los productos del catálogo
-data class TechProduct(
-    val name: String,
-    val category: String,
-    val price: Double,
-    val rating: Double
-)
+import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
+import com.example.tienda_electronica.data.TiendaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Catalogo() {
 
+    val context = LocalContext.current
+    val vm: TiendaViewModel = viewModel()
+    val allProducts = vm.productos
+
     var searchQuery by remember { mutableStateOf("") }
     var selectedCategory by remember { mutableStateOf("Todos") }
 
-    val categories = listOf(
-        "Todos", "Laptops", "Gaming", "Gadgets", "Audio"
-    )
-
-    // Productos de ejemplo mientras se conecta la base de datos
-    val allProducts = listOf(
-        TechProduct("Asus ROG Laptop Pro", "Laptops", 1499.99, 4.9),
-        TechProduct("Quantum Phone X1", "Gadgets", 899.99, 4.7),
-        TechProduct("Sony WH-1000XM5", "Audio", 349.95, 4.8),
-        TechProduct("Logitech G Pro Keyboard", "Gaming", 149.00, 4.6),
-        TechProduct("Razer Viper Mouse", "Gaming", 79.99, 4.5),
-        TechProduct("MacBook Pro M3", "Laptops", 1999.99, 5.0)
-    )
+    val categories = listOf("Todos") +
+            allProducts.mapNotNull { it.nombreCategoria }.distinct()
 
     // Filtrar los productos según la búsqueda y categoría
     val filteredProducts = allProducts.filter { product ->
-        val matchesSearch = product.name.contains(
+        val matchesSearch = product.nombre.contains(
             searchQuery,
             ignoreCase = true
         )
 
         val matchesCategory =
             selectedCategory == "Todos" ||
-                    product.category == selectedCategory
+                    product.nombreCategoria == selectedCategory
 
         matchesSearch && matchesCategory
     }
@@ -151,7 +141,7 @@ fun Catalogo() {
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(filteredProducts) { product ->
+            items(filteredProducts, key = { it.idProducto }) { product ->
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -180,7 +170,16 @@ fun Catalogo() {
                                 )
                         ) {
 
-                            // Calificación del producto
+                            AsyncImage(
+                                model = product.imagenUrl,
+                                contentDescription = product.nombre,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(8.dp)
+                            )
+
+                            // Stock del producto con tu estrella original
                             Row(
                                 modifier = Modifier
                                     .align(Alignment.TopEnd)
@@ -205,7 +204,7 @@ fun Catalogo() {
                                 Spacer(modifier = Modifier.width(4.dp))
 
                                 Text(
-                                    product.rating.toString(),
+                                    "Stock: ${product.stock}",
                                     color = Color.White,
                                     style = MaterialTheme.typography.labelSmall
                                 )
@@ -215,14 +214,14 @@ fun Catalogo() {
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            product.name,
+                            product.nombre,
                             color = Color.White,
                             maxLines = 1,
                             style = MaterialTheme.typography.titleSmall
                         )
 
                         Text(
-                            product.category,
+                            product.nombreCategoria ?: "Sin categoría",
                             color = Color.Gray,
                             style = MaterialTheme.typography.bodySmall
                         )
@@ -235,17 +234,32 @@ fun Catalogo() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                "$${product.price}",
+                                "$${product.precio}",
                                 color = Color(0xFF10B981),
                                 style = MaterialTheme.typography.titleMedium
                             )
 
                             IconButton(
-                                onClick = {},
+                                onClick = {
+                                    if (product.stock > 0) {
+                                        vm.guardar(product.copy(stock = product.stock - 1))
+                                        Toast.makeText(
+                                            context,
+                                            "Agregado: ${product.nombre}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            "Sin stock disponible",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                },
                                 modifier = Modifier
-                                    .size(28.dp)
+                                    .size(38.dp)
                                     .background(
-                                        Color(0xFF2563EB),
+                                        if (product.stock > 0) Color(0xFF2563EB) else Color.Gray,
                                         CircleShape
                                     )
                             ) {
@@ -253,7 +267,7 @@ fun Catalogo() {
                                     Icons.Default.Add,
                                     contentDescription = "Add",
                                     tint = Color.White,
-                                    modifier = Modifier.size(16.dp)
+                                    modifier = Modifier.size(18.dp)
                                 )
                             }
                         }
@@ -263,3 +277,5 @@ fun Catalogo() {
         }
     }
 }
+
+

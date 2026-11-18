@@ -1,5 +1,5 @@
 -- =========================================================================
--- Base de Datos: TiendaTecnologicaDB2
+-- Base de Datos: TiendaTecnologicaDB
 -- Proyecto: investigacion-tienda-electronica-g2 (Android + Maven Benchmark)
 -- =========================================================================
 
@@ -126,18 +126,19 @@ INSERT INTO marcas (nombre, pais_origen) VALUES
 ('Sony', 'Japón');
 
 INSERT INTO productos (codigo_sku, nombre, descripcion, precio, stock, imagen_url, id_categoria, id_marca) VALUES
-('LAP-ASU-001', 'ASUS ROG Strix G16', 'Laptop Gaming Intel Core i7 13650HX, 16GB RAM, RTX 4060, 1TB SSD', 1399.99, 15, 'https://cdn.cs.1worldsync.com/syndication/mediaserverredirect/c8446181243b0d84f9cd66a070fe0111/original.jpg', 1, 1),
-('SM-SAM-002', 'Samsung Galaxy S24 Ultra', 'Smartphone 5G, 256GB, 12GB RAM, Cámara 200MP, S-Pen incluido', 1199.50, 25, 'https://images.samsung.com/is/image/samsung/assets/latin/smartphones/galaxy-s24-ultra/images/galaxy-s24-ultra-highlights-color-titanium-violet-back-mo.jpg', 2, 2),
-('PER-LOG-003', 'Logitech G Pro X Superlight 2', 'Mouse inalámbrico ligero para eSports, sensor HERO 2 32K DPI', 159.00, 40, 'https://www.logitechstore.com.co/cdn/shop/files/0_6e9dd1d3-bec6-4705-9189-bf506402a05c.jpg', 4, 3),
-('COM-AMD-004', 'AMD Ryzen 7 7800X3D', 'Procesador de 8 núcleos y 16 hilos con tecnología 3D V-Cache, Socket AM5', 399.99, 30, 'https://www.amd.com/content/dam/amd/en/images/products/processors/ryzen/2505503-ryzen-7-7800x3d-og.jpg', 3, 4),
-('COM-COR-005', 'Corsair Vengeance RGB 32GB (2x16GB)', 'Memoria RAM DDR5 6000MHz CL30 optimizada para AMD Expo / Intel XMP', 114.99, 50, 'https://m.media-amazon.com/images/I/61D2DDpDITL.jpg', 3, 5),
-('COM-SAM-006', 'Samsung 990 PRO 2TB NVMe', 'Unidad de estado sólido M.2 PCIe 4.0 hasta 7450 MB/s', 179.99, 35, 'https://images.samsung.com/is/image/samsung/p6pim/us/mz-v9p2t0b-am/gallery/us-990pro-nvme-m2-ssd-mz-v9p2t0b-am-551141318?$product-details-jpg$', 3, 2),
-('PER-SON-007', 'Sony WH-1000XM5', 'Auriculares inalámbricos Bluetooth con cancelación de ruido líder', 348.00, 20, 'https://buketomnisportpweb.s3.us-east-2.amazonaws.com/seo/Bb57BdHFX3TyPcJJGmdWNWa5gpkhrCrN584tMvif.jpeg', 4, 7),
-('TAB-APP-008', 'iPad Air M2 11 pulgadas', 'Tablet con chip Apple M2, 128GB Wi-Fi, pantalla Liquid Retina', 599.00, 18, 'https://macnificos.com/cdn/shop/files/MUWD3TY_A-rossellimac-productos-macnificos.jpg', 2, 6);
+('LAP-ASU-001', 'ASUS ROG Strix G16', 'Laptop Gaming Intel Core i7 13650HX, 16GB RAM, RTX 4060, 1TB SSD', 1399.99, 15, 'https://ejemplo.com/img/rog-strix-g16.jpg', 1, 1),
+('SM-SAM-002', 'Samsung Galaxy S24 Ultra', 'Smartphone 5G, 256GB, 12GB RAM, Cámara 200MP, S-Pen incluido', 1199.50, 25, 'https://ejemplo.com/img/s24-ultra.jpg', 2, 2),
+('PER-LOG-003', 'Logitech G Pro X Superlight 2', 'Mouse inalámbrico ligero para eSports, sensor HERO 2 32K DPI', 159.00, 40, 'https://ejemplo.com/img/gpro-superlight.jpg', 4, 3),
+('COM-AMD-004', 'AMD Ryzen 7 7800X3D', 'Procesador de 8 núcleos y 16 hilos con tecnología 3D V-Cache, Socket AM5', 399.99, 30, 'https://ejemplo.com/img/ryzen-7800x3d.jpg', 3, 4),
+('COM-COR-005', 'Corsair Vengeance RGB 32GB (2x16GB)', 'Memoria RAM DDR5 6000MHz CL30 optimizada para AMD Expo / Intel XMP', 114.99, 50, 'https://ejemplo.com/img/vengeance-ddr5.jpg', 3, 5),
+('COM-SAM-006', 'Samsung 990 PRO 2TB NVMe', 'Unidad de estado sólido M.2 PCIe 4.0 hasta 7450 MB/s', 179.99, 35, 'https://ejemplo.com/img/990-pro.jpg', 3, 2),
+('PER-SON-007', 'Sony WH-1000XM5', 'Auriculares inalámbricos Bluetooth con cancelación de ruido líder', 348.00, 20, 'https://ejemplo.com/img/wh-1000xm5.jpg', 4, 7),
+('TAB-APP-008', 'iPad Air M2 11 pulgadas', 'Tablet con chip Apple M2, 128GB Wi-Fi, pantalla Liquid Retina', 599.00, 18, 'https://ejemplo.com/img/ipad-air-m2.jpg', 2, 6);
 
 INSERT INTO usuarios (nombre_completo, email, password_hash, telefono, direccion, rol) VALUES
 ('Administrador Tienda', 'admin@tiendatecnologica.com', '$2a$10$EjemploHashSeguroAdmin123456789', '7000-0001', 'San Salvador, El Salvador', 'ADMIN'),
 ('Carlos Mendoza', 'carlos.mendoza@email.com', '$2a$10$EjemploHashSeguroCliente98765432', '7111-2233', 'Santa Tecla, La Libertad', 'CLIENTE');
+
 
 -- 1. LISTAR CATÁLOGO COMPLETO CON NOMBRE DE CATEGORÍA Y MARCA (JOIN)
 SELECT

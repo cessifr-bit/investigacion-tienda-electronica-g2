@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6082f17f-8069-496c-b5fc-f5881b3b3f0f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/CatalogoApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/Crud.Api.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/data/Modelos.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/data/ProductoApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/data/RetrofitClient.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/data/TiendaViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/.idea/kotlinc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/src/main/kotlin/CategoriaRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/src/main/kotlin/api/ServidorApi.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/src/main/kotlin/config/ConexionDB.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/target/classes/META-INF/Proyecto-backend.kotlin_module" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/informe-final.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/logo_utec.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/investigacion-tienda-electronica-g2/META-INF/investigacion-tienda-electronica-g2.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/AndroidProjectSystem.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/investigacion-tienda-electronica-g2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/.idea/backend-app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/classes/META-INF/BenchmarkList" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/classes/META-INF/CompilerHints" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/classes/META-INF/persistence.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/generated-sources/annotations/benchmark/jmh_generated/ConsultaBenchmark_jmhType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/generated-sources/annotations/benchmark/jmh_generated/ConsultaBenchmark_jmhType_B1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/generated-sources/annotations/benchmark/jmh_generated/ConsultaBenchmark_jmhType_B2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/generated-sources/annotations/benchmark/jmh_generated/ConsultaBenchmark_jmhType_B3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/generated-sources/annotations/benchmark/jmh_generated/ConsultaBenchmark_jpaHibernate_jmhTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyecto-maven/target/generated-sources/annotations/benchmark/jmh_generated/ConsultaBenchmark_sqlNativo_jmhTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/Catalogo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/Catalogo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/Crud.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/Crud.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/ui/home/HomeScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/ui/theme/Color.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/ui/theme/Color.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/ui/theme/Theme.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/ui/theme/Theme.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/kotlinc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/data/db/TiendaTecnologiaDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/data/db/TiendaTecnologiaDB.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resultados-jmh.json" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Tienda_electronica" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;davidmartinez311&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/cessifr-bit/investigacion-tienda-electronica-g2.git&quot;,
+    &quot;accountId&quot;: &quot;a184248f-b541-4204-b665-1e9951ef76c1&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;cessifr-bit&quot;,
+    &quot;repository&quot;: &quot;investigacion-tienda-electronica-g2&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3M7EG2DdCH1bdy0c4V0lgqnmWSG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.EjecutarBenchmark.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/USER/investigacion-tienda-electronica-g2",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10315.125" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10315.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6082f17f-8069-496c-b5fc-f5881b3b3f0f" name="Changes" comment="" />
+      <created>1794693106472</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1794693106472</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: add Backend folder to monorepo" />
+    <MESSAGE value="feat: Update .sql file with real URLs and add user role" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Update .sql file with real URLs and add user role" />
+  </component>
+</project>

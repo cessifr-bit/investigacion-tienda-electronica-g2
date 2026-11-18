@@ -1,4 +1,3 @@
-
 package com.example.tienda_electronica
 
 import androidx.compose.foundation.background
@@ -19,26 +18,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-
-// Modelo que representa los productos del inventario
-data class AdminProduct(
-    val id: Int,
-    val name: String,
-    val price: String,
-    val category: String
-)
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tienda_electronica.data.ProductoDto
+import com.example.tienda_electronica.data.TiendaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CrudScreen() {
 
-    // Lista temporal de productos
-    val productList = remember {
-        mutableStateListOf(
-            AdminProduct(1, "Asus ROG Laptop", "1499.99", "Laptops"),
-            AdminProduct(2, "iPhone 15 Pro", "999.99", "Celulares")
-        )
-    }
+    val vm: TiendaViewModel = viewModel()
+    val productList = vm.productos
 
     val categoriasOpciones = listOf(
         "Laptops", "Celulares", "Gaming", "Audio", "Gadgets"
@@ -50,9 +39,8 @@ fun CrudScreen() {
     var prodCategory by remember { mutableStateOf(categoriasOpciones[0]) }
     var expandedDropdown by remember { mutableStateOf(false) }
     var editingProductId by remember { mutableStateOf<Int?>(null) }
-    var nextId by remember { mutableStateOf(3) }
 
-    val isFormValid = prodName.isNotBlank() && prodPrice.isNotBlank()
+    val isFormValid = prodName.isNotBlank() && prodPrice.toDoubleOrNull() != null
 
     Column(
         modifier = Modifier
@@ -148,33 +136,30 @@ fun CrudScreen() {
         ) {
             Button(
                 onClick = {
-                    if (editingProductId == null) {
-                        productList.add(
-                            AdminProduct(
-                                id = nextId,
-                                name = prodName,
-                                price = prodPrice,
-                                category = prodCategory
-                            )
-                        )
-                        nextId++
-                    } else {
-                        val index = productList.indexOfFirst {
-                            it.id == editingProductId
-                        }
+                    val catId = vm.categorias.firstOrNull {
+                        it.nombre.equals(prodCategory, ignoreCase = true)
+                    }?.idCategoria
 
-                        if (index != -1) {
-                            productList[index] = AdminProduct(
-                                id = editingProductId!!,
-                                name = prodName,
-                                price = prodPrice,
-                                category = prodCategory
-                            )
-                        }
-
-                        editingProductId = null
+                    val existente = productList.firstOrNull {
+                        it.idProducto == editingProductId
                     }
 
+                    vm.guardar(
+                        ProductoDto(
+                            idProducto = editingProductId ?: 0,
+                            codigoSku = existente?.codigoSku
+                                ?: "SKU-${System.currentTimeMillis() % 100000}",
+                            nombre = prodName.trim(),
+                            descripcion = existente?.descripcion,
+                            precio = prodPrice.toDoubleOrNull() ?: 0.0,
+                            stock = existente?.stock ?: 10,
+                            imagenUrl = existente?.imagenUrl,
+                            idCategoria = catId,
+                            idMarca = existente?.idMarca
+                        )
+                    )
+
+                    editingProductId = null
                     prodName = ""
                     prodPrice = ""
                     prodCategory = categoriasOpciones[0]
@@ -236,14 +221,14 @@ fun CrudScreen() {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Inventario con desplazamiento
+// Inventario con desplazamiento
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(productList, key = { it.id }) { product ->
+            items(productList, key = { it.idProducto }) { product ->
 
                 Card(
                     modifier = Modifier.fillMaxWidth(),
@@ -261,19 +246,19 @@ fun CrudScreen() {
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                product.name,
+                                product.nombre,
                                 color = Color.White,
                                 style = MaterialTheme.typography.bodyLarge
                             )
 
                             Text(
-                                text = "Categoría: ${product.category}",
+                                text = "Categoría: ${product.nombreCategoria ?: "Sin categoría"}",
                                 color = Color.LightGray,
                                 style = MaterialTheme.typography.bodySmall
                             )
 
                             Text(
-                                text = "$${product.price}",
+                                text = "$${product.precio}",
                                 color = Color(0xFF10B981),
                                 style = MaterialTheme.typography.bodyMedium
                             )
@@ -287,10 +272,10 @@ fun CrudScreen() {
                             modifier = Modifier
                                 .padding(end = 12.dp)
                                 .clickable {
-                                    editingProductId = product.id
-                                    prodName = product.name
-                                    prodPrice = product.price
-                                    prodCategory = product.category
+                                    editingProductId = product.idProducto
+                                    prodName = product.nombre
+                                    prodPrice = product.precio.toString()
+                                    prodCategory = product.nombreCategoria ?: categoriasOpciones[0]
                                 }
                         )
 
@@ -300,9 +285,9 @@ fun CrudScreen() {
                             contentDescription = "Eliminar",
                             tint = Color(0xFFEF4444),
                             modifier = Modifier.clickable {
-                                productList.remove(product)
+                                vm.eliminar(product.idProducto)
 
-                                if (editingProductId == product.id) {
+                                if (editingProductId == product.idProducto) {
                                     editingProductId = null
                                     prodName = ""
                                     prodPrice = ""
