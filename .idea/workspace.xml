@@ -5,8 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6082f17f-8069-496c-b5fc-f5881b3b3f0f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/login/LoginScreen.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/login/VistaLogin.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/data/db/TiendaTecnologiaDB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend-app/Proyecto-backend/data/db/TiendaTecnologiaDB.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/Catalogo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/Catalogo.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/data/RetrofitClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/app/src/main/java/com/example/tienda_electronica/data/RetrofitClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/app-android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-app/Proyecto-backend/target/classes/META-INF/Proyecto-backend.kotlin_module" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +50,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/cessifr-bit/investigacion-tienda-electronica-g2.git&quot;,
-    &quot;accountId&quot;: &quot;a184248f-b541-4204-b665-1e9951ef76c1&quot;
+    &quot;accountId&quot;: &quot;8003482b-44fd-4dcb-9720-215b6dbac34c&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -71,22 +78,33 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.EjecutarBenchmark.executor": "Run",
+    "Maven.Proyecto-backend [clean].executor": "Run",
+    "Maven.Proyecto-backend [org.codehaus.mojo:exec-maven-plugin:1.6.0:java].executor": "Run",
+    "Maven.Proyecto-backend [org.codehaus.mojo:exec-maven-plugin:3.1.0:java].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "feature/database",
+    "git-widget-placeholder": "feature/login",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/investigacion-tienda-electronica-g2",
-    "nodejs_package_manager_path": "npm"
+    "last_opened_file_path": "C:/Users/adria/investigacion-tienda-electronica-g2/tienda-g2-nuevo",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10315.125" />
-        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10315.125" />
+        <option value="bundled-jdk-30f59d01ecdd-34e2839f716b-intellij.indexing.shared.core-IU-262.9437.185" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.9437.185" />
       </set>
     </attachedChunks>
   </component>
@@ -107,5 +125,9 @@
     <MESSAGE value="feat: add Backend folder to monorepo" />
     <MESSAGE value="feat: Update .sql file with real URLs and add user role" />
     <option name="LAST_COMMIT_MESSAGE" value="feat: Update .sql file with real URLs and add user role" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

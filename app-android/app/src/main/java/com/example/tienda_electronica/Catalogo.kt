@@ -31,7 +31,7 @@ import com.example.tienda_electronica.data.TiendaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Catalogo() {
+fun Catalogo(modifier: Modifier= Modifier) {
 
     val context = LocalContext.current
     val vm: TiendaViewModel = viewModel()

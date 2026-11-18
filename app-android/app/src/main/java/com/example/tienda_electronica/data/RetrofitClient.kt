@@ -6,14 +6,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-object RetrofitClient {
 
-    // 10.0.2.2 es "localhost de tu PC" visto desde el emulador de Android.
-    // Con un celular físico usa la IP de tu PC, por ejemplo:
-    // "http://192.168.1.50:8080/api/"  (debe terminar en "/")
-   // const val BASE_URL = "http://10.0.2.2:8080/api/"
-    //const val BASE_URL = "http://192.168.101"
-    const val BASE_URL ="http://localhost:8080/api/"
+object RetrofitClient {
+    const val BASE_URL = "http://192.168.1.26:8080/api/"
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BASIC
@@ -25,12 +20,17 @@ object RetrofitClient {
         .readTimeout(10, TimeUnit.SECONDS)
         .build()
 
+    // Instancia para el catálogo que ya usabas
     val api: ProductoApi by lazy {
+        RetrofitClient.retrofitInstance.create(ProductoApi::class.java)
+    }
+
+    // Instancia general de Retrofit para reutilizarla en otros servicios como Login
+    val retrofitInstance: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ProductoApi::class.java)
     }
 }
