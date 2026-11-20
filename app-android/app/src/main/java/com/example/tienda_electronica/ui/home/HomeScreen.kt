@@ -1,6 +1,8 @@
-
 package com.example.tienda_electronica.ui.home
 
+
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -50,10 +52,14 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tienda_electronica.data.TiendaViewModel
+import com.example.tienda_electronica.data.ProductoDto
 import com.example.tienda_electronica.ui.theme.AzulNoche
 import com.example.tienda_electronica.ui.theme.AzulSuperficie
 import com.example.tienda_electronica.ui.theme.AzulTarjeta
@@ -87,6 +93,7 @@ data class ProductItem(
     val oldPrice: String,
     val rating: String,
     val ratingCount: String,
+    val stock: Int = 0,
     val discount: String? = null
 )
 
@@ -118,88 +125,58 @@ private val banners = listOf(
     )
 )
 
-// Categorías con imágenes de productos tecnológicos
-private val categories = listOf(
-    CategoryItem(
-        "Celulares",
-        "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=500&auto=format&fit=crop&q=85"
-    ),
-    CategoryItem(
-        "Audífonos",
-        "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&auto=format&fit=crop&q=85"
-    ),
-    CategoryItem(
-        "Laptops",
+// Asigna una imagen representativa a cada categoría real de la API.
+private fun imagenCategoria(nombre: String): String = when {
+    nombre.contains("Laptop", ignoreCase = true) || nombre.contains("Computadora", ignoreCase = true) ->
         "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=85"
-    ),
-    CategoryItem(
-        "Smartwatch",
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=85"
-    ),
-    CategoryItem(
-        "Gaming",
-        "https://images.unsplash.com/photo-1486572788966-cfd3df1f5b42?w=500&auto=format&fit=crop&q=85"
-    )
-)
-
-// Productos y precios de demostración.
-// Se podrán reemplazar cuando se conecte el backend.
-private val products = listOf(
-    ProductItem(
-        name = "Audífonos inalámbricos",
-        description = "Sonido de alta calidad",
-        image = "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=800&auto=format&fit=crop&q=85",
-        price = "$249.99",
-        oldPrice = "$309.99",
-        rating = "4.8",
-        ratingCount = "12k",
-        discount = "-20%"
-    ),
-    ProductItem(
-        name = "Consola PlayStation",
-        description = "Entretenimiento y gaming",
-        image = "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800&auto=format&fit=crop&q=85",
-        price = "$449.99",
-        oldPrice = "$529.99",
-        rating = "4.7",
-        ratingCount = "8k",
-        discount = "-15%"
-    ),
-    ProductItem(
-        name = "Laptop profesional",
-        description = "Rendimiento y velocidad",
-        image = "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&auto=format&fit=crop&q=85",
-        price = "$799.00",
-        oldPrice = "$899.00",
-        rating = "4.9",
-        ratingCount = "5k",
-        discount = "-11%"
-    ),
-    ProductItem(
-        name = "Smartwatch deportivo",
-        description = "Tecnología para tu día",
-        image = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=85",
-        price = "$89.00",
-        oldPrice = "$109.00",
-        rating = "4.7",
-        ratingCount = "3k",
-        discount = "NUEVO"
-    )
-)
+    nombre.contains("Smartphone", ignoreCase = true) || nombre.contains("Tablet", ignoreCase = true) ->
+        "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=500&auto=format&fit=crop&q=85"
+    nombre.contains("Componente", ignoreCase = true) ->
+        "https://images.unsplash.com/photo-1591797332448-7c3f8f6e5f3b?w=500&auto=format&fit=crop&q=85"
+    nombre.contains("Perif", ignoreCase = true) || nombre.contains("Audio", ignoreCase = true) ->
+        "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&auto=format&fit=crop&q=85"
+    nombre.contains("Red", ignoreCase = true) || nombre.contains("Conectividad", ignoreCase = true) ->
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=85"
+    else ->
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=85"
+}
 
 // Pantalla principal de la tienda
 @Composable
 fun HomeScreen(
     onCatalogClick: () -> Unit = {},
+    onCategoryClick: (String) -> Unit = {},
     onCartClick: () -> Unit = {},
+    onAddProduct: (ProductoDto) -> Unit = {},
+    onSearchSubmit: (String) -> Unit = {},
     onManagementClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     showBottomNavigation: Boolean = true
 ) {
+    val vm: TiendaViewModel = viewModel()
+    val categories = vm.categorias.map { category ->
+        CategoryItem(name = category.nombre, image = imagenCategoria(category.nombre))
+    }
+
     var searchText by remember { mutableStateOf("") }
     var selectedNavigation by remember { mutableStateOf(0) }
 
-    // Filtra los productos según lo que escriba el usuario
+    // Convierte los productos reales de la API al modelo visual de Inicio.
+    // Las calificaciones y precios anteriores eran datos de demostración;
+    // por eso ahora se muestra el inventario real y no se inventan reseñas.
+    val products = vm.productos.map { producto ->
+        ProductItem(
+            name = producto.nombre,
+            description = producto.descripcion ?: "",
+            image = producto.imagenUrl ?: "",
+            price = "\$${producto.precio}",
+            oldPrice = "",
+            rating = "",
+            ratingCount = "",
+            stock = producto.stock
+        )
+    }
+
     val filteredProducts = products.filter {
         it.name.contains(searchText, ignoreCase = true) ||
                 it.description.contains(searchText, ignoreCase = true)
@@ -237,18 +214,33 @@ fun HomeScreen(
         ) {
 
             HomeHeader(
-                onCartClick = onCartClick
+                onCartClick = onCartClick,
+                cartCount = vm.cantidadEnCarrito()
             )
 
             SearchBar(
                 searchText = searchText,
-                onSearchChange = { searchText = it }
+                onSearchChange = { searchText = it },
+                onSearchSubmit = { query -> onSearchSubmit(query) }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             PromotionCarousel(
-                onExploreClick = onCatalogClick
+                onExploreClick = onCatalogClick,
+                onBuyClick = { bannerTitle ->
+                    val term = when {
+                        bannerTitle.contains("Samsung", ignoreCase = true) -> listOf("Samsung", "Smartphone", "Teléfono")
+                        bannerTitle.contains("Sonido", ignoreCase = true) -> listOf("Audífono", "Audio", "Auricular")
+                        bannerTitle.contains("laptop", ignoreCase = true) -> listOf("Laptop", "Computadora")
+                        else -> listOf("Smartwatch", "Reloj")
+                    }
+                    val match = vm.productos.firstOrNull { product ->
+                        term.any { word -> product.nombre.contains(word, ignoreCase = true) } &&
+                                product.stock > 0
+                    }
+                    if (match != null) onAddProduct(match) else onCatalogClick()
+                }
             )
 
             Spacer(modifier = Modifier.height(28.dp))
@@ -270,7 +262,10 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 categories.forEach { category ->
-                    CategoryCard(category = category)
+                    CategoryCard(
+                        category = category,
+                        onClick = { onCategoryClick(category.name) }
+                    )
                 }
             }
 
@@ -285,7 +280,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            if (filteredProducts.isEmpty()) {
+            if (vm.cargando && products.isEmpty()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -296,7 +291,53 @@ fun HomeScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No se encontraron productos",
+                        text = "Cargando productos...",
+                        color = GrisAzulado,
+                        fontSize = 14.sp
+                    )
+                }
+            } else if (vm.error != null && products.isEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 18.dp)
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(AzulSuperficie)
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = vm.error ?: "No se pudieron cargar los productos",
+                        color = GrisAzulado,
+                        fontSize = 13.sp
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Button(
+                        onClick = { vm.recargar() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = AzulBrillante,
+                            contentColor = Blanco
+                        )
+                    ) {
+                        Text("Reintentar")
+                    }
+                }
+            } else if (filteredProducts.isEmpty()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 18.dp)
+                        .height(140.dp)
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(AzulSuperficie),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = if (products.isEmpty()) {
+                            "No hay productos disponibles"
+                        } else {
+                            "No se encontraron productos"
+                        },
                         color = GrisAzulado,
                         fontSize = 14.sp
                     )
@@ -315,7 +356,11 @@ fun HomeScreen(
                             rowProducts.forEach { product ->
                                 ProductCard(
                                     product = product,
-                                    onAddClick = onCartClick,
+                                    onAddClick = {
+                                        vm.productos.firstOrNull { it.nombre == product.name }
+                                            ?.let(onAddProduct)
+                                        onCartClick()
+                                    },
                                     modifier = Modifier.weight(1f)
                                 )
                             }
@@ -336,7 +381,8 @@ fun HomeScreen(
 // Encabezado de la tienda
 @Composable
 private fun HomeHeader(
-    onCartClick: () -> Unit
+    onCartClick: () -> Unit,
+    cartCount: Int
 ) {
     Row(
         modifier = Modifier
@@ -407,7 +453,7 @@ private fun HomeHeader(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "2",
+                            text = cartCount.toString(),
                             color = Blanco,
                             fontSize = 9.sp,
                             fontWeight = FontWeight.Bold
@@ -523,7 +569,8 @@ private fun StoreLogo() {
 @Composable
 private fun SearchBar(
     searchText: String,
-    onSearchChange: (String) -> Unit
+    onSearchChange: (String) -> Unit,
+    onSearchSubmit: (String) -> Unit
 ) {
     OutlinedTextField(
         value = searchText,
@@ -546,6 +593,10 @@ private fun SearchBar(
             )
         },
         singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        keyboardActions = KeyboardActions(
+            onSearch = { onSearchSubmit(searchText.trim()) }
+        ),
         shape = RoundedCornerShape(30.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = Blanco,
@@ -562,7 +613,8 @@ private fun SearchBar(
 // Carrusel de promociones con iluminación azul suave
 @Composable
 private fun PromotionCarousel(
-    onExploreClick: () -> Unit
+    onExploreClick: () -> Unit,
+    onBuyClick: (String) -> Unit
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -702,7 +754,7 @@ private fun PromotionCarousel(
                     Spacer(modifier = Modifier.height(15.dp))
 
                     Button(
-                        onClick = onExploreClick,
+                        onClick = { onBuyClick(banner.title) },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = AzulBrillante,
                             contentColor = Blanco
@@ -862,12 +914,14 @@ private fun FlameIcon(
 // Tarjeta de categoría
 @Composable
 private fun CategoryCard(
-    category: CategoryItem
+    category: CategoryItem,
+    onClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .width(112.dp)
             .clip(RoundedCornerShape(18.dp))
+            .clickable(onClick = onClick)
             .border(
                 width = 1.dp,
                 color = AzulBrillante.copy(alpha = 0.40f),
@@ -1023,32 +1077,11 @@ private fun ProductCard(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Calificación de ejemplo, no proviene todavía del backend
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "★★★★★",
-                    color = Color(0xFFFBBF24),
-                    fontSize = 12.sp
-                )
-
-                Spacer(modifier = Modifier.width(5.dp))
-
-                Text(
-                    text = product.rating,
-                    color = Blanco,
-                    fontSize = 10.sp
-                )
-
-                Spacer(modifier = Modifier.width(3.dp))
-
-                Text(
-                    text = "(${product.ratingCount})",
-                    color = GrisAzulado,
-                    fontSize = 9.sp
-                )
-            }
+            Text(
+                text = "Stock disponible: ${product.stock}",
+                color = GrisAzulado,
+                fontSize = 10.sp
+            )
 
             Spacer(modifier = Modifier.height(6.dp))
 
@@ -1059,11 +1092,13 @@ private fun ProductCard(
                 fontWeight = FontWeight.ExtraBold
             )
 
-            Text(
-                text = product.oldPrice,
-                color = GrisAzulado,
-                fontSize = 10.sp
-            )
+            if (product.oldPrice.isNotBlank()) {
+                Text(
+                    text = product.oldPrice,
+                    color = GrisAzulado,
+                    fontSize = 10.sp
+                )
+            }
 
             Spacer(modifier = Modifier.height(9.dp))
 

@@ -1,4 +1,3 @@
-
 package com.example.tienda_electronica
 
 import android.os.Bundle
@@ -19,6 +18,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.tienda_electronica.data.TiendaViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 import com.example.tienda_electronica.ui.home.HomeScreen
+import com.example.tienda_electronica.ui.cart.CarritoScreen
 import com.example.tienda_electronica.ui.theme.AzulNoche
 import com.example.tienda_electronica.ui.theme.AzulSuperficie
 import com.example.tienda_electronica.ui.theme.AzulBrillante
@@ -60,10 +62,17 @@ class MainActivity : ComponentActivity() {
 // Controla las pantallas y la navegación principal
 @Composable
 fun AppNavigation() {
+    val tiendaViewModel: TiendaViewModel = viewModel()
 
     // Guarda la opción seleccionada del menú
     var selectedScreen by remember {
         mutableIntStateOf(0)
+    }
+    var selectedCategory by remember {
+        androidx.compose.runtime.mutableStateOf("Todos")
+    }
+    var selectedQuery by remember {
+        androidx.compose.runtime.mutableStateOf("")
     }
 
     Scaffold(
@@ -94,13 +103,34 @@ fun AppNavigation() {
                 // Pantalla principal
                 0 -> {
                     HomeScreen(
+                        onCatalogClick = {
+                            selectedCategory = "Todos"
+                            selectedScreen = 1
+                        },
+                        onCategoryClick = { category ->
+                            selectedCategory = category
+                            selectedScreen = 1
+                        },
+                        onCartClick = { selectedScreen = 4 },
+                        onAddProduct = { producto ->
+                            tiendaViewModel.agregarAlCarrito(producto)
+                            selectedScreen = 4
+                        },
+                        onSearchSubmit = { query ->
+                            selectedQuery = query
+                            selectedCategory = "Todos"
+                            selectedScreen = 1
+                        },
                         showBottomNavigation = false
                     )
                 }
 
                 // Catálogo
                 1 -> {
-                    Catalogo()
+                    Catalogo(
+                        initialCategory = selectedCategory,
+                        initialQuery = selectedQuery
+                    )
                 }
 
                 // Gestión de productos
@@ -120,6 +150,13 @@ fun AppNavigation() {
                             fontSize = 20.sp
                         )
                     }
+                }
+
+                // Carrito de compras
+                4 -> {
+                    CarritoScreen(
+                        onContinueShopping = { selectedScreen = 1 }
+                    )
                 }
             }
         }

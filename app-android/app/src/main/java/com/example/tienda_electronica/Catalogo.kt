@@ -31,24 +31,31 @@ import com.example.tienda_electronica.data.TiendaViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Catalogo() {
+fun Catalogo(
+    initialCategory: String = "Todos",
+    initialQuery: String = ""
+) {
 
     val context = LocalContext.current
     val vm: TiendaViewModel = viewModel()
     val allProducts = vm.productos
 
-    var searchQuery by remember { mutableStateOf("") }
-    var selectedCategory by remember { mutableStateOf("Todos") }
+    var searchQuery by remember(initialQuery) { mutableStateOf(initialQuery) }
+    var selectedCategory by remember(initialCategory) { mutableStateOf(initialCategory) }
 
     val categories = listOf("Todos") +
-            allProducts.mapNotNull { it.nombreCategoria }.distinct()
+            vm.categorias.map { it.nombre }
 
     // Filtrar los productos según la búsqueda y categoría
     val filteredProducts = allProducts.filter { product ->
-        val matchesSearch = product.nombre.contains(
-            searchQuery,
-            ignoreCase = true
-        )
+        val query = searchQuery.trim()
+        val matchesSearch = query.isBlank() || listOfNotNull(
+            product.nombre,
+            product.codigoSku,
+            product.descripcion,
+            product.nombreMarca,
+            product.nombreCategoria
+        ).any { value -> value.contains(query, ignoreCase = true) }
 
         val matchesCategory =
             selectedCategory == "Todos" ||
@@ -277,5 +284,3 @@ fun Catalogo() {
         }
     }
 }
-
-
