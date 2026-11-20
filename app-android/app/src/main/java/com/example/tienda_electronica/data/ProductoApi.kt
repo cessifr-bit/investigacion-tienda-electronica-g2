@@ -32,4 +32,8 @@ interface ProductoApi {
 
     @GET("categorias")
     suspend fun categorias(): List<CategoriaDto>
+
+    // AUTENTICACIÓN
+    @POST("auth/login")
+    suspend fun login(@Body request: LoginRequest): LoginResponse
 }

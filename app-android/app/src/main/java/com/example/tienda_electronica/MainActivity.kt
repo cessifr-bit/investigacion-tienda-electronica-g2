@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+
+// Elementos visuales de Jetpack Compose.
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,13 +21,19 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+
+// ViewModel para administrar productos y carrito.
 import com.example.tienda_electronica.data.TiendaViewModel
+
+// Administrador de la sesión del usuario.
+import com.example.tienda_electronica.data.SesionManager
+
+// Elementos gráficos.
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -34,8 +42,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+// Pantallas principales.
 import com.example.tienda_electronica.ui.home.HomeScreen
 import com.example.tienda_electronica.ui.cart.CarritoScreen
+import com.example.tienda_electronica.ui.profile.PerfilScreen
+
+// Colores del diseño.
 import com.example.tienda_electronica.ui.theme.AzulNoche
 import com.example.tienda_electronica.ui.theme.AzulSuperficie
 import com.example.tienda_electronica.ui.theme.AzulBrillante
@@ -43,13 +55,16 @@ import com.example.tienda_electronica.ui.theme.AzulCielo
 import com.example.tienda_electronica.ui.theme.GrisAzulado
 import com.example.tienda_electronica.ui.theme.Tienda_electronicaTheme
 
+// Actividad principal que inicia la aplicación.
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Permite utilizar toda el área disponible de la pantalla.
         enableEdgeToEdge()
 
+        // Establece el tema y carga la navegación.
         setContent {
             Tienda_electronicaTheme {
                 AppNavigation()
@@ -58,39 +73,69 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-// Controla las pantallas y la navegación principal
+// Controla las pantallas y los permisos de navegación.
 @Composable
 fun AppNavigation() {
+
+    // ViewModel compartido para productos y carrito.
     val tiendaViewModel: TiendaViewModel = viewModel()
 
-    // Guarda la opción seleccionada del menú
+    // Comprueba si existe una sesión activa.
+    var sesionActiva by remember {
+        androidx.compose.runtime.mutableStateOf(
+            SesionManager.haySesionActiva()
+        )
+    }
+
+    // Comprueba si el usuario tiene rol de administrador.
+    var esAdmin by remember {
+        androidx.compose.runtime.mutableStateOf(
+            SesionManager.esAdministrador()
+        )
+    }
+
+    // Guarda la pantalla seleccionada.
     var selectedScreen by remember {
         mutableIntStateOf(0)
     }
+
+    // Guarda la categoría seleccionada.
     var selectedCategory by remember {
         androidx.compose.runtime.mutableStateOf("Todos")
     }
+
+    // Guarda el texto de búsqueda.
     var selectedQuery by remember {
         androidx.compose.runtime.mutableStateOf("")
     }
 
+    // Estructura principal de la aplicación.
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding(),
         containerColor = AzulNoche,
 
-        // Menú inferior compartido por todas las pantallas
+        // La barra inferior solamente aparece con sesión activa.
         bottomBar = {
-            AppBottomNavigation(
-                selectedItem = selectedScreen,
-                onItemSelected = { selectedScreen = it }
-            )
+            if (sesionActiva) {
+                AppBottomNavigation(
+                    selectedItem = selectedScreen,
+                    esAdmin = esAdmin,
+                    onItemSelected = { pantalla ->
+
+                        // Impide que un cliente entre a Gestión.
+                        if (pantalla != 2 || esAdmin) {
+                            selectedScreen = pantalla
+                        }
+                    }
+                )
+            }
         }
 
     ) { innerPadding ->
 
+        // Contenedor del contenido de las pantallas.
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -98,86 +143,128 @@ fun AppNavigation() {
                 .background(AzulNoche)
         ) {
 
-            when (selectedScreen) {
+            // Si no existe sesión, solamente se muestra el login.
+            if (!sesionActiva) {
 
-                // Pantalla principal
-                0 -> {
-                    HomeScreen(
-                        onCatalogClick = {
-                            selectedCategory = "Todos"
-                            selectedScreen = 1
-                        },
-                        onCategoryClick = { category ->
-                            selectedCategory = category
-                            selectedScreen = 1
-                        },
-                        onCartClick = { selectedScreen = 4 },
-                        onAddProduct = { producto ->
-                            tiendaViewModel.agregarAlCarrito(producto)
-                            selectedScreen = 4
-                        },
-                        onSearchSubmit = { query ->
-                            selectedQuery = query
-                            selectedCategory = "Todos"
-                            selectedScreen = 1
-                        },
-                        showBottomNavigation = false
-                    )
-                }
+                PerfilScreen(
+                    onLoginSuccess = {
 
-                // Catálogo
-                1 -> {
-                    Catalogo(
-                        initialCategory = selectedCategory,
-                        initialQuery = selectedQuery
-                    )
-                }
+                        // Actualiza el rol del usuario autenticado.
+                        esAdmin = SesionManager.esAdministrador()
 
-                // Gestión de productos
-                2 -> {
-                    CrudScreen()
-                }
+                        // Habilita el acceso a la tienda.
+                        sesionActiva = true
+                        selectedScreen = 0
+                    }
+                )
 
-                // Perfil provisional
-                3 -> {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Perfil",
-                            color = Color.White,
-                            fontSize = 20.sp
+            } else {
+
+                // Muestra las pantallas según la opción seleccionada.
+                when (selectedScreen) {
+
+                    // Inicio de la tienda.
+                    0 -> {
+                        HomeScreen(
+                            onCatalogClick = {
+                                selectedCategory = "Todos"
+                                selectedScreen = 1
+                            },
+                            onCategoryClick = { category ->
+                                selectedCategory = category
+                                selectedScreen = 1
+                            },
+                            onCartClick = {
+                                selectedScreen = 4
+                            },
+                            onAddProduct = { producto ->
+
+                                // Agrega el producto al carrito.
+                                tiendaViewModel.agregarAlCarrito(producto)
+                                selectedScreen = 4
+                            },
+                            onSearchSubmit = { query ->
+
+                                // Guarda la búsqueda y abre el catálogo.
+                                selectedQuery = query
+                                selectedCategory = "Todos"
+                                selectedScreen = 1
+                            },
+                            showBottomNavigation = false
                         )
                     }
-                }
 
-                // Carrito de compras
-                4 -> {
-                    CarritoScreen(
-                        onContinueShopping = { selectedScreen = 1 }
-                    )
+                    // Catálogo de productos.
+                    1 -> {
+                        Catalogo(
+                            initialCategory = selectedCategory,
+                            initialQuery = selectedQuery
+                        )
+                    }
+
+                    // Gestión exclusiva para administradores.
+                    2 -> {
+                        if (esAdmin && SesionManager.esAdministrador()) {
+                            CrudScreen()
+                        } else {
+                            selectedScreen = 0
+                        }
+                    }
+
+                    // Perfil y cierre de sesión.
+                    3 -> {
+                        PerfilScreen(
+                            onLogout = {
+
+                                // Actualiza el estado de navegación.
+                                sesionActiva = false
+                                esAdmin = false
+                                selectedScreen = 0
+                            }
+                        )
+                    }
+
+                    // Carrito de compras.
+                    4 -> {
+                        CarritoScreen(
+                            onContinueShopping = {
+                                selectedScreen = 1
+                            }
+                        )
+                    }
+
+                    // Si se selecciona una pantalla inválida, vuelve a Inicio.
+                    else -> {
+                        selectedScreen = 0
+                    }
                 }
             }
         }
     }
 }
 
-
-// Barra inferior de navegación
+// Barra de navegación inferior.
 @Composable
 fun AppBottomNavigation(
     selectedItem: Int,
+    esAdmin: Boolean,
     onItemSelected: (Int) -> Unit
 ) {
 
-    val items = listOf(
-        "Inicio",
-        "Catálogo",
-        "Gestión",
-        "Perfil"
-    )
+    // Opciones disponibles según el rol del usuario.
+    val items = buildList {
+        add(0 to "Inicio")
+        add(1 to "Catálogo")
 
+        // Gestión solamente aparece para administradores.
+        if (esAdmin) {
+            add(2 to "Gestión")
+        }
+
+        add(3 to "Perfil")
+    }
+
+    // Superficie que contiene las opciones.
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -207,30 +294,33 @@ fun AppBottomNavigation(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            items.forEachIndexed { index, title ->
+            // Recorre las opciones disponibles.
+            items.forEach { (screenIndex, title) ->
 
-                val selected = selectedItem == index
+                // Comprueba si la opción está seleccionada.
+                val selected = selectedItem == screenIndex
 
                 Column(
                     modifier = Modifier
                         .weight(1f)
                         .clip(RoundedCornerShape(12.dp))
                         .clickable {
-                            onItemSelected(index)
+                            onItemSelected(screenIndex)
                         }
                         .padding(vertical = 5.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
 
-                    // Dibuja el icono correspondiente
+                    // Dibuja el icono correspondiente.
                     AppNavigationIcon(
-                        type = index,
+                        type = screenIndex,
                         selected = selected
                     )
 
                     Spacer(modifier = Modifier.height(5.dp))
 
+                    // Nombre de la sección.
                     Text(
                         text = title,
                         color = if (selected) AzulCielo else GrisAzulado,
@@ -247,14 +337,14 @@ fun AppBottomNavigation(
     }
 }
 
-
-// Iconos personalizados del menú inferior
+// Dibuja los iconos personalizados de la navegación.
 @Composable
 fun AppNavigationIcon(
     type: Int,
     selected: Boolean
 ) {
 
+    // Cambia el color según la selección.
     val color = if (selected) {
         AzulBrillante
     } else {
@@ -265,12 +355,14 @@ fun AppNavigationIcon(
         modifier = Modifier.size(22.dp)
     ) {
 
+        // Ajusta las medidas del dibujo.
         val scale = size.width / 24f
         val strokeWidth = 1.8f * scale
 
+        // Selecciona el icono que se debe dibujar.
         when (type) {
 
-            // Icono de Inicio: casa
+            // Icono de Inicio: una casa.
             0 -> {
 
                 val house = Path().apply {
@@ -299,7 +391,7 @@ fun AppNavigationIcon(
                 )
             }
 
-            // Icono de Catálogo: cuadrícula
+            // Icono de Catálogo: cuatro cuadros.
             1 -> {
 
                 for (row in 0..1) {
@@ -324,29 +416,25 @@ fun AppNavigationIcon(
                 }
             }
 
-            // Icono de Gestión: cubo
+            // Icono de Gestión: un cubo.
             2 -> {
 
                 val cube = Path().apply {
 
-                    // Parte superior
                     moveTo(12f * scale, 3f * scale)
                     lineTo(21f * scale, 8f * scale)
                     lineTo(12f * scale, 13f * scale)
                     lineTo(3f * scale, 8f * scale)
                     close()
 
-                    // Lado izquierdo
                     moveTo(3f * scale, 8f * scale)
                     lineTo(3f * scale, 18f * scale)
                     lineTo(12f * scale, 22f * scale)
 
-                    // Lado derecho
                     moveTo(21f * scale, 8f * scale)
                     lineTo(21f * scale, 18f * scale)
                     lineTo(12f * scale, 22f * scale)
 
-                    // Línea central
                     moveTo(12f * scale, 13f * scale)
                     lineTo(12f * scale, 22f * scale)
                 }
@@ -361,9 +449,10 @@ fun AppNavigationIcon(
                 )
             }
 
-            // Icono de Perfil: usuario
+            // Icono de Perfil: una persona.
             3 -> {
 
+                // Cabeza.
                 drawCircle(
                     color = color,
                     radius = 4f * scale,
@@ -374,6 +463,7 @@ fun AppNavigationIcon(
                     style = Stroke(width = strokeWidth)
                 )
 
+                // Cuerpo.
                 val person = Path().apply {
                     moveTo(4f * scale, 21f * scale)
 
@@ -400,8 +490,7 @@ fun AppNavigationIcon(
     }
 }
 
-
-// Vista previa de la pantalla principal
+// Vista previa de la pantalla principal.
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {

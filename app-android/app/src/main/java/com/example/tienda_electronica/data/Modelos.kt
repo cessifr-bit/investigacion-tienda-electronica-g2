@@ -22,3 +22,28 @@ data class CategoriaDto(
 )
 
 data class AjusteStockDto(val delta: Int)
+data class LoginRequest(
+    val email: String,
+    val password: String
+)
+
+data class UsuarioDto(
+    val idUsuario: Int,
+    val nombreCompleto: String,
+    val email: String,
+    val rol: String
+)
+
+data class LoginResponse(
+    val mensaje: String,
+    val token: String,
+    val usuario: UsuarioDto
+)
+
+data class RegistroRequest(
+    val nombreCompleto: String,
+    val email: String,
+    val password: String,
+    val telefono: String? = null,
+    val direccion: String? = null
+)

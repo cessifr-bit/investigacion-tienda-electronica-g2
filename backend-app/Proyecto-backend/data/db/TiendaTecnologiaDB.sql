@@ -135,10 +135,18 @@ INSERT INTO productos (codigo_sku, nombre, descripcion, precio, stock, imagen_ur
                                                                                                                ('PER-SON-007', 'Sony WH-1000XM5', 'Auriculares inalámbricos Bluetooth con cancelación de ruido líder', 348.00, 20, 'https://buketomnisportpweb.s3.us-east-2.amazonaws.com/seo/Bb57BdHFX3TyPcJJGmdWNWa5gpkhrCrN584tMvif.jpeg', 4, 7),
                                                                                                                ('TAB-APP-008', 'iPad Air M2 11 pulgadas', 'Tablet con chip Apple M2, 128GB Wi-Fi, pantalla Liquid Retina', 599.00, 18, 'https://macnificos.com/cdn/shop/files/MUWD3TY_A-rossellimac-productos-macnificos.jpg', 2, 6);
 
-INSERT INTO usuarios (nombre_completo, email, password_hash, telefono, direccion, rol) VALUES
-                                                                                           ('Administrador Tienda', 'admin@tiendatecnologica.com', '$2a$10$EjemploHashSeguroAdmin123456789', '7000-0001', 'San Salvador, El Salvador', 'ADMIN'),
-                                                                                           ('Carlos Mendoza', 'carlos.mendoza@email.com', '$2a$10$EjemploHashSeguroCliente98765432', '7111-2233', 'Santa Tecla, La Libertad', 'CLIENTE');
+-- Cuentas iniciales:
+-- ADMIN: admin@tiendatecnologica.com
+-- CLIENTE: carlos.mendoza@email.com
+-- Las contraseñas de estas cuentas se almacenan como hashes BCrypt.
 
+INSERT INTO usuarios (nombre_completo, email, password_hash, telefono, direccion, rol) VALUES
+('Administrador Tienda', 'admin@tiendatecnologica.com', '$2a$12$xyCFZw1J13IW8ab.VgfQH.SaIf8jrYYmBd1J8Acf35upqkwUJ8wtm', '7000-0001', 'San Salvador, El Salvador', 'ADMIN'),
+('Carlos Mendoza', 'carlos.mendoza@email.com', '$2a$12$uZsJnFBJaDS/c8aKFgxQfebSuj3AmdGxzCT21NJ6a0r4n1YSzjNha', '7111-2233', 'Santa Tecla, La Libertad', 'CLIENTE');
+
+-- -------------------------------------------------------------------------
+-- CONSULTAS DE EJEMPLO
+-- -------------------------------------------------------------------------
 
 -- 1. LISTAR CATÁLOGO COMPLETO CON NOMBRE DE CATEGORÍA Y MARCA (JOIN)
 SELECT
@@ -203,5 +211,3 @@ WHERE id_producto = 1 AND stock >= 2;
 UPDATE productos
 SET estado = 0
 WHERE id_producto = 8;
-
-
