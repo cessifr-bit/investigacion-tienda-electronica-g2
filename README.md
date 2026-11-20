@@ -59,7 +59,7 @@ Antes de comenzar, es necesario contar con los siguientes programas y herramient
 - **IntelliJ IDEA:** entorno de desarrollo integrado para trabajar con el backend.
 - **IntelliJ IDEA con soporte Android:** entorno para abrir y ejecutar la aplicación móvil.
 - **Git:** herramienta para clonar y administrar el repositorio.
-- **Microsoft OpenJDK 25:** versión de Java utilizada por el proyecto, compatible con Gradle 9.3.1.
+- **Versión de Java (JDK 25):** versión de Java utilizada por el proyecto, compatible con Gradle 9.3.1.
 - **Android Plugin:** complemento necesario para desarrollar aplicaciones Android en IntelliJ IDEA.
 - **Android SDK:** herramientas necesarias para compilar y ejecutar la aplicación móvil.
 - **Android Emulator:** herramienta para crear y utilizar dispositivos Android virtuales.
@@ -106,7 +106,7 @@ Para evitar errores de compatibilidad entre Java y Gradle, se debe configurar la
 2. Entrar en **File → Settings**.
 3. Dirigirse a **Build, Execution, Deployment → Build Tools → Gradle**.
 4. Buscar la opción **Gradle JVM**.
-5. Seleccionar **Microsoft OpenJDK 25**.
+5. Seleccionar **Versión de Java (JDK 25)**.
 6. Presionar **Apply** y después **OK**.
 7. Ejecutar **Reload All Gradle Projects** para sincronizar nuevamente el proyecto, si corresponde.
 
