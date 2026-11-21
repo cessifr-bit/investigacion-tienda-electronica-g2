@@ -22,3 +22,34 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# IntelliJ IDEA
+.idea/
+**/.idea/
+
+# Android local configuration
+local.properties
+**/local.properties
+
+# Gradle
+.gradle/
+**/.gradle/
+**/build/
+**/.kotlin/
+
+# Maven generated files
+**/target/
+
+# Local environment and secrets
+.env
+.env.*
+**/application.properties
+**/application-*.properties
+
+# Temporary and local test files
+backend-app/Proyecto-backend/pruebas-api.http
+backend-app/Proyecto-backend/src/main/kotlin/GenerarHashes.kt
+
+# IntelliJ module files
+*.iml
+**/*.iml
