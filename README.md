@@ -445,7 +445,7 @@ Toda la documentación técnica exigida para el proyecto se encuentra en el dire
 
 **[Informe Final](docs/informe-final.md)**: Documento principal y reporte de la investigación.
 
-**[Informe Final](docs/informe-final.pdf)**: Documento principal en formato pdf.
+**[Informe Final](docs/Informe_final.pdf)**: Documento principal en formato pdf.
 
 **[Documentación Técnica](docs/Documentación_Técnica.pdf)**: Guía de despliegue y ADR Consolidados.
 
