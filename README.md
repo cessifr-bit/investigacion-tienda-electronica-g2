@@ -6,24 +6,23 @@
 
 ---
 
-## Integrantes del Grupo
-1. **Darlyn Julissa Cortez Herrera** - Usuario de GitHub: **DarlynCortez**
-2. **Cesia Esmeralda Funes Ruiz** - Usuario de GitHub: **cessifr-bit**
-3. **David Enrique Gil Martínez** - Usuario de GitHub: **davidmartinez311**
-4. **Adrian De Jesús Jacinto Vega** - Usuario de GitHub: **AdrianJJV**
-5. **Hazel Daniela Jiménez Martínez** - Usuario de GitHub: **HazelJM**
-6. **Abner Danilo Morales Fuentes** - Usuario de GitHub: **Danilo-4**
-7. **Gerardo Emilio Recinos Miranda** - Usuario de GitHub: **g_rm0805**
+##  Integrantes del Grupo
+| Nombre Completo | Usuario de GitHub |
+| :--- | :--- |
+| Darlyn Julissa Cortez Herrera | [@DarlynCortez](https://github.com/DarlynCortez) |
+| Cesia Esmeralda Funes Ruiz | [@cessifr-bit](https://github.com/cessifr-bit) |
+| David Enrique Gil Martínez | [@davidmartinez311](https://github.com/davidmartinez311) |
+| Adrián De Jesús Jacinto Vega | [@AdrianJJV](https://github.com/AdrianJJV) |
+| Hazel Daniela Jiménez Martínez | [@HazelJM](https://github.com/HazelJM) |
+| Abner Danilo Morales Fuentes | [@Danilo-4](https://github.com/Danilo-4) |
+| Gerardo Emilio Recinos Miranda | [@g_rm0805](https://github.com/g_rm0805) |
 
 ---
 
 ## Descripción del proyecto
-Este repositorio contiene el perfil de investigación de una aplicación móvil de comercio electrónico enfocada en una **tienda de productos electrónicos**.
-El proyecto busca analizar cómo el rendimiento de las operaciones de **consulta y gestión de productos** influye en el **tiempo de respuesta del sistema** y en 
-la **eficiencia del procesamiento de la información**.
+Este repositorio contiene la investigación y el desarrollo de una aplicación móvil de comercio electrónico enfocada en una tienda de hardware y productos electrónicos. El proyecto busca analizar empíricamente cómo el rendimiento de las operaciones de consulta y gestión de productos influye en el tiempo de respuesta del sistema y en la eficiencia del procesamiento de la información. 
 
-La investigación busca aportar evidencia técnica que permita optimizar la aplicacion móvil, mejorando la experiencia de los usuarios y facilitando la 
-administración de productos, precios y características dentro de una tienda electrónica.
+La investigación aporta evidencia técnica (mediante métricas de tiempo y memoria) que permite optimizar la arquitectura de las aplicaciones móviles, mejorando la experiencia de los usuarios y facilitando la administración eficiente de inventarios (productos, precios, características) en escenarios de bases de datos con volúmenes de 100 a 200 registros.
 
 ---
 
@@ -31,12 +30,21 @@ administración de productos, precios y características dentro de una tienda el
 **Analizar el rendimiento de las operaciones de consulta y gestión de productos en una aplicación móvil de comercio electrónico.**
 
 ---
-
-## Tecnologías previstas
-- Java
-- MySQL
-- IntelliJ IDEA 2026
-- GitHub (para control de versiones)
+##  Resumen de hallazgos
+A través de las pruebas de rendimiento ejecutadas con *JMH Profiler* y la validación en el cliente móvil, se obtuvieron las siguientes conclusiones técnicas:
+* **Acceso a Datos:** La implementación de consultas mediante JDBC (SQL Nativo) presentó una latencia significativamente menor en milisegundos por operación (ms/op) frente al uso de frameworks ORM tradicionales, logrando un control directo sobre la ejecución.
+* **Consumo de Memoria:** Al utilizar volúmenes de 100 a 200 registros, la capa de persistencia en *Kotlin* optimizó el recolector de basura (GC) evitando saturaciones en la memoria del *Heap*.
+* **Renderizado Móvil:** La adopción del paradigma declarativo *Jetpack Compose* junto con gráficos generados nativamente (Canvas) en la barra de navegación, eliminó el *overhead* de imágenes estáticas, manteniendo una tasa estable de 60 FPS al hacer *scroll* sobre el catálogo.
+  
+  ---
+##  Tecnologías utilizadas
+* **Lenguajes:** Java 25 / Kotlin
+* **Frontend Móvil:** Android con Jetpack Compose
+* **Backend:** Spring Boot (API REST), Patrón DAO
+* **Base de Datos:** MySQL Server 
+* **Benchmarking:** Java Microbenchmark Harness (JMH)
+* **Entorno de Desarrollo:** IntelliJ IDEA 2026 (con Android Plugin)
+* **Control de Versiones:** Git y GitHub
 
 ---
 
@@ -409,17 +417,50 @@ Al completar todos los pasos, el proyecto **Tienda_electronica** estará funcion
 
 Los tres componentes trabajarán de manera integrada, permitiendo que la aplicación móvil realice solicitudes al servidor backend y que este consulte la información almacenada en la base de datos MySQL.
 
+---
+ ## Estructura de carpetas
 
+```
+investigacion-tienda-electronica-g2
+├── .idea/                  # Archivos de configuración del entorno de desarrollo (IDE)
+├── Proyecto-maven/         # Proyecto backend estructurado con Maven
+├── app-android/            # Proyecto móvil nativo en Jetpack Compose
+├── backend-app/            # Servidor API REST, DAO y módulo JMH Benchmark
+├── docs/                   # Documentación técnica y reportes del proyecto
+│   ├── Diagrama/           # Carpeta con los diagramas del sistema (arquitectura)
+│   ├── Documentación_Técnica.pdf # Manual técnico y registro de decisiones
+│   ├── informe_final.md    # Documento principal del informe final en formato Markdown
+│   ├── informe_final.pdf   # Documento principal del informe final exportado a PDF
+│   └── logo_utec.png       # Logotipo institucional utilizado en la documentación
+├── out/                    # Archivos compilados y binarios generados por el IDE
+├── .gitignore              # Archivos y carpetas ignorados por el control de versiones Git
+├── CHANGELOG.md            # Registro de cambios y actualizaciones del proyecto
+├── LICENSE                 # Licencia del código fuente
+└── README.md               # Este archivo
+```
 
+---
+##  Enlace a los documentos en `docs/`
+Toda la documentación técnica exigida para el proyecto se encuentra en el directorio `/docs`. Puedes acceder directamente a través de los siguientes enlaces:
 
+**[Informe Final](docs/informe-final.md)**: Documento principal y reporte de la investigación.
 
+**[Informe Final](docs/informe-final.pdf)**: Documento principal en formato pdf.
 
+**[Documentación Técnica](docs/Documentación_Técnica.pdf)**: Guía de despliegue y ADR Consolidados.
 
+**[Diagramas del Sistema](docs/Diagrama)**: Carpeta que contiene la arquitectura visual.
 
+---
+##  Licencia
 
+**Licencia MIT**
 
-## Estado del proyecto
-Entrega 1 completada:
-- Documento de perfil elaborado.
-- Repositorio inicial configurado con estructura básica, README y licencia.
-- Commits distribuidos entre los integrantes del equipo.
+Copyright (c) 2026 Equipo de Investigación - Universidad Tecnológica de El Salvador
+
+Se concede permiso, de forma gratuita, a cualquier persona que obtenga una copia de este software y de los archivos de documentación asociados (el "Software"), para utilizar el Software sin restricción, incluyendo sin limitación los derechos de usar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar, y/o vender copias del Software, y para permitir a las personas a las que se les proporcione el Software a hacer lo mismo, sujeto a las siguientes condiciones:
+
+El aviso de copyright anterior y este aviso de permiso se incluirán en todas las copias o partes sustanciales del Software.
+
+EL SOFTWARE SE PROPORCIONA "EN SU ESTADO ACTUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O IMPLÍCITA, INCLUYENDO PERO NO LIMITADO A GARANTÍAS DE COMERCIALIZACIÓN, IDONEIDAD PARA UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS AUTORES O TITULARES DEL COPYRIGHT SERÁN RESPONSABLES DE NINGUNA RECLAMACIÓN, DAÑOS U OTRAS RESPONSABILIDADES, YA SEA EN UNA ACCIÓN DE CONTRATO, AGRAVIO O CUALQUIER OTRO MOTIVO, QUE SURJA DE, O EN CONEXIÓN CON EL SOFTWARE O EL USO U OTROS TRATOS EN EL SOFTWARE.
+
