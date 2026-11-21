@@ -41,13 +41,14 @@ A través de las pruebas de rendimiento ejecutadas con *JMH Profiler* y la valid
   
   ---
 ##  Tecnologías utilizadas
-* **Lenguajes:** Java 25 / Kotlin
-* **Frontend Móvil:** Android con Jetpack Compose
-* **Backend:** Spring Boot (API REST), Patrón DAO
-* **Base de Datos:** MySQL Server 
-* **Benchmarking:** Java Microbenchmark Harness (JMH)
-* **Entorno de Desarrollo:** IntelliJ IDEA 2026 (con Android Plugin)
-* **Control de Versiones:** Git y GitHub
+- **Lenguajes:** Kotlin / Java 25
+- **Frontend móvil:** Android con Jetpack Compose
+- **Backend:** Kotlin con Javalin (API REST)
+- **Acceso a datos:** JDBC y patrón DAO
+- **Base de datos:** MySQL
+- **Benchmarking:** Java Microbenchmark Harness (JMH)
+- **Entorno de desarrollo:** IntelliJ IDEA 2026
+- **Control de versiones:** Git y GitHub
 
 ---
 
@@ -424,22 +425,26 @@ Los tres componentes trabajarán de manera integrada, permitiendo que la aplicac
  ## Estructura de carpetas
 
 ```
-investigacion-tienda-electronica-g2
-├── .idea/                  # Archivos de configuración del entorno de desarrollo (IDE)
-├── Proyecto-maven/         # Proyecto backend estructurado con Maven
-├── app-android/            # Proyecto móvil nativo en Jetpack Compose
-├── backend-app/            # Servidor API REST, DAO y módulo JMH Benchmark
-├── docs/                   # Documentación técnica y reportes del proyecto
-│   ├── Diagrama/           # Carpeta con los diagramas del sistema (arquitectura)
-│   ├── Documentación_Técnica.pdf # Manual técnico y registro de decisiones
-│   ├── informe_final.md    # Documento principal del informe final en formato Markdown
-│   ├── informe_final.pdf   # Documento principal del informe final exportado a PDF
-│   └── logo_utec.png       # Logotipo institucional utilizado en la documentación
-├── out/                    # Archivos compilados y binarios generados por el IDE
-├── .gitignore              # Archivos y carpetas ignorados por el control de versiones Git
-├── CHANGELOG.md            # Registro de cambios y actualizaciones del proyecto
-├── LICENSE                 # Licencia del código fuente
-└── README.md               # Este archivo
+investigacion-tienda-electronica-g2/
+│
+├── app-android/
+│   └── Aplicación móvil Android
+│
+├── backend-app/
+│   └── Proyecto-backend/
+│       └── Servidor API REST
+│
+├── Proyecto-maven/
+│
+├── docs/
+│   ├── Diagrama/
+│   ├── informe_final.pdf
+│   └── Documentación_Técnica.pdf
+│
+├── .gitignore
+├── CHANGELOG.md
+├── LICENSE
+└── README.md
 ```
 
 ---
