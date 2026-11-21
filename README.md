@@ -459,6 +459,26 @@ Toda la documentación técnica exigida para el proyecto se encuentra en el dire
 
 **[Diagramas del Sistema](docs/Diagrama)**: Carpeta que contiene la arquitectura visual.
 
+
+---
+## Demostración del sistema
+
+Con el propósito de proporcionar evidencia del funcionamiento de la aplicación, se incluyen dos videos de demostración correspondientes a los roles principales del sistema: administrador y cliente.
+
+Estos recursos audiovisuales permiten comprobar las funcionalidades implementadas y sirven como material de apoyo para la evaluación del proyecto, especialmente si se presentan inconvenientes al momento de instalar, configurar o ejecutar la aplicación en otro equipo.
+
+### 1. Demostración del administrador
+
+El video muestra el inicio de sesión, la gestión de productos, las búsquedas en el catálogo, la administración de pedidos y la actualización de sus estados.
+
+[Ver demostración del administrador](https://mailutecedusv-my.sharepoint.com/personal/2546202024_mail_utec_edu_sv/_layouts/15/stream.aspx?id=%2Fpersonal%2F2546202024%5Fmail%5Futec%5Fedu%5Fsv%2FDocuments%2FINGENIER%C3%8DA%2F2026%2FCICLO%2002%2D2026%2FPROGRA%203%2FProyectoDocumentacion%2FVideos%20de%20demostraci%C3%B3n%20%2D%20Tienda%20Electr%C3%B3nica%2FDemostracion%5FAdministrador%2Emp4%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2Eb6e34c5f%2D6b3e%2D48b7%2D8ef6%2D1b71bab7bb1c)
+
+### 2. Demostración del cliente
+
+El video muestra el inicio de sesión, la navegación por el catálogo, la búsqueda de productos, la gestión del carrito de compras y el proceso de compra.
+
+[Ver demostración del cliente](https://mailutecedusv-my.sharepoint.com/personal/2546202024_mail_utec_edu_sv/_layouts/15/stream.aspx?id=%2Fpersonal%2F2546202024_mail_utec_edu_sv%2FDocuments%2FINGENIER%C3%8DA%2F2026%2FCICLO+02-2026%2FPROGRA+3%2FProyectoDocumentacion%2FVideos+de+demostraci%C3%B3n+-+Tienda+Electr%C3%B3nica%2FDemostracion_Cliente.mp4.mp4&referrer=StreamWebApp.Web&referrerScenario=AddressBarCopied.view.370c0b0e-9492-4cd6-8206-c4efaaa40922)
+
 ---
 ##  Licencia
 
