@@ -49,3 +49,7 @@ local.properties
 # Temporary and local test files
 backend-app/Proyecto-backend/pruebas-api.http
 backend-app/Proyecto-backend/src/main/kotlin/GenerarHashes.kt
+
+# IntelliJ module files
+*.iml
+**/*.iml
