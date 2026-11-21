@@ -1,0 +1,81 @@
+
+name: Integracion Continua - Tienda Electronica
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  verificar-base-datos:
+    name: Verificar base de datos MySQL
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      # 1. Descargar el repositorio
+      - name: Descargar codigo del repositorio
+        uses: actions/checkout@v4
+
+      # 2. Instalar cliente MySQL
+      - name: Instalar cliente MySQL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-client
+
+      # 3. Ejecutar el archivo SQL
+      - name: Crear y cargar base de datos
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot \
+          < "backend-app/Proyecto-backend/data/db/TiendaTecnologiaDB.sql"
+
+      # 4. Verificar existencia de las tablas
+      - name: Verificar tablas de la base de datos
+        run: |
+          TABLE_COUNT=$(mysql -h 127.0.0.1 -uroot -proot \
+          -Nse "SELECT COUNT(*) FROM information_schema.tables
+          WHERE table_schema = 'TiendaTecnologicaDB2';")
+
+          echo "Tablas encontradas: $TABLE_COUNT"
+
+          if [ "$TABLE_COUNT" -ne 6 ]; then
+            echo "Error: No se crearon las 6 tablas esperadas"
+            exit 1
+          fi
+
+      # 5. Verificar los datos iniciales
+      - name: Verificar datos iniciales
+        run: |
+          mysql -h 127.0.0.1 -uroot -proot \
+          TiendaTecnologicaDB2 -e "
+          SELECT 'Categorias' AS Tabla, COUNT(*) AS Registros FROM categorias
+          UNION ALL
+          SELECT 'Marcas', COUNT(*) FROM marcas
+          UNION ALL
+          SELECT 'Productos', COUNT(*) FROM productos
+          UNION ALL
+          SELECT 'Usuarios', COUNT(*) FROM usuarios;
+          "
+
+          PRODUCT_COUNT=$(mysql -h 127.0.0.1 -uroot -proot \
+          -Nse "SELECT COUNT(*) FROM TiendaTecnologicaDB2.productos;")
+
+          if [ "$PRODUCT_COUNT" -lt 8 ]; then
+            echo "Error: No se encontraron los productos iniciales"
+            exit 1
+          fi
+
+          echo "Verificacion completada correctamente"
