@@ -5,6 +5,9 @@
 # “Análisis del rendimiento de consultas y operaciones de gestión de inventarios en una aplicación para una tienda de productos electrónicos”
 
 ---
+![Estado](https://img.shields.io/badge/Estado-Entrega%20Final-success)
+![Versión](https://img.shields.io/badge/Versi%C3%B3n-v1.0-blue)
+![Java](https://img.shields.io/badge/Java-25-orange)
 
 ##  Integrantes del Grupo
 | Nombre Completo | Usuario de GitHub |
