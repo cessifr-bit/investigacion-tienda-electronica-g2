@@ -1,302 +1,622 @@
 package com.example.tienda_electronica.ui.profile
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Clases para conectarnos con el backend y manejar la sesión.
 import com.example.tienda_electronica.data.LoginRequest
 import com.example.tienda_electronica.data.RetrofitClient
 import com.example.tienda_electronica.data.SesionManager
-import com.example.tienda_electronica.data.UsuarioDto
-
-// Colores utilizados en el diseño de la aplicación.
 import com.example.tienda_electronica.ui.theme.AzulNoche
 import com.example.tienda_electronica.ui.theme.AzulSuperficie
 import com.example.tienda_electronica.ui.theme.AzulBrillante
 import com.example.tienda_electronica.ui.theme.Blanco
 import com.example.tienda_electronica.ui.theme.GrisAzulado
 
-// Herramientas para ejecutar operaciones y manejar errores.
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-// Pantalla para iniciar sesión y consultar los datos del usuario.
+private val CyanNeon = Color(0xFF00D9FF)
+private val AzulNeon = Color(0xFF087BFF)
+private val FondoOscuro = Color(0xFF020B19)
+private val TarjetaOscura = Color(0xFF06182D)
+
 @Composable
 fun PerfilScreen(
     onLoginSuccess: () -> Unit = {},
     onLogout: () -> Unit = {}
 ) {
-
-    // Variables para almacenar los datos del formulario.
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordVisible by remember { mutableStateOf(false) }
 
-    // Recupera los datos del usuario si ya existe una sesión.
     var usuario by remember {
         mutableStateOf(SesionManager.obtenerUsuario())
     }
 
-    // Controla el estado de carga del inicio de sesión.
     var cargando by remember { mutableStateOf(false) }
-
-    // Guarda los mensajes de error.
     var mensaje by remember { mutableStateOf("") }
 
-    // Permite ejecutar operaciones asíncronas.
     val scope = rememberCoroutineScope()
 
-    // Contenedor principal de la pantalla.
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(AzulNoche)
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        FondoOscuro,
+                        Color(0xFF06172E),
+                        AzulNoche,
+                        FondoOscuro
+                    )
+                )
+            )
     ) {
 
-        // Si no hay usuario, se muestra el formulario de acceso.
-        if (usuario == null) {
+        // Decoración tecnológica del fondo.
+        CircuitosDecorativos()
 
-            Text(
-                text = "Iniciar sesión",
-                color = Blanco,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold
-            )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp, vertical = 30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
 
-            Spacer(modifier = Modifier.height(10.dp))
+            if (usuario == null) {
 
-            Text(
-                text = "Accede a tu cuenta",
-                color = GrisAzulado,
-                fontSize = 14.sp
-            )
+                Spacer(modifier = Modifier.height(20.dp))
 
-            Spacer(modifier = Modifier.height(30.dp))
+                // Logo tecnológico.
+                Box(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(30.dp))
+                        .background(
+                            Brush.linearGradient(
+                                listOf(
+                                    Color(0xFF073B72),
+                                    Color(0xFF06172D),
+                                    Color(0xFF003E66)
+                                )
+                            )
+                        )
+                        .border(
+                            1.5.dp,
+                            CyanNeon.copy(alpha = 0.8f),
+                            RoundedCornerShape(30.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = "Logo de acceso",
+                        tint = CyanNeon,
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
 
-            // Campo para introducir el correo electrónico.
-            OutlinedTextField(
-                value = email,
-                onValueChange = {
-                    email = it
-                    mensaje = ""
-                },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text("Correo electrónico") },
-                singleLine = true,
-                shape = RoundedCornerShape(14.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Blanco,
-                    unfocusedTextColor = Blanco,
-                    focusedBorderColor = AzulBrillante,
-                    unfocusedBorderColor = GrisAzulado,
-                    focusedLabelColor = AzulBrillante,
-                    unfocusedLabelColor = GrisAzulado
-                )
-            )
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(15.dp))
+                // Nombre de la tienda.
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "TECH",
+                        color = Blanco,
+                        fontSize = 31.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
 
-            // Campo para introducir la contraseña.
-            // La transformación oculta los caracteres escritos.
-            OutlinedTextField(
-                value = password,
-                onValueChange = {
-                    password = it
-                    mensaje = ""
-                },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text("Contraseña") },
-                singleLine = true,
-                visualTransformation = PasswordVisualTransformation(),
-                shape = RoundedCornerShape(14.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Blanco,
-                    unfocusedTextColor = Blanco,
-                    focusedBorderColor = AzulBrillante,
-                    unfocusedBorderColor = GrisAzulado,
-                    focusedLabelColor = AzulBrillante,
-                    unfocusedLabelColor = GrisAzulado
-                )
-            )
+                    Text(
+                        text = "STORE",
+                        color = CyanNeon,
+                        fontSize = 31.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // Muestra los mensajes de error cuando sea necesario.
-            if (mensaje.isNotBlank()) {
                 Text(
-                    text = mensaje,
-                    color = Blanco,
-                    fontSize = 13.sp
+                    text = "T I E N D A   E L E C T R Ó N I C A",
+                    color = GrisAzulado,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Medium
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
-            }
+                Spacer(modifier = Modifier.height(32.dp))
 
-            // Botón para iniciar sesión.
-            Button(
-                onClick = {
+                // Tarjeta principal de inicio de sesión.
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(27.dp))
+                        .background(
+                            Brush.linearGradient(
+                                colors = listOf(
+                                    Color(0xFF082746),
+                                    TarjetaOscura,
+                                    Color(0xFF041326)
+                                )
+                            )
+                        )
+                        .border(
+                            width = 1.5.dp,
+                            brush = Brush.linearGradient(
+                                listOf(
+                                    CyanNeon,
+                                    AzulNeon,
+                                    Color(0xFF123B70)
+                                )
+                            ),
+                            shape = RoundedCornerShape(27.dp)
+                        )
+                        .padding(23.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
 
-                    // Comprueba que los campos estén completos.
-                    if (email.isBlank() || password.isBlank()) {
-                        mensaje = "Completa todos los campos."
-                    } else {
+                    Text(
+                        text = "Iniciar sesión",
+                        color = Blanco,
+                        fontSize = 27.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
 
-                        // Ejecuta la solicitud al backend.
-                        scope.launch {
-                            cargando = true
+                    Spacer(modifier = Modifier.height(9.dp))
+
+                    Text(
+                        text = "Accede a tu cuenta y continúa comprando",
+                        color = GrisAzulado,
+                        fontSize = 13.sp
+                    )
+
+                    Spacer(modifier = Modifier.height(30.dp))
+
+                    // Campo de correo electrónico.
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = {
+                            email = it
                             mensaje = ""
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = {
+                            Text("Correo electrónico")
+                        },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Email,
+                                contentDescription = null,
+                                tint = CyanNeon
+                            )
+                        },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email
+                        ),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Blanco,
+                            unfocusedTextColor = Blanco,
+                            focusedBorderColor = CyanNeon,
+                            unfocusedBorderColor = AzulNeon.copy(alpha = 0.65f),
+                            focusedLabelColor = CyanNeon,
+                            unfocusedLabelColor = GrisAzulado,
+                            cursorColor = CyanNeon,
+                            focusedContainerColor = FondoOscuro.copy(alpha = 0.45f),
+                            unfocusedContainerColor = FondoOscuro.copy(alpha = 0.35f)
+                        )
+                    )
 
-                            try {
+                    Spacer(modifier = Modifier.height(17.dp))
 
-                                // Envía las credenciales al servidor.
-                                val respuesta = RetrofitClient.api.login(
-                                    LoginRequest(
-                                        email = email.trim(),
-                                        password = password
-                                    )
-                                )
+                    // Campo de contraseña.
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = {
+                            password = it
+                            mensaje = ""
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = {
+                            Text("Contraseña")
+                        },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Lock,
+                                contentDescription = null,
+                                tint = CyanNeon
+                            )
+                        },
 
-                                // Guarda el token y los datos del usuario.
-                                SesionManager.iniciarSesion(
-                                    respuesta.token,
-                                    respuesta.usuario
-                                )
-
-                                // Actualiza los datos del perfil.
-                                usuario = respuesta.usuario
-
-                                // Limpia la contraseña del formulario.
-                                password = ""
-                                mensaje = ""
-
-                                // Informa a MainActivity que el login fue exitoso.
-                                onLoginSuccess()
-
-                            } catch (e: HttpException) {
-
-                                // Maneja los errores devueltos por el servidor.
-                                mensaje = when (e.code()) {
-                                    401 -> "Correo o contraseña incorrectos."
-                                    else -> "Error del servidor: ${e.code()}"
+                        // Ojito para mostrar u ocultar la contraseña.
+                        trailingIcon = {
+                            IconButton(
+                                onClick = {
+                                    passwordVisible = !passwordVisible
                                 }
-
-                            } catch (e: IOException) {
-
-                                // Error cuando no se puede conectar al backend.
-                                mensaje = "No se pudo conectar con el servidor."
-
-                            } catch (e: Exception) {
-
-                                // Maneja otros errores inesperados.
-                                mensaje = "Ocurrió un error al iniciar sesión."
-
-                            } finally {
-
-                                // Finaliza el estado de carga.
-                                cargando = false
+                            ) {
+                                Text(
+                                    text = if (passwordVisible) "◉" else "◎",
+                                    color = CyanNeon,
+                                    fontSize = 25.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
                             }
-                        }
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp),
-                enabled = !cargando,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AzulBrillante,
-                    contentColor = Blanco
-                ),
-                shape = RoundedCornerShape(14.dp)
-            ) {
+                        },
 
-                // Cambia el texto mientras se procesa el acceso.
+                        singleLine = true,
+
+                        visualTransformation = if (passwordVisible) {
+                            VisualTransformation.None
+                        } else {
+                            PasswordVisualTransformation()
+                        },
+
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password
+                        ),
+
+                        shape = RoundedCornerShape(16.dp),
+
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Blanco,
+                            unfocusedTextColor = Blanco,
+                            focusedBorderColor = CyanNeon,
+                            unfocusedBorderColor = AzulNeon.copy(alpha = 0.65f),
+                            focusedLabelColor = CyanNeon,
+                            unfocusedLabelColor = GrisAzulado,
+                            cursorColor = CyanNeon,
+                            focusedContainerColor = FondoOscuro.copy(alpha = 0.45f),
+                            unfocusedContainerColor = FondoOscuro.copy(alpha = 0.35f)
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    // Mensajes de error.
+                    if (mensaje.isNotBlank()) {
+                        Text(
+                            text = mensaje,
+                            color = Color(0xFFFF7777),
+                            fontSize = 13.sp
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
+                    // Botón de inicio de sesión.
+                    Button(
+                        onClick = {
+                            if (email.isBlank() || password.isBlank()) {
+                                mensaje = "Completa todos los campos."
+                            } else {
+                                scope.launch {
+                                    cargando = true
+                                    mensaje = ""
+
+                                    try {
+                                        val respuesta = RetrofitClient.api.login(
+                                            LoginRequest(
+                                                email = email.trim(),
+                                                password = password
+                                            )
+                                        )
+
+                                        SesionManager.iniciarSesion(
+                                            respuesta.token,
+                                            respuesta.usuario
+                                        )
+
+                                        usuario = respuesta.usuario
+                                        password = ""
+                                        passwordVisible = false
+                                        mensaje = ""
+
+                                        onLoginSuccess()
+
+                                    } catch (e: HttpException) {
+                                        mensaje = when (e.code()) {
+                                            401 -> "Correo o contraseña incorrectos."
+                                            else -> "Error del servidor: ${e.code()}"
+                                        }
+
+                                    } catch (e: IOException) {
+                                        mensaje = "No se pudo conectar con el servidor."
+
+                                    } catch (e: Exception) {
+                                        mensaje = "Ocurrió un error al iniciar sesión."
+
+                                    } finally {
+                                        cargando = false
+                                    }
+                                }
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(58.dp),
+                        enabled = !cargando,
+                        shape = RoundedCornerShape(18.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = AzulBrillante,
+                            contentColor = Blanco,
+                            disabledContainerColor = AzulBrillante.copy(alpha = 0.5f)
+                        )
+                    ) {
+                        Text(
+                            text = if (cargando) {
+                                "Ingresando..."
+                            } else {
+                                "Iniciar sesión   →"
+                            },
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(30.dp))
+
                 Text(
-                    text = if (cargando) "Ingresando..." else "Iniciar sesión",
+                    text = "TECNOLOGÍA PARA TI",
+                    color = GrisAzulado.copy(alpha = 0.7f),
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.Bold
                 )
-            }
 
-        } else {
+                Spacer(modifier = Modifier.height(15.dp))
 
-            // Si hay una sesión activa, muestra los datos del usuario.
-            Text(
-                text = "Mi perfil",
-                color = Blanco,
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold
-            )
+            } else {
 
-            Spacer(modifier = Modifier.height(30.dp))
+                // Perfil del usuario con sesión activa.
+                Spacer(modifier = Modifier.height(40.dp))
 
-            // Nombre completo del usuario.
-            Text(
-                text = usuario!!.nombreCompleto,
-                color = Blanco,
-                fontSize = 21.sp,
-                fontWeight = FontWeight.Bold
-            )
+                Box(
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(RoundedCornerShape(30.dp))
+                        .background(AzulSuperficie)
+                        .border(
+                            1.5.dp,
+                            CyanNeon,
+                            RoundedCornerShape(30.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        Icons.Default.Lock,
+                        contentDescription = null,
+                        tint = CyanNeon,
+                        modifier = Modifier.size(45.dp)
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-            // Correo electrónico del usuario.
-            Text(
-                text = usuario!!.email,
-                color = GrisAzulado,
-                fontSize = 14.sp
-            )
+                Text(
+                    text = "Mi perfil",
+                    color = Blanco,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.ExtraBold
+                )
 
-            Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(25.dp))
 
-            // Rol asignado desde la base de datos.
-            Text(
-                text = "Rol: ${usuario!!.rol}",
-                color = AzulBrillante,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(24.dp))
+                        .background(TarjetaOscura)
+                        .border(
+                            1.dp,
+                            CyanNeon.copy(alpha = 0.65f),
+                            RoundedCornerShape(24.dp)
+                        )
+                        .padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = usuario!!.nombreCompleto,
+                        color = Blanco,
+                        fontSize = 21.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-            Spacer(modifier = Modifier.height(30.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
-            // Botón para cerrar la sesión.
-            Button(
-                onClick = {
+                    Text(
+                        text = usuario!!.email,
+                        color = GrisAzulado,
+                        fontSize = 14.sp
+                    )
 
-                    // Elimina el token y los datos de la sesión.
-                    SesionManager.cerrarSesion()
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                    // Limpia los datos locales del perfil.
-                    usuario = null
-                    email = ""
-                    password = ""
-                    mensaje = ""
+                    Text(
+                        text = "Rol: ${usuario!!.rol}",
+                        color = CyanNeon,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
 
-                    // Informa a MainActivity que debe volver al login.
-                    onLogout()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AzulSuperficie,
-                    contentColor = Blanco
-                ),
-                shape = RoundedCornerShape(14.dp)
-            ) {
-                Text("Cerrar sesión")
+                Spacer(modifier = Modifier.height(25.dp))
+
+                Button(
+                    onClick = {
+                        SesionManager.cerrarSesion()
+                        usuario = null
+                        email = ""
+                        password = ""
+                        passwordVisible = false
+                        mensaje = ""
+                        onLogout()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = AzulBrillante,
+                        contentColor = Blanco
+                    ),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Text(
+                        text = "Cerrar sesión",
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
+    }
+}
+
+// Decoración tecnológica del fondo.
+@Composable
+private fun CircuitosDecorativos() {
+    Canvas(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        val stroke = 2.dp.toPx()
+        val circuitColor = CyanNeon.copy(alpha = 0.16f)
+
+        // Circuito superior izquierdo.
+        drawLine(
+            circuitColor,
+            androidx.compose.ui.geometry.Offset(
+                0f,
+                size.height * 0.12f
+            ),
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.13f,
+                size.height * 0.12f
+            ),
+            stroke
+        )
+
+        drawLine(
+            circuitColor,
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.13f,
+                size.height * 0.12f
+            ),
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.20f,
+                size.height * 0.07f
+            ),
+            stroke
+        )
+
+        drawLine(
+            circuitColor,
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.20f,
+                size.height * 0.07f
+            ),
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.34f,
+                size.height * 0.07f
+            ),
+            stroke
+        )
+
+        // Circuito superior derecho.
+        drawLine(
+            circuitColor,
+            androidx.compose.ui.geometry.Offset(
+                size.width,
+                size.height * 0.18f
+            ),
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.86f,
+                size.height * 0.18f
+            ),
+            stroke
+        )
+
+        drawLine(
+            circuitColor,
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.86f,
+                size.height * 0.18f
+            ),
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.79f,
+                size.height * 0.23f
+            ),
+            stroke
+        )
+
+        // Puntos luminosos.
+        drawCircle(
+            color = CyanNeon.copy(alpha = 0.35f),
+            radius = 4.dp.toPx(),
+            center = androidx.compose.ui.geometry.Offset(
+                size.width * 0.34f,
+                size.height * 0.07f
+            )
+        )
+
+        drawCircle(
+            color = CyanNeon.copy(alpha = 0.35f),
+            radius = 4.dp.toPx(),
+            center = androidx.compose.ui.geometry.Offset(
+                size.width * 0.79f,
+                size.height * 0.23f
+            )
+        )
+
+        // Líneas inferiores.
+        drawLine(
+            circuitColor,
+            androidx.compose.ui.geometry.Offset(
+                0f,
+                size.height * 0.88f
+            ),
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.16f,
+                size.height * 0.88f
+            ),
+            stroke
+        )
+
+        drawLine(
+            circuitColor,
+            androidx.compose.ui.geometry.Offset(
+                size.width * 0.84f,
+                size.height * 0.91f
+            ),
+            androidx.compose.ui.geometry.Offset(
+                size.width,
+                size.height * 0.91f
+            ),
+            stroke
+        )
     }
 }

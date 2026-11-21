@@ -1,4 +1,3 @@
-
 package com.example.tienda_electronica.data
 
 import androidx.compose.runtime.getValue
@@ -10,7 +9,6 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-// Representa un producto dentro del carrito
 data class CarritoItem(
     val producto: ProductoDto,
     val cantidad: Int
@@ -19,6 +17,10 @@ data class CarritoItem(
 class TiendaViewModel : ViewModel() {
 
     private val api = RetrofitClient.api
+
+    // ==========================================
+    // ESTADOS GENERALES
+    // ==========================================
 
     var productos by mutableStateOf<List<ProductoDto>>(emptyList())
         private set
@@ -32,15 +34,57 @@ class TiendaViewModel : ViewModel() {
     var error by mutableStateOf<String?>(null)
         private set
 
-    // Carrito compartido
+    // ==========================================
+    // ESTADOS DEL CARRITO
+    // ==========================================
+
     var carrito by mutableStateOf<List<CarritoItem>>(emptyList())
         private set
+
+    // ==========================================
+    // ESTADOS PARA FINALIZAR LA COMPRA
+    // ==========================================
+
+    var procesandoCompra by mutableStateOf(false)
+        private set
+
+    var mensajeCompra by mutableStateOf<String?>(null)
+        private set
+
+    var pedidoCreado by mutableStateOf<PedidoResponse?>(null)
+        private set
+
+    // ==========================================
+    // ESTADOS PARA ADMINISTRACIÓN DE PEDIDOS
+    // ==========================================
+
+    var pedidosAdmin by mutableStateOf<List<PedidoAdminDto>>(emptyList())
+        private set
+
+    var detallesPedido by mutableStateOf<List<DetallePedidoDto>>(emptyList())
+        private set
+
+    var cargandoPedidos by mutableStateOf(false)
+        private set
+
+    var pedidoSeleccionado by mutableStateOf<Int?>(null)
+        private set
+
+    var mensajeAdmin by mutableStateOf<String?>(null)
+        private set
+
+    // ==========================================
+    // INICIALIZACIÓN
+    // ==========================================
 
     init {
         recargar()
     }
 
-    // Trae productos y categorías desde la API
+    // ==========================================
+    // CARGAR PRODUCTOS Y CATEGORÍAS
+    // ==========================================
+
     fun recargar() {
         viewModelScope.launch {
             cargando = true
@@ -57,7 +101,10 @@ class TiendaViewModel : ViewModel() {
         }
     }
 
-    // Crea o actualiza un producto
+    // ==========================================
+    // CREAR O ACTUALIZAR PRODUCTOS
+    // ==========================================
+
     fun guardar(producto: ProductoDto) {
         viewModelScope.launch {
             error = null
@@ -70,11 +117,16 @@ class TiendaViewModel : ViewModel() {
                 }
 
                 productos = api.listar()
+
             } catch (e: Exception) {
                 error = mensajeDe(e)
             }
         }
     }
+
+    // ==========================================
+    // ELIMINAR PRODUCTOS
+    // ==========================================
 
     fun eliminar(idProducto: Int) {
         viewModelScope.launch {
@@ -88,20 +140,21 @@ class TiendaViewModel : ViewModel() {
                 } else {
                     productos = api.listar()
                 }
+
             } catch (e: Exception) {
                 error = mensajeDe(e)
             }
         }
     }
 
-    // =========================
-    // FUNCIONES DEL CARRITO
-    // =========================
+    // ==========================================
+    // AGREGAR PRODUCTOS AL CARRITO
+    // ==========================================
 
-    // Agrega un producto o aumenta su cantidad
     fun agregarAlCarrito(producto: ProductoDto): Boolean {
 
         if (producto.stock <= 0) {
+            error = "Este producto no tiene existencias disponibles"
             return false
         }
 
@@ -112,31 +165,33 @@ class TiendaViewModel : ViewModel() {
         if (existente != null) {
 
             if (existente.cantidad >= producto.stock) {
+                error = "No hay suficiente inventario disponible"
                 return false
             }
 
             carrito = carrito.map {
                 if (it.producto.idProducto == producto.idProducto) {
-                    it.copy(
-                        producto = producto,
-                        cantidad = it.cantidad + 1
-                    )
+                    it.copy(cantidad = it.cantidad + 1)
                 } else {
                     it
                 }
             }
 
         } else {
-            carrito = carrito + CarritoItem(
-                producto = producto,
-                cantidad = 1
-            )
+            carrito = carrito + CarritoItem(producto, 1)
         }
+
+        error = null
+        mensajeCompra = null
+        pedidoCreado = null
 
         return true
     }
 
-    // Cambia la cantidad de un producto
+    // ==========================================
+    // CAMBIAR CANTIDAD DE UN PRODUCTO
+    // ==========================================
+
     fun cambiarCantidad(idProducto: Int, nuevaCantidad: Int) {
 
         if (nuevaCantidad <= 0) {
@@ -144,58 +199,222 @@ class TiendaViewModel : ViewModel() {
             return
         }
 
-        val item = carrito.find {
-            it.producto.idProducto == idProducto
-        } ?: return
+        carrito = carrito.map { item ->
 
-        if (nuevaCantidad > item.producto.stock) {
-            return
-        }
+            if (item.producto.idProducto == idProducto) {
 
-        carrito = carrito.map {
-            if (it.producto.idProducto == idProducto) {
-                it.copy(cantidad = nuevaCantidad)
+                if (nuevaCantidad <= item.producto.stock) {
+                    item.copy(cantidad = nuevaCantidad)
+                } else {
+                    error = "No hay suficiente inventario disponible"
+                    item
+                }
+
             } else {
-                it
+                item
             }
         }
     }
 
-    // Elimina un producto del carrito
+    // ==========================================
+    // QUITAR PRODUCTO DEL CARRITO
+    // ==========================================
+
     fun quitarDelCarrito(idProducto: Int) {
         carrito = carrito.filter {
             it.producto.idProducto != idProducto
         }
     }
 
-    // Vacía todo el carrito
+    // ==========================================
+    // VACIAR CARRITO
+    // ==========================================
+
     fun vaciarCarrito() {
         carrito = emptyList()
     }
 
-    // Calcula el total de unidades
+    // ==========================================
+    // CANTIDAD TOTAL DE PRODUCTOS
+    // ==========================================
+
     fun cantidadEnCarrito(): Int {
         return carrito.sumOf { it.cantidad }
     }
 
-    // Calcula el precio total
+    // ==========================================
+    // TOTAL DE LA COMPRA
+    // ==========================================
+
     fun totalCarrito(): Double {
         return carrito.sumOf {
             it.producto.precio * it.cantidad
         }
     }
 
-    private fun mensajeDe(e: Exception): String = when (e) {
-        is HttpException -> when (e.code()) {
-            400 -> "Datos inválidos"
-            404 -> "Producto no encontrado"
-            409 -> "El SKU ya existe o la categoría no es válida"
-            else -> "Error del servidor (${e.code()})"
+    // ==========================================
+    // REGISTRAR PEDIDO EN EL BACKEND
+    // ==========================================
+
+    fun finalizarCompra() {
+
+        if (procesandoCompra) return
+
+        if (!SesionManager.haySesionActiva()) {
+            error = "Debes iniciar sesión para realizar una compra"
+            return
         }
 
-        is IOException ->
-            "No se pudo conectar con el servidor. ¿Está encendido el backend?"
+        if (carrito.isEmpty()) {
+            error = "El carrito está vacío"
+            return
+        }
 
-        else -> e.message ?: "Error desconocido"
+        viewModelScope.launch {
+
+            procesandoCompra = true
+            error = null
+            mensajeCompra = null
+            pedidoCreado = null
+
+            try {
+
+                val detalles = carrito.map { item ->
+                    ProductoPedidoDto(
+                        idProducto = item.producto.idProducto,
+                        cantidad = item.cantidad
+                    )
+                }
+
+                val solicitud = CrearPedidoRequest(
+                    detalles = detalles
+                )
+
+                val respuesta = api.registrarPedido(solicitud)
+
+                pedidoCreado = respuesta
+                mensajeCompra = respuesta.mensaje
+
+                // Vaciar carrito después de registrar correctamente
+                vaciarCarrito()
+
+                // Actualizar inventario
+                productos = api.listar()
+
+            } catch (e: HttpException) {
+
+                error = when (e.code()) {
+                    400 -> "No se pudo registrar la compra. Verifica los productos y las cantidades."
+                    401 -> "Tu sesión ha expirado. Inicia sesión nuevamente."
+                    403 -> "No tienes permiso para realizar esta compra."
+                    404 -> "Uno de los productos ya no está disponible."
+                    409 -> "No hay suficiente inventario para completar la compra."
+                    else -> "Error del servidor: ${e.code()}"
+                }
+
+            } catch (e: IOException) {
+
+                error = "No se pudo conectar con el servidor. Verifica tu conexión."
+
+            } catch (e: Exception) {
+
+                error = e.message ?: "Ocurrió un error al registrar la compra."
+
+            } finally {
+                procesandoCompra = false
+            }
+        }
+    }
+
+    // ==========================================
+    // ADMINISTRACIÓN DE PEDIDOS
+    // ==========================================
+
+    // Cargar todos los pedidos
+    fun cargarPedidosAdmin() {
+        viewModelScope.launch {
+
+            cargandoPedidos = true
+            mensajeAdmin = null
+
+            try {
+                pedidosAdmin = api.listarPedidosAdmin()
+
+            } catch (e: Exception) {
+                mensajeAdmin = mensajeDe(e)
+
+            } finally {
+                cargandoPedidos = false
+            }
+        }
+    }
+
+    // Consultar detalles de un pedido
+    fun cargarDetallesPedido(idPedido: Int) {
+        viewModelScope.launch {
+
+            mensajeAdmin = null
+            pedidoSeleccionado = idPedido
+            detallesPedido = emptyList()
+
+            try {
+                detallesPedido = api.obtenerDetallesPedido(idPedido)
+
+            } catch (e: Exception) {
+                mensajeAdmin = mensajeDe(e)
+            }
+        }
+    }
+
+    // Actualizar estado de un pedido
+    fun actualizarEstadoPedido(
+        idPedido: Int,
+        nuevoEstado: String
+    ) {
+        viewModelScope.launch {
+
+            mensajeAdmin = null
+
+            try {
+
+                api.actualizarEstadoPedido(
+                    idPedido,
+                    ActualizarEstadoPedidoDto(nuevoEstado)
+                )
+
+                mensajeAdmin = "Estado del pedido actualizado correctamente"
+
+                // Actualizar la lista de pedidos
+                pedidosAdmin = api.listarPedidosAdmin()
+
+            } catch (e: Exception) {
+                mensajeAdmin = mensajeDe(e)
+            }
+        }
+    }
+
+    // ==========================================
+    // MENSAJES DE ERRORES GENERALES
+    // ==========================================
+
+    private fun mensajeDe(e: Exception): String {
+
+        return when (e) {
+
+            is HttpException -> when (e.code()) {
+                400 -> "Datos inválidos"
+                401 -> "Debes iniciar sesión nuevamente"
+                403 -> "No tienes permisos para esta operación"
+                404 -> "Producto no encontrado"
+                409 -> "El SKU ya existe o la categoría no es válida"
+                else -> "Error del servidor: ${e.code()}"
+            }
+
+            is IOException ->
+                "No se pudo conectar con el servidor"
+
+            else ->
+                e.message ?: "Ocurrió un error inesperado"
+        }
     }
 }

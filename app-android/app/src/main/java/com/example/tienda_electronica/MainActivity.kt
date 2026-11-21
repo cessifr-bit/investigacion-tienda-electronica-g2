@@ -205,7 +205,7 @@ fun AppNavigation() {
                     // Gestión exclusiva para administradores.
                     2 -> {
                         if (esAdmin && SesionManager.esAdministrador()) {
-                            CrudScreen()
+                            CrudApi()
                         } else {
                             selectedScreen = 0
                         }

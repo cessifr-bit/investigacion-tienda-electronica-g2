@@ -62,7 +62,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <mainClass>MainKt</mainClass>
+                    <mainClass>api.ServidorApiKt</mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -130,7 +130,5 @@
             <artifactId>java-jwt</artifactId>
             <version>4.4.0</version>
         </dependency>
-
     </dependencies>
-
 </project>

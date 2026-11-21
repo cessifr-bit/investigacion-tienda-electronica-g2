@@ -60,6 +60,7 @@ import coil.compose.AsyncImage
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.tienda_electronica.data.TiendaViewModel
 import com.example.tienda_electronica.data.ProductoDto
+import com.example.tienda_electronica.R
 import com.example.tienda_electronica.ui.theme.AzulNoche
 import com.example.tienda_electronica.ui.theme.AzulSuperficie
 import com.example.tienda_electronica.ui.theme.AzulTarjeta
@@ -81,14 +82,14 @@ data class BannerItem(
 // Modelo para las categorías
 data class CategoryItem(
     val name: String,
-    val image: String
+    val image: Any
 )
 
 // Modelo para los productos
 data class ProductItem(
     val name: String,
     val description: String,
-    val image: String,
+    val image: Any,
     val price: String,
     val oldPrice: String,
     val rating: String,
@@ -126,17 +127,26 @@ private val banners = listOf(
 )
 
 // Asigna una imagen representativa a cada categoría real de la API.
-private fun imagenCategoria(nombre: String): String = when {
-    nombre.contains("Laptop", ignoreCase = true) || nombre.contains("Computadora", ignoreCase = true) ->
+private fun imagenCategoria(nombre: String): Any = when {
+    nombre.contains("Laptop", ignoreCase = true) ||
+            nombre.contains("Computadora", ignoreCase = true) ->
         "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=85"
-    nombre.contains("Smartphone", ignoreCase = true) || nombre.contains("Tablet", ignoreCase = true) ->
+
+    nombre.contains("Smartphone", ignoreCase = true) ||
+            nombre.contains("Tablet", ignoreCase = true) ->
         "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=500&auto=format&fit=crop&q=85"
+
     nombre.contains("Componente", ignoreCase = true) ->
-        "https://images.unsplash.com/photo-1591797332448-7c3f8f6e5f3b?w=500&auto=format&fit=crop&q=85"
-    nombre.contains("Perif", ignoreCase = true) || nombre.contains("Audio", ignoreCase = true) ->
+        R.drawable.componentes_pc
+
+    nombre.contains("Perif", ignoreCase = true) ||
+            nombre.contains("Audio", ignoreCase = true) ->
         "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=500&auto=format&fit=crop&q=85"
-    nombre.contains("Red", ignoreCase = true) || nombre.contains("Conectividad", ignoreCase = true) ->
+
+    nombre.contains("Red", ignoreCase = true) ||
+            nombre.contains("Conectividad", ignoreCase = true) ->
         "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=85"
+
     else ->
         "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&auto=format&fit=crop&q=85"
 }
@@ -165,10 +175,22 @@ fun HomeScreen(
     // Las calificaciones y precios anteriores eran datos de demostración;
     // por eso ahora se muestra el inventario real y no se inventan reseñas.
     val products = vm.productos.map { producto ->
+
+        val imagen = when {
+            producto.codigoSku == "COM-AMD-004" ->
+                R.drawable.amd_ryzen_7800x3d
+
+            producto.nombre.contains("Monitor ASUS TUF", ignoreCase = true) ->
+                R.drawable.monitor_asus_tuf_27
+
+            else ->
+                producto.imagenUrl ?: ""
+        }
+
         ProductItem(
             name = producto.nombre,
             description = producto.descripcion ?: "",
-            image = producto.imagenUrl ?: "",
+            image = imagen,
             price = "\$${producto.precio}",
             oldPrice = "",
             rating = "",

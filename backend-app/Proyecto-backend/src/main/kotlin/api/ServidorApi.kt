@@ -10,9 +10,11 @@ import io.javalin.http.NotFoundResponse
 import io.javalin.http.UnauthorizedResponse
 import model.Producto
 import repository.CategoriaRepository
+import repository.ProductoPedido
 import repository.ProductoRepository
 import repository.UsuarioRepository
 import service.AuthService
+import service.PedidoService
 import java.sql.SQLIntegrityConstraintViolationException
 
 data class AjusteStock(val delta: Int)
@@ -28,6 +30,16 @@ data class RegistroRequest(
 data class LoginRequest(
     val email: String,
     val password: String
+)
+
+// Datos que Android envía para registrar una compra
+data class CrearPedidoRequest(
+    val detalles: List<ProductoPedido>
+)
+
+// Datos para actualizar el estado de un pedido
+data class ActualizarEstadoPedidoRequest(
+    val estado: String
 )
 
 private fun Context.idDeRuta(): Int =
@@ -67,6 +79,33 @@ private fun Context.obtenerRol(auth: AuthService): String {
     }
 }
 
+// Obtiene el ID del usuario desde el token para no confiar en datos enviados por Android
+private fun Context.obtenerUsuarioId(auth: AuthService): Int {
+    val authorization = header("Authorization")
+        ?: throw UnauthorizedResponse("Se requiere iniciar sesión")
+
+    if (!authorization.startsWith("Bearer ", ignoreCase = true)) {
+        throw UnauthorizedResponse("Formato de token inválido")
+    }
+
+    val token = authorization.substringAfter("Bearer ").trim()
+
+    if (token.isBlank()) {
+        throw UnauthorizedResponse("Token no proporcionado")
+    }
+
+    return try {
+        val jwt = auth.validarToken(token)
+
+        jwt.subject.toIntOrNull()
+            ?: throw UnauthorizedResponse("ID de usuario inválido en el token")
+    } catch (e: HttpResponseException) {
+        throw e
+    } catch (e: Exception) {
+        throw UnauthorizedResponse("Token inválido o expirado")
+    }
+}
+
 // Comprueba que el usuario sea administrador
 private fun Context.exigirAdmin(auth: AuthService) {
     if (obtenerRol(auth) != "ADMIN") {
@@ -80,6 +119,7 @@ fun main() {
     val categorias = CategoriaRepository()
     val usuarios = UsuarioRepository()
     val auth = AuthService()
+    val pedidos = PedidoService()
 
     val app = Javalin.create()
 
@@ -106,11 +146,11 @@ fun main() {
             throw BadRequestResponse("La contraseña debe tener al menos 8 caracteres")
         }
 
-        if (datos.telefono?.length ?: 0 > 20) {
+        if ((datos.telefono?.length ?: 0) > 20) {
             throw BadRequestResponse("El teléfono no puede superar 20 caracteres")
         }
 
-        if (datos.direccion?.length ?: 0 > 255) {
+        if ((datos.direccion?.length ?: 0) > 255) {
             throw BadRequestResponse("La dirección no puede superar 255 caracteres")
         }
 
@@ -173,6 +213,105 @@ fun main() {
                     "email" to usuario.email,
                     "rol" to usuario.rol
                 )
+            )
+        )
+    }
+
+    // ==========================================
+    // PEDIDOS
+    // ==========================================
+
+    // POST /api/pedidos
+    // Registra la compra del usuario que inició sesión
+    app.post("/api/pedidos") { ctx ->
+
+        // El ID se obtiene del token y no del cuerpo de la solicitud
+        val idUsuario = ctx.obtenerUsuarioId(auth)
+
+        // Android solo envía los productos y las cantidades
+        val datos = ctx.bodyAsClass(CrearPedidoRequest::class.java)
+
+        try {
+            val pedidoCreado = pedidos.registrarPedido(
+                idUsuario = idUsuario,
+                detalles = datos.detalles
+            )
+
+            ctx.status(201).json(
+                mapOf(
+                    "mensaje" to "Compra registrada correctamente",
+                    "idPedido" to pedidoCreado.idPedido,
+                    "total" to pedidoCreado.total,
+                    "estado" to "PENDIENTE"
+                )
+            )
+        } catch (e: IllegalArgumentException) {
+            // Se devuelve un error de solicitud cuando los datos o el stock no son válidos
+            throw BadRequestResponse(e.message ?: "No se pudo registrar la compra")
+        }
+    }
+
+    // ==========================================
+    // GESTIÓN DE PEDIDOS - SOLO ADMIN
+    // ==========================================
+
+    // GET /api/admin/pedidos
+    // Consultar todos los pedidos
+    app.get("/api/admin/pedidos") { ctx ->
+
+        ctx.exigirAdmin(auth)
+
+        ctx.json(pedidos.listarPedidos())
+    }
+
+    // GET /api/admin/pedidos/{id}/detalles
+    // Consultar los productos de un pedido
+    app.get("/api/admin/pedidos/{id}/detalles") { ctx ->
+
+        ctx.exigirAdmin(auth)
+
+        val idPedido = ctx.idDeRuta()
+        val detalles = pedidos.obtenerDetalles(idPedido)
+
+        if (detalles.isEmpty()) {
+            throw NotFoundResponse("No se encontraron detalles para este pedido")
+        }
+
+        ctx.json(detalles)
+    }
+
+    // PATCH /api/admin/pedidos/{id}/estado
+    // Actualizar el estado de un pedido
+    app.patch("/api/admin/pedidos/{id}/estado") { ctx ->
+
+        ctx.exigirAdmin(auth)
+
+        val idPedido = ctx.idDeRuta()
+
+        val datos = ctx.bodyAsClass(
+            ActualizarEstadoPedidoRequest::class.java
+        )
+
+        val actualizado = try {
+            pedidos.actualizarEstado(
+                idPedido = idPedido,
+                estado = datos.estado
+            )
+        } catch (e: IllegalArgumentException) {
+            throw BadRequestResponse(
+                e.message ?: "No se pudo actualizar el estado"
+            )
+        }
+
+        if (!actualizado) {
+            throw NotFoundResponse("Pedido no encontrado")
+        }
+
+        ctx.json(
+            mapOf(
+                "mensaje" to "Estado del pedido actualizado correctamente",
+                "idPedido" to idPedido,
+                "estado" to datos.estado.trim().uppercase()
             )
         )
     }

@@ -21,7 +21,10 @@ data class CategoriaDto(
     val nombre: String
 )
 
-data class AjusteStockDto(val delta: Int)
+data class AjusteStockDto(
+    val delta: Int
+)
+
 data class LoginRequest(
     val email: String,
     val password: String
@@ -46,4 +49,55 @@ data class RegistroRequest(
     val password: String,
     val telefono: String? = null,
     val direccion: String? = null
+)
+
+// Modelos para registrar una compra
+data class CrearPedidoRequest(
+    val detalles: List<ProductoPedidoDto>
+)
+
+data class ProductoPedidoDto(
+    val idProducto: Int,
+    val cantidad: Int
+)
+
+// Respuesta que devuelve el backend al registrar el pedido
+data class PedidoResponse(
+    val mensaje: String,
+    val idPedido: Int,
+    val total: Double,
+    val estado: String
+)
+// Información general de un pedido
+data class PedidoAdminDto(
+    val idPedido: Int,
+    val idUsuario: Int,
+    val nombreCliente: String,
+    val emailCliente: String,
+    val fechaPedido: String,
+    val total: Double,
+    val estado: String
+)
+
+// Productos incluidos en un pedido
+data class DetallePedidoDto(
+    val idDetalle: Int,
+    val idPedido: Int,
+    val idProducto: Int,
+    val nombreProducto: String,
+    val cantidad: Int,
+    val precioUnitario: Double,
+    val subtotal: Double
+)
+
+// Solicitud para actualizar el estado
+data class ActualizarEstadoPedidoDto(
+    val estado: String
+)
+
+// Respuesta del backend al actualizar
+data class ActualizarEstadoPedidoResponse(
+    val mensaje: String,
+    val idPedido: Int,
+    val estado: String
 )

@@ -1,11 +1,13 @@
 package com.example.tienda_electronica
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
@@ -40,22 +42,31 @@ fun Catalogo(
     val vm: TiendaViewModel = viewModel()
     val allProducts = vm.productos
 
-    var searchQuery by remember(initialQuery) { mutableStateOf(initialQuery) }
-    var selectedCategory by remember(initialCategory) { mutableStateOf(initialCategory) }
+    var searchQuery by remember(initialQuery) {
+        mutableStateOf(initialQuery)
+    }
+
+    var selectedCategory by remember(initialCategory) {
+        mutableStateOf(initialCategory)
+    }
 
     val categories = listOf("Todos") +
             vm.categorias.map { it.nombre }
 
-    // Filtrar los productos según la búsqueda y categoría
+    // Filtrar productos por búsqueda y categoría.
     val filteredProducts = allProducts.filter { product ->
+
         val query = searchQuery.trim()
+
         val matchesSearch = query.isBlank() || listOfNotNull(
             product.nombre,
             product.codigoSku,
             product.descripcion,
             product.nombreMarca,
             product.nombreCategoria
-        ).any { value -> value.contains(query, ignoreCase = true) }
+        ).any { value ->
+            value.contains(query, ignoreCase = true)
+        }
 
         val matchesCategory =
             selectedCategory == "Todos" ||
@@ -72,14 +83,16 @@ fun Catalogo(
             .padding(top = 24.dp)
     ) {
 
-        // Campo de búsqueda
+        // Campo de búsqueda.
         OutlinedTextField(
             value = searchQuery,
-            onValueChange = { searchQuery = it },
+            onValueChange = {
+                searchQuery = it
+            },
             modifier = Modifier.fillMaxWidth(),
             placeholder = {
                 Text(
-                    "Search hardware, components...",
+                    "Buscar productos, componentes...",
                     color = Color.Gray
                 )
             },
@@ -91,6 +104,7 @@ fun Catalogo(
                 )
             },
             shape = RoundedCornerShape(14.dp),
+            singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
@@ -102,7 +116,7 @@ fun Catalogo(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Filtros por categoría
+        // Filtros por categoría.
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
@@ -115,8 +129,11 @@ fun Catalogo(
                     modifier = Modifier
                         .clip(RoundedCornerShape(20.dp))
                         .background(
-                            if (isSelected) Color(0xFF2563EB)
-                            else Color(0xFF1E293B)
+                            if (isSelected) {
+                                Color(0xFF2563EB)
+                            } else {
+                                Color(0xFF1E293B)
+                            }
                         )
                         .clickable {
                             selectedCategory = category
@@ -128,8 +145,11 @@ fun Catalogo(
                 ) {
                     Text(
                         text = category,
-                        color = if (isSelected) Color.White
-                        else Color.LightGray,
+                        color = if (isSelected) {
+                            Color.White
+                        } else {
+                            Color.LightGray
+                        },
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
@@ -138,7 +158,7 @@ fun Catalogo(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Cuadrícula de productos
+        // Cuadrícula de productos.
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -148,134 +168,242 @@ fun Catalogo(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            items(filteredProducts, key = { it.idProducto }) { product ->
 
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0xFF1E293B)
-                    )
+            // Mensaje cuando no existen resultados.
+            if (filteredProducts.isEmpty()) {
+
+                item(
+                    span = {
+                        GridItemSpan(maxLineSpan)
+                    }
                 ) {
                     Column(
-                        modifier = Modifier.padding(12.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 65.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
-                        // Espacio visual para la imagen del producto
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(110.dp)
-                                .background(
-                                    Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color(0xFF0F172A),
-                                            Color(0xFF1E293B)
-                                        )
-                                    ),
-                                    RoundedCornerShape(12.dp)
-                                )
-                        ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = null,
+                            tint = Color(0xFF3B82F6),
+                            modifier = Modifier.size(55.dp)
+                        )
 
-                            AsyncImage(
-                                model = product.imagenUrl,
-                                contentDescription = product.nombre,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(8.dp)
-                            )
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                            // Stock del producto con tu estrella original
-                            Row(
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .padding(6.dp)
-                                    .background(
-                                        Color(0xAA000000),
-                                        RoundedCornerShape(8.dp)
-                                    )
-                                    .padding(
-                                        horizontal = 6.dp,
-                                        vertical = 2.dp
-                                    ),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    Icons.Default.Star,
-                                    contentDescription = null,
-                                    tint = Color(0xFFFFB703),
-                                    modifier = Modifier.size(12.dp)
-                                )
+                        Text(
+                            text = when {
+                                searchQuery.isNotBlank() ->
+                                    "No se encontraron productos"
 
-                                Spacer(modifier = Modifier.width(4.dp))
+                                selectedCategory != "Todos" ->
+                                    "No hay productos en esta categoría"
 
-                                Text(
-                                    "Stock: ${product.stock}",
-                                    color = Color.White,
-                                    style = MaterialTheme.typography.labelSmall
-                                )
-                            }
-                        }
+                                else ->
+                                    "No hay productos disponibles"
+                            },
+                            color = Color.White,
+                            style = MaterialTheme.typography.titleMedium
+                        )
 
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            product.nombre,
-                            color = Color.White,
-                            maxLines = 1,
-                            style = MaterialTheme.typography.titleSmall
-                        )
+                            text = when {
+                                searchQuery.isNotBlank() ->
+                                    "Prueba con otro nombre o palabra clave."
 
-                        Text(
-                            product.nombreCategoria ?: "Sin categoría",
+                                selectedCategory != "Todos" ->
+                                    "Actualmente no tenemos productos de esta categoría."
+
+                                else ->
+                                    "No hay productos para mostrar en este momento."
+                            },
                             color = Color.Gray,
                             style = MaterialTheme.typography.bodySmall
                         )
 
-                        Spacer(modifier = Modifier.height(6.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                        Button(
+                            onClick = {
+                                searchQuery = ""
+                                selectedCategory = "Todos"
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF2563EB)
+                            ),
+                            shape = RoundedCornerShape(12.dp)
                         ) {
-                            Text(
-                                "$${product.precio}",
-                                color = Color(0xFF10B981),
-                                style = MaterialTheme.typography.titleMedium
-                            )
+                            Text("Ver todos los productos")
+                        }
+                    }
+                }
 
-                            IconButton(
-                                onClick = {
-                                    if (product.stock > 0) {
-                                        vm.guardar(product.copy(stock = product.stock - 1))
-                                        Toast.makeText(
-                                            context,
-                                            "Agregado: ${product.nombre}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    } else {
-                                        Toast.makeText(
-                                            context,
-                                            "Sin stock disponible",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                },
+            } else {
+
+                // Tarjetas de productos.
+                items(
+                    filteredProducts,
+                    key = { it.idProducto }
+                ) { product ->
+
+                    // Seleccionar imagen local para productos problemáticos.
+                    val imagenProducto: Any = when {
+                        product.codigoSku == "COM-AMD-004" ->
+                            R.drawable.amd_ryzen_7800x3d
+
+                        product.nombre.contains(
+                            "Monitor ASUS TUF",
+                            ignoreCase = true
+                        ) ->
+                            R.drawable.monitor_asus_tuf_27
+
+                        else ->
+                            product.imagenUrl ?: ""
+                    }
+
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(0xFF1E293B)
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(12.dp)
+                        ) {
+
+                            // Imagen del producto.
+                            Box(
                                 modifier = Modifier
-                                    .size(38.dp)
+                                    .fillMaxWidth()
+                                    .height(110.dp)
                                     .background(
-                                        if (product.stock > 0) Color(0xFF2563EB) else Color.Gray,
-                                        CircleShape
+                                        Brush.verticalGradient(
+                                            colors = listOf(
+                                                Color(0xFF0F172A),
+                                                Color(0xFF1E293B)
+                                            )
+                                        ),
+                                        RoundedCornerShape(12.dp)
                                     )
                             ) {
-                                Icon(
-                                    Icons.Default.Add,
-                                    contentDescription = "Add",
-                                    tint = Color.White,
-                                    modifier = Modifier.size(18.dp)
+
+                                AsyncImage(
+                                    model = imagenProducto,
+                                    contentDescription = product.nombre,
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(8.dp),
+                                    onError = { state ->
+                                        Log.e(
+                                            "ImagenProducto",
+                                            "Error cargando ${product.nombre}: $imagenProducto",
+                                            state.result.throwable
+                                        )
+                                    }
                                 )
+
+                                // Stock del producto.
+                                Row(
+                                    modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                        .padding(6.dp)
+                                        .background(
+                                            Color(0xAA000000),
+                                            RoundedCornerShape(8.dp)
+                                        )
+                                        .padding(
+                                            horizontal = 6.dp,
+                                            vertical = 2.dp
+                                        ),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        Icons.Default.Star,
+                                        contentDescription = null,
+                                        tint = Color(0xFFFFB703),
+                                        modifier = Modifier.size(12.dp)
+                                    )
+
+                                    Spacer(modifier = Modifier.width(4.dp))
+
+                                    Text(
+                                        "Stock: ${product.stock}",
+                                        color = Color.White,
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Text(
+                                product.nombre,
+                                color = Color.White,
+                                maxLines = 1,
+                                style = MaterialTheme.typography.titleSmall
+                            )
+
+                            Text(
+                                product.nombreCategoria ?: "Sin categoría",
+                                color = Color.Gray,
+                                style = MaterialTheme.typography.bodySmall
+                            )
+
+                            Spacer(modifier = Modifier.height(6.dp))
+
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    "$${product.precio}",
+                                    color = Color(0xFF10B981),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+
+                                IconButton(
+                                    onClick = {
+                                        val agregado = vm.agregarAlCarrito(product)
+
+                                        if (agregado) {
+                                            Toast.makeText(
+                                                context,
+                                                "Agregado al carrito: ${product.nombre}",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        } else {
+                                            Toast.makeText(
+                                                context,
+                                                vm.error ?: "No se pudo agregar el producto",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    },
+                                    modifier = Modifier
+                                        .size(38.dp)
+                                        .background(
+                                            if (product.stock > 0) {
+                                                Color(0xFF2563EB)
+                                            } else {
+                                                Color.Gray
+                                            },
+                                            CircleShape
+                                        )
+                                ) {
+                                    Icon(
+                                        Icons.Default.Add,
+                                        contentDescription = "Agregar al carrito",
+                                        tint = Color.White,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                }
                             }
                         }
                     }
